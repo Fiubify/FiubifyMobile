@@ -1,0 +1,5 @@
+name: 'test fiubify'
+description: 'Testing web tests'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
