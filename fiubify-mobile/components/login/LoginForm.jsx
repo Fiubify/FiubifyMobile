@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
   link: {
     fontWeight: 'bold',
     color: 'blue',
-    margin: 5
+    marginTop: 5,
+    marginBottom: 15
   },
   register_button: {
     margin: 10
