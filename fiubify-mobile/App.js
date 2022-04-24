@@ -1,30 +1,21 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-import Login from './components/login/Screen.jsx'
+import { Provider } from 'react-redux'
+import configureStore from './state/store/configureStore.js'
+
+import Fiubify from './Fiubify.jsx'
+
+const store = configureStore()
 
 class App extends Component {
-  state = {
-    logged_in: false
-  }
-
   render() {
     return (
-      <View style={styles.container}>
-        <Login/>
-      </View>
+      <Provider store={store}>
+        <Fiubify/>
+      </Provider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
-
 
 export default App

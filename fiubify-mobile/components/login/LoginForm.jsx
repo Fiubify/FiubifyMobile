@@ -1,10 +1,18 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native'
 
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { logIn } from '../../state/actions/login.js'
+
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
 class LoginForm extends Component {
+  sendLogInForm() {
+    this.props.actions.logIn()
+  }
+
   render() {
     return (
       <View>
@@ -19,31 +27,20 @@ class LoginForm extends Component {
         />
         <UiButton
           title="LOG IN"
-          onPress={this.sendLogInForm}
-        />
-        <Text style={styles.link} onPress={this.openAccountRecovery}>
-          Too stupid to remember a password?
-        </Text>
-        <UiButton
-          title="REGISTER"
-          onPress={this.openRegister}
+          onPress={() => this.sendLogInForm()}
         />
       </View>
     );
   }
-
-  sendLogInForm() {
-    console.log("send")
-  }
-
-  openAccountRecovery() {
-    console.log("lol")
-  }
-
-  openRegister() {
-    console.log("emit")
-  }
 }
+
+const mapStateToProps = state => {
+  return ({logged_in: state.loginState.logged_in})
+}
+
+const mapDispatchToProps = dispatch => {
+  return { actions: bindActionCreators({logIn}, dispatch) }
+} 
 
 const styles = StyleSheet.create({
   text_input: {
@@ -60,4 +57,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default LoginForm
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
