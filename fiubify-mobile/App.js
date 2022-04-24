@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-import Login from './components/login/screen.jsx'
+import Login from './components/login/Screen.jsx'
 
 class App extends Component {
   state = {
@@ -11,14 +11,11 @@ class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text> App </Text>
         <Login/>
       </View>
     );
   }
 }
-
-export default App
 
 const styles = StyleSheet.create({
   container: {
@@ -28,3 +25,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+
+export default App
