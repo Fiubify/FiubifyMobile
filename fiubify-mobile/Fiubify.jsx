@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-
 import { connect } from 'react-redux';
-
-import Login from './components/login/Screen.jsx'
+import RegisterForm from "./components/login/RegisterForm";
 
 function MainScreen(props) {
   if (!props.logged_in) {
-    return <Login/>
+    return <RegisterForm/>
   } else {
     return <Text>You are logged in!</Text>
   }

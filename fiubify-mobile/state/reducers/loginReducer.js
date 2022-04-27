@@ -4,6 +4,7 @@ const initialState = {
   logged_in: false
 };
 
+
 const loginReducer = (state = initialState, action) => {
   switch(action.type) {
     case LOG_IN:

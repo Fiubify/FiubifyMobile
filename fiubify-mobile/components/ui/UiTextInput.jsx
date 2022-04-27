@@ -1,17 +1,14 @@
 import React, { Component } from 'react'
 import { StyleSheet, Text, View, TextInput } from 'react-native'
 
-class UiTextInput extends Component {
-  render() {
-    return (
-      <TextInput
-        style={[this.props.style, styles.text_input]}
-        placeholder = {this.props.placeholder}
-        secureTextEntry = {this.props.secure || false}
+function UiTextInput({onChange, style, placeholder, secure}) {
+    return <TextInput
+        style={[style, styles.text_input]}
+        placeholder = {placeholder}
+        secureTextEntry = {secure || false}
         backgroundColor = "#fff"
+        onChangeText = {onChange}
       />
-    );
-  }
 }
 
 const styles = StyleSheet.create({
