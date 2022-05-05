@@ -1,5 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React, {  useState } from "react";
+import { StyleSheet, View } from "react-native";
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
 import SelectDropdown from 'react-native-select-dropdown'

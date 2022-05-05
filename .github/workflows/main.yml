@@ -12,3 +12,9 @@ jobs:
       - name: test action step
         uses: ./ # Uses an action in the root directory
         id: hello
+      - name: codecov
+        uses: codecov/codecov-action@v2
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./fiubify-mobile/coverage/clover.xml
+          flags: unittests
