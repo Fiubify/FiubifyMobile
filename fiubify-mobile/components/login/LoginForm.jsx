@@ -9,7 +9,7 @@ import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
 class LoginForm extends Component {
-  sendLogInForm() {
+  send() {
     this.props.actions.logIn()
   }
 
@@ -27,7 +27,7 @@ class LoginForm extends Component {
         />
         <UiButton
           title="LOG IN"
-          onPress={() => this.sendLogInForm()}
+          onPress={() => this.send()}
         />
       </View>
     );

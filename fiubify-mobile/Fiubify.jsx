@@ -9,7 +9,7 @@ function MainScreen(props) {
   if (!props.logged_in) {
     return <Login/>
   } else {
-    return <Text>You are logged in!</Text>
+    return <Text>You are logged in!</Text> // App
   }
 }
 

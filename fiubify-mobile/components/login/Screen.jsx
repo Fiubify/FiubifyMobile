@@ -2,16 +2,26 @@ import React, { Component } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import LoginForm from './LoginForm.jsx'
+import PasswordRecovery from './PasswordRecovery.jsx'
+
 import UiButton from '../ui/UiButton.jsx'
 
 class Login extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      currentForm: 'LOGIN',
+    }
+
+    this.openRegistration = this.openRegistration.bind(this)
+  }
+
   render() {
     return (
       <View>
         <LoginForm/>
-        <Text style={styles.link} onPress={this.openAccountRecovery}>
-          Too stupid to remember a password?
-        </Text>
+        <PasswordRecovery/>
         <UiButton
           title="REGISTER"
           onPress={this.openRegister}
@@ -20,12 +30,8 @@ class Login extends Component {
     );
   }
 
-  openAccountRecovery() {
-    console.log("lol")
-  }
-
-  openRegister() {
-    console.log("emit")
+  openRegistration() {
+    this.currentForm = 'REGISTER'
   }
 }
 
