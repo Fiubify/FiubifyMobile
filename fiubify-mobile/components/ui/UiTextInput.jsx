@@ -5,7 +5,7 @@ class UiTextInput extends Component {
   render() {
     return (
       <TextInput
-        style={[this.props.style, styles.text_input]}
+        style={[styles.text_input, this.props.style]}
         placeholder = {this.props.placeholder}
         secureTextEntry = {this.props.secure || false}
         backgroundColor = "#fff"

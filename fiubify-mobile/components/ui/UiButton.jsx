@@ -4,7 +4,9 @@ import { Text, View, StyleSheet, Pressable } from 'react-native'
 class UiButton extends Component {
   render() {
     return (
-      <Pressable style={styles.pressable} onPress={this.props.onPress}>
+      <Pressable 
+        style={[styles.pressable, this.props.pressableStyle]} 
+        onPress={this.props.onPress}>
         <Text style={styles.text}>{this.props.title}</Text>
       </Pressable>
     );
