@@ -9,10 +9,6 @@ import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
 class LoginForm extends Component {
-  send() {
-    this.props.actions.logIn()
-  }
-
   render() {
     return (
       <View>
@@ -31,6 +27,10 @@ class LoginForm extends Component {
         />
       </View>
     );
+  }
+
+  send() {
+    this.props.actions.logIn()
   }
 }
 

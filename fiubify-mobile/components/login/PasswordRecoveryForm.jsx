@@ -37,10 +37,12 @@ class PasswordRecoveryForm extends Component {
       sent: false
     }
 
-    this.sendPasswordRecoveryForm = this.sendPasswordRecoveryForm.bind(this)
+    this.send = this.send.bind(this)
   }
 
-  sendPasswordRecoveryForm() {
+  send() {
+    // TODO: Enviar a backend
+
     this.setState(prevState => ({
       sent: true
     }))
