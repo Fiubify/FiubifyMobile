@@ -23,14 +23,14 @@ function MainComponent(props) {
     return (
       <View>
         <RegistrationForm
-          back={props.closeRegistration}
+          backFunction={props.closeRegistration}
         />
       </View>
     )
   }
 }
 
-class Login extends Component {
+class LoginScreen extends Component {
   constructor(props) {
     super(props)
 
@@ -78,4 +78,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login
+export default LoginScreen

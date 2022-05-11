@@ -8,9 +8,10 @@ class UiTextInput extends Component {
         style={[styles.text_input, this.props.style]}
         placeholder = {this.props.placeholder}
         secureTextEntry = {this.props.secure || false}
+        onChangeText = {this.props.onChange}
         backgroundColor = "#fff"
       />
-    );
+    )
   }
 }
 

@@ -52,7 +52,7 @@ class PasswordRecoveryForm extends Component {
     return (
       <MainComponent
         sent={this.state.sent}
-        onSend={this.sendPasswordRecoveryForm}
+        onSend={this.send}
       />
     )
   }
