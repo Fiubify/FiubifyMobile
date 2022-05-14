@@ -35,7 +35,7 @@ export default function RegistrationForm({backFunction}) {
         />
         <UiButton 
           title="DONE"
-          onPress={() => send(email, password, setPasswordRepeat)}
+          onPress={() => send(email, password, passwordRepeat)}
         />
       </View>
     )
@@ -45,8 +45,13 @@ export default function RegistrationForm({backFunction}) {
     )
   }
 
-  async function send(email, password, role) {
+  async function send(email, password, passwordRepeat) {
     let url = 'https://fiubify-middleware-staging.herokuapp.com/auth/register-email'
+
+    if (password != passwordRepeat) {
+      alert("Password does not match confirmation!")
+      return
+    }
 
     let request = {
       method: 'POST',
@@ -57,7 +62,7 @@ export default function RegistrationForm({backFunction}) {
       body: JSON.stringify({
         email: email,
         password: password,
-        role: role
+        role: 'listener'
       })
     }
 
