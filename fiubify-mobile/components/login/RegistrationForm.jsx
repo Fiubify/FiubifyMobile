@@ -4,11 +4,14 @@ import { StyleSheet, Text, View, Button } from 'react-native'
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
-export default function RegistrationForm({backFunction}) {
-  const [sent, setSent] = useState(false)
+export default function RegistrationForm({ backFunction }) {
+  const [sent, setSent] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurName] = useState("");
+  const [birthDate, setBirthDate] = useState(new Date())
 
   if (!sent) {
     return (
@@ -33,24 +36,42 @@ export default function RegistrationForm({backFunction}) {
           placeholder="Repeat password"
           secure={true}
         />
-        <UiButton 
+        <UiTextInput
+          onChange={setName}
+          style={styles.text_input}
+          placeholder="Your name"
+        />
+        <UiTextInput
+          onChange={setSurName}
+          style={styles.text_input}
+          placeholder="Your surname"
+        />
+        <UiButton onPress={() => {
+          DateTimePickerAndroid.open({
+            value: birthDate,
+            onChange: (event, selectedDate) => setBirthDate(selectedDate),
+            mode: 'date',
+          });
+        }}
+                  title="BirthDate" />
+        <UiButton
           title="DONE"
-          onPress={() => send(email, password, passwordRepeat)}
+          onPress={() => send(email, password, passwordRepeat, name, surname, birthDate)}
         />
       </View>
-    )
+    );
   } else {
     return (
       <Text>You are registered</Text>
-    )
+    );
   }
 
-  async function send(email, password, passwordRepeat) {
-    let url = 'https://fiubify-middleware-staging.herokuapp.com/auth/register-email'
+  async function send(email, password, passwordRepeat, name, surname, birthDate) {
+    let url = 'https://fiubify-middleware-staging.herokuapp.com/auth/register-email';
 
     if (password != passwordRepeat) {
-      alert("Password does not match confirmation!")
-      return
+      alert("Password does not match confirmation!");
+      return;
     }
 
     let request = {
@@ -62,16 +83,20 @@ export default function RegistrationForm({backFunction}) {
       body: JSON.stringify({
         email: email,
         password: password,
-        role: 'listener'
-      })
-    }
+        role: "Listener",
+        name: name,
+        surname: surname,
+        birthDate: birthDate.toJSON(),
+        plan: "Free",
+      }),
+    };
 
     let response = await fetch(url, request)
 
     if (response.ok) {
-      setSent(true)
+      setSent(true);
     } else {
-      alert(response.statusText)
+      alert(response.statusText);
     }
   }
 }

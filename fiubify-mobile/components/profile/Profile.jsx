@@ -16,6 +16,10 @@ export default function Profile({ userId: userUId }) {
   if (!loading) return <View>
     <Text>Email: {user.email}</Text>
     <Text>Role: {user.role}</Text>
+    <Text>Name: {user.name}</Text>
+    <Text>Surname: {user.surname}</Text>
+    <Text>birthdate: {user.birthdate}</Text>
+    <Text>plan: {user.plan}</Text>
   </View>;
   else return <View>
     <Text>Loading</Text>
