@@ -7,11 +7,10 @@ import { logIn } from '../../state/actions/login.js'
 
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
-
 import { auth } from '../../firebase.js'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 
-function LoginForm(props) {
+function LoginForm({ actions, setUid }) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -28,14 +27,14 @@ function LoginForm(props) {
         placeholder="Password"
         secure={true}
       />
-      <UiButton 
+      <UiButton
         title="DONE"
-        onPress={() => send(email, password, props.actions.logIn)}
+        onPress={() => send(email, password, actions.logIn, setUid)}
       />
     </View>
   )
 
-  async function send(email, password, logInAction) {
+  async function send(email, password, logInAction, setUid) {
     signInWithEmailAndPassword(auth, email, password)
       .then(userCredentials => {
         const user = userCredentials.user

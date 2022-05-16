@@ -3,8 +3,9 @@ import { StyleSheet, Text, View, Button } from 'react-native'
 
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
+import Profile from "../profile/Profile";
 
-export default function RegistrationForm({ backFunction }) {
+export default function RegistrationForm({ backFunction, setUid, uid }) {
   const [sent, setSent] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,27 +47,20 @@ export default function RegistrationForm({ backFunction }) {
           style={styles.text_input}
           placeholder="Your surname"
         />
-        <UiButton onPress={() => {
-          DateTimePickerAndroid.open({
-            value: birthDate,
-            onChange: (event, selectedDate) => setBirthDate(selectedDate),
-            mode: 'date',
-          });
-        }}
-                  title="BirthDate" />
+
         <UiButton
           title="DONE"
-          onPress={() => send(email, password, passwordRepeat, name, surname, birthDate)}
+          onPress={() => send(email, password, passwordRepeat, name, surname, birthDate, setUid)}
         />
       </View>
     );
   } else {
     return (
-      <Text>You are registered</Text>
+      <Profile userId={uid} />
     );
   }
 
-  async function send(email, password, passwordRepeat, name, surname, birthDate) {
+  async function send(email, password, passwordRepeat, name, surname, birthDate, setUid) {
     let url = 'https://fiubify-middleware-staging.herokuapp.com/auth/register-email';
 
     if (password != passwordRepeat) {
@@ -94,7 +88,9 @@ export default function RegistrationForm({ backFunction }) {
     let response = await fetch(url, request)
 
     if (response.ok) {
-      setSent(true);
+      const body = (await response.json()).data
+      setUid(body.uid)
+      setSent(true)
     } else {
       alert(response.statusText);
     }
