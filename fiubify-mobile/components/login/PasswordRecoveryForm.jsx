@@ -1,20 +1,24 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
-function MainComponent(props) {
-  if (!props.sent) {
+export default function PasswordRecoveryForm(props) {
+  const [sent, setSent] = useState(false)
+  const [email, setEmail] = useState("")
+
+  if (!sent) {
     return (
       <View style={{display: 'block ruby'}}>
         <UiTextInput
+          onChange={setEmail}
           placeholder="E-mail"
           style={styles.text_input}
         />
         <UiButton
           title="SEND"
-          onPress={props.onSend}
+          onPress={() => send(email)}
           pressableStyle={styles.button_pressable}
           textStyle={styles.button_text}
         />
@@ -27,34 +31,13 @@ function MainComponent(props) {
       </Text>
     )
   }
-}
 
-class PasswordRecoveryForm extends Component {
-  constructor(props) {
-    super(props)
+  async function send(email) {
+    debugger
+    const auth = getAuth()
+    let response = await sendPasswordResetEmail(auth, email)
 
-    this.state = {
-      sent: false
-    }
-
-    this.send = this.send.bind(this)
-  }
-
-  send() {
-    // TODO: Enviar a backend
-
-    this.setState(prevState => ({
-      sent: true
-    }))
-  }
-
-  render() {
-    return (
-      <MainComponent
-        sent={this.state.sent}
-        onSend={this.send}
-      />
-    )
+    setSent(true)
   }
 }
 
@@ -77,5 +60,3 @@ const styles = StyleSheet.create({
     height: 35
   }
 })
-
-export default PasswordRecoveryForm

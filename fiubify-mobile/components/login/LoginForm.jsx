@@ -8,6 +8,9 @@ import { logIn } from '../../state/actions/login.js'
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
+import { auth } from '../../firebase.js'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+
 function LoginForm(props) {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -33,28 +36,14 @@ function LoginForm(props) {
   )
 
   async function send(email, password, logInAction) {
-    let url = 'https://fiubify-middleware-staging.herokuapp.com/auth/validate'
-
-    let request = {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password
+    signInWithEmailAndPassword(auth, email, password)
+      .then(userCredentials => {
+        const user = userCredentials.user
+      }).catch(error => {
+        alert(error.message)
       })
     }
-
-    let response = await fetch(url, request)
-    if (response.ok) {
-      logInAction()
-    } else {
-      alert(response.statusText)
-    }
   }
-}
 
 const mapStateToProps = state => {
   return ({logged_in: state.loginState.logged_in})
@@ -77,6 +66,6 @@ const styles = StyleSheet.create({
   register_button: {
     margin: 10
   }
-});
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm)
