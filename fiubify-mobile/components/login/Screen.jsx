@@ -7,25 +7,24 @@ import PasswordRecovery from './PasswordRecovery.jsx'
 
 import UiButton from '../ui/UiButton.jsx'
 
-function MainComponent(props) {
-  if (props.currentForm === 'LOGIN') {
+function MainComponent({ closeRegistration, currentForm, openRegistration, setUid, uid }) {
+  if (currentForm === 'LOGIN') {
     return (
       <View>
-        <LoginForm setUid={props.setUid} />
+        <LoginForm setUid={setUid} />
         <PasswordRecovery/>
         <UiButton
           title="SIGN UP"
-          onPress={props.openRegistration}
+          onPress={openRegistration}
         />
       </View>
     )
-  } else if (props.currentForm === 'REGISTRATION') {
+  } else if (currentForm === 'REGISTRATION') {
     return (
       <View>
         <RegistrationForm
-          setUid={props.setUid}
-          uid={props.uid}
-          backFunction={props.closeRegistration}
+          setUid={setUid}
+          backFunction={closeRegistration}
         />
       </View>
     )

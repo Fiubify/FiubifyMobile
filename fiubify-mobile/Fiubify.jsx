@@ -7,7 +7,7 @@ import Profile from "./components/profile/Profile";
 
 function LoginDispatcher(props) {
   const [uid, setUid] = useState('')
-  if (!props.logged_in) {
+  if (uid === '') {
     return <LoginScreen setUid={setUid} uid={uid}/>
   } else {
     return <Profile userId={uid}></Profile> // App
