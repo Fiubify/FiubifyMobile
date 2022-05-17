@@ -4,6 +4,9 @@ import { StyleSheet, View, Text } from 'react-native'
 import UiTextInput from '../ui/UiTextInput.jsx'
 import UiButton from '../ui/UiButton.jsx'
 
+import { auth } from '../../firebase.js'
+import { sendPasswordResetEmail } from 'firebase/auth'
+
 export default function PasswordRecoveryForm(props) {
   const [sent, setSent] = useState(false)
   const [email, setEmail] = useState("")
@@ -33,11 +36,12 @@ export default function PasswordRecoveryForm(props) {
   }
 
   async function send(email) {
-    debugger
-    const auth = getAuth()
-    let response = await sendPasswordResetEmail(auth, email)
-
-    setSent(true)
+    sendPasswordResetEmail(auth, email)
+      .then(response => {
+        setSent(true)
+      }).catch(error => {
+        alert(error.message)
+      })
   }
 }
 
