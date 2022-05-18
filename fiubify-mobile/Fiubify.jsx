@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "./components/login/Screen.jsx";
 import MainScreen from "./components/MainScreen";
+
 function LoginDispatcher() {
   const [uid, setUid] = useState('')
   if (uid === '') {
