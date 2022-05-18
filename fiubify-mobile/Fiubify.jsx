@@ -6,6 +6,7 @@ import MainScreen from "./components/MainScreen";
 import * as DocumentPicker from 'expo-document-picker';
 import { uploadBytes, ref } from "firebase/storage";
 import { db } from "./firebase";
+import { Audio } from 'expo-av';
 
 function LoginDispatcher() {
   const [uid, setUid] = useState('')
@@ -17,7 +18,6 @@ function LoginDispatcher() {
 }
 
 function Fiubify() {
-
   return (
     <View style={styles.container}>
       <Button
@@ -26,9 +26,17 @@ function Fiubify() {
           try {
             const pickerResult = await DocumentPicker.getDocumentAsync()
             const response = await fetch(pickerResult.uri)
+
+            const { sound } = await Audio.Sound.createAsync(
+              { uri: pickerResult.uri }
+            );
+
+            await sound.playAsync();
+
             const file = await response.blob()
+
             const dbRef = ref(db, 'songs/bob-esponja')
-            const snapshot = await uploadBytes(dbRef, file)
+            await uploadBytes(dbRef, file)
           } catch (e) {
             console.error(e)
           }
