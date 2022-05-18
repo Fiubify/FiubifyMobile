@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "./components/login/Screen.jsx";
 import MainScreen from "./components/MainScreen";
 import * as DocumentPicker from 'expo-document-picker';
-import { uploadBytes, ref } from "firebase/storage";
+import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
 import { db } from "./firebase";
 import { Audio } from 'expo-av';
 
@@ -18,6 +18,17 @@ function LoginDispatcher() {
 }
 
 function Fiubify() {
+  useEffect(() => {
+    const dbRef = ref(db, 'songs/bob-esponja')
+    getDownloadURL(dbRef).then( async (url) => {
+      const { sound } = await Audio.Sound.createAsync(
+        { uri: url }
+      );
+
+      await sound.playAsync();
+
+    })
+  })
   return (
     <View style={styles.container}>
       <Button
