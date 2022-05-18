@@ -1,25 +1,25 @@
-import React, { Component } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
-import { connect } from 'react-redux';
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
+import { connect } from "react-redux";
 
-import LoginScreen from './components/login/Screen.jsx'
+import LoginScreen from "./components/login/Screen.jsx";
+import Profile from "./components/profile/Profile";
 
-function MainScreen(props) {
-  if (!props.logged_in) {
-    return <LoginScreen/>
+function LoginDispatcher(props) {
+  const [uid, setUid] = useState('')
+  if (uid === '') {
+    return <LoginScreen setUid={setUid} uid={uid}/>
   } else {
-    return <Text>You are logged in!</Text> // App
+    return <Profile userId={uid}></Profile> // App
   }
 }
 
-class Fiubify extends Component {
-  render() {
-    return(
-      <View style={styles.container}>
-        <MainScreen logged_in={this.props.logged_in} />
-      </View>
-    )
-  }
+function Fiubify(props) {
+  return (
+    <View style={styles.container}>
+      <LoginDispatcher logged_in={props.logged_in} />
+    </View>
+  );
 }
 
 const mapStateToProps = state => {

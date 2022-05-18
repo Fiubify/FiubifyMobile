@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, useState } from "react";
 import { StyleSheet, Text, View } from 'react-native'
 
 import LoginForm from './LoginForm.jsx'
@@ -7,63 +7,41 @@ import PasswordRecovery from './PasswordRecovery.jsx'
 
 import UiButton from '../ui/UiButton.jsx'
 
-function MainComponent(props) {
-  if (props.currentForm == 'LOGIN') {
+function MainComponent({ closeRegistration, currentForm, openRegistration, setUid, uid }) {
+  if (currentForm === 'LOGIN') {
     return (
       <View>
-        <LoginForm/>
+        <LoginForm setUid={setUid} />
         <PasswordRecovery/>
         <UiButton
           title="SIGN UP"
-          onPress={props.openRegistration}
+          onPress={openRegistration}
         />
       </View>
     )
-  } else if (props.currentForm == 'REGISTRATION') {
+  } else if (currentForm === 'REGISTRATION') {
     return (
       <View>
         <RegistrationForm
-          backFunction={props.closeRegistration}
+          setUid={setUid}
+          backFunction={closeRegistration}
         />
       </View>
     )
   }
 }
 
-class LoginScreen extends Component {
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      currentForm: 'LOGIN',
-    }
-
-    this.openRegistration = this.openRegistration.bind(this)
-    this.closeRegistration = this.closeRegistration.bind(this)
-  }
-
-  render() {
-    return (
-      <MainComponent
-        currentForm={this.state.currentForm}
-        openRegistration={this.openRegistration}
-        closeRegistration={this.closeRegistration}
-      />
-    )
-  }
-
-  openRegistration() {
-    this.setState(prevState => ({
-      currentForm: 'REGISTRATION'
-    }))
-  }
-
-  closeRegistration() {
-    this.setState(prevState => ({
-      currentForm: 'LOGIN'
-    }))
-  }
-
+function LoginScreen({setUid, uid}) {
+  const [currentForm, setCurrentForm] = useState('LOGIN')
+  return (
+    <MainComponent
+      setUid={setUid}
+      uid={uid}
+      currentForm={currentForm}
+      openRegistration={() => setCurrentForm('REGISTRATION')}
+      closeRegistration={() => setCurrentForm('LOGIN')}
+    />
+  )
 }
 
 const styles = StyleSheet.create({
