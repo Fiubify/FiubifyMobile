@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { connect } from "react-redux";
 import LoginScreen from "./components/login/Screen.jsx";
 import MainScreen from "./components/MainScreen";
-import * as DocumentPicker from 'expo-document-picker';
-import { uploadBytes, ref, getDownloadURL } from "firebase/storage";
-import { db } from "./firebase";
-import { Audio } from 'expo-av';
-
 function LoginDispatcher() {
   const [uid, setUid] = useState('')
   if (uid === '') {
@@ -18,41 +13,8 @@ function LoginDispatcher() {
 }
 
 function Fiubify() {
-  useEffect(() => {
-    const dbRef = ref(db, 'songs/bob-esponja')
-    getDownloadURL(dbRef).then( async (url) => {
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: url }
-      );
-
-      await sound.playAsync();
-
-    })
-  })
   return (
     <View style={styles.container}>
-      <Button
-        title="open picker for single file selection"
-        onPress={async () => {
-          try {
-            const pickerResult = await DocumentPicker.getDocumentAsync()
-            const response = await fetch(pickerResult.uri)
-
-            const { sound } = await Audio.Sound.createAsync(
-              { uri: pickerResult.uri }
-            );
-
-            await sound.playAsync();
-
-            const file = await response.blob()
-
-            const dbRef = ref(db, 'songs/bob-esponja')
-            await uploadBytes(dbRef, file)
-          } catch (e) {
-            console.error(e)
-          }
-        }}
-      />
       <LoginDispatcher />
     </View>
   );
