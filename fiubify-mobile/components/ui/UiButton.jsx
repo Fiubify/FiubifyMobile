@@ -18,7 +18,7 @@ class UiButton extends Component {
 
 const styles = StyleSheet.create({
   pressable: {
-    width: "80%",
+    width: "90%",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 20,

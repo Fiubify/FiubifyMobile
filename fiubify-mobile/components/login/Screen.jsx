@@ -1,59 +1,65 @@
 import React, { Component, useState } from "react";
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from "react-native";
 
-import LoginForm from './LoginForm.jsx'
-import RegistrationForm from './RegistrationForm.jsx'
-import PasswordRecovery from './PasswordRecovery.jsx'
+import LoginForm from "./LoginForm.jsx";
+import RegistrationForm from "./RegistrationForm.jsx";
 
-import UiButton from '../ui/UiButton.jsx'
+import UiButton from "../ui/UiButton.jsx";
+import { heightPercentageToDP } from "react-native-responsive-screen";
 
-function MainComponent({ closeRegistration, currentForm, openRegistration, setUid, uid }) {
-  if (currentForm === 'LOGIN') {
+function MainComponent({
+  closeRegistration,
+  currentForm,
+  openRegistration,
+  setUid,
+  uid,
+}) {
+  if (currentForm === "LOGIN") {
+    return (
+      <View style={styles.view}>
+        <LoginForm setUid={setUid} openRegistration={openRegistration} />
+      </View>
+    );
+  } else if (currentForm === "SIGNUP") {
     return (
       <View>
-        <LoginForm setUid={setUid} />
-        <PasswordRecovery/>
-        <UiButton
-          title="SIGN UP"
-          onPress={openRegistration}
-        />
+        <RegistrationForm setUid={setUid} backFunction={closeRegistration} />
       </View>
-    )
-  } else if (currentForm === 'REGISTRATION') {
-    return (
-      <View>
-        <RegistrationForm
-          setUid={setUid}
-          backFunction={closeRegistration}
-        />
-      </View>
-    )
+    );
   }
 }
 
-function LoginScreen({setUid, uid}) {
-  const [currentForm, setCurrentForm] = useState('LOGIN')
+function LoginScreen({ currentForm, setCurrent, setUid, uid }) {
+  console.log(currentForm, setCurrent);
   return (
     <MainComponent
       setUid={setUid}
       uid={uid}
       currentForm={currentForm}
-      openRegistration={() => setCurrentForm('REGISTRATION')}
-      closeRegistration={() => setCurrentForm('LOGIN')}
+      openRegistration={() => setCurrent("SIGNUP")}
+      closeRegistration={() => setCurrent("MAINSCREEN")}
     />
-  )
+  );
 }
 
 const styles = StyleSheet.create({
+  view: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
   link: {
-    fontWeight: 'bold',
-    color: 'blue',
+    fontWeight: "bold",
+    color: "blue",
     marginTop: 5,
-    marginBottom: 15
+    marginBottom: 15,
   },
   register_button: {
-    margin: 10
-  }
+    margin: 10,
+  },
 });
 
-export default LoginScreen
+export default LoginScreen;

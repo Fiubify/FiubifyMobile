@@ -1,32 +1,14 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { connect } from "react-redux";
-import LoginScreen from "./components/login/Screen.jsx";
-import MainScreen from "./components/MainScreen";
-
-import Profile from "./components/profile/Profile";
-
-function LoginDispatcher(props) {
-  const [uid, setUid] = useState("");
-  if (uid === "") {
-    return <MainScreen />;
-    // return <LoginScreen setUid={setUid} uid={uid}/>
-  } else {
-    return <Profile userId={uid}></Profile>; // App
-  }
-}
+import { StyleSheet, Text, View } from "react-native";
+import MainScreen from "./components/MainScreen.jsx";
 
 function Fiubify() {
   return (
     <View style={styles.container}>
-      <LoginDispatcher />
+      <MainScreen />
     </View>
   );
 }
-
-const mapStateToProps = (state) => {
-  return { logged_in: state.loginState.logged_in };
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -37,4 +19,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(Fiubify);
+export default Fiubify;
