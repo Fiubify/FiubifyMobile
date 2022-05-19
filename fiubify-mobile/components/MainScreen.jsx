@@ -39,10 +39,10 @@ function MainScreen(props) {
     );
   } else if (currentForm === "SIGNUP") {
     return (
-      <View>
+      <View style={styles.view}>
         <RegistrationForm
           setUid={setUid}
-          backFunction={() => setCurrent("MAINSCREEN")}
+          backFunction={() => setCurrentForm("MAINSCREEN")}
         />
       </View>
     );

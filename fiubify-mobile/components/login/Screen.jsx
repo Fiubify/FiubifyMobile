@@ -22,7 +22,7 @@ function MainComponent({
     );
   } else if (currentForm === "SIGNUP") {
     return (
-      <View>
+      <View style={styles.view}>
         <RegistrationForm setUid={setUid} backFunction={closeRegistration} />
       </View>
     );
@@ -30,7 +30,6 @@ function MainComponent({
 }
 
 function LoginScreen({ currentForm, setCurrent, setUid, uid }) {
-  console.log(currentForm, setCurrent);
   return (
     <MainComponent
       setUid={setUid}
