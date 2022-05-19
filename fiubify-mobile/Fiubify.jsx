@@ -4,12 +4,15 @@ import { connect } from "react-redux";
 import LoginScreen from "./components/login/Screen.jsx";
 import MainScreen from "./components/MainScreen";
 
-function LoginDispatcher() {
-  const [uid, setUid] = useState('')
-  if (uid === '') {
-    return <LoginScreen setUid={setUid} uid={uid}/>
+import Profile from "./components/profile/Profile";
+
+function LoginDispatcher(props) {
+  const [uid, setUid] = useState("");
+  if (uid === "") {
+    return <MainScreen />;
+    // return <LoginScreen setUid={setUid} uid={uid}/>
   } else {
-    return <MainScreen uid={uid}/> // App
+    return <Profile userId={uid}></Profile>; // App
   }
 }
 
@@ -21,17 +24,17 @@ function Fiubify() {
   );
 }
 
-const mapStateToProps = state => {
-  return({logged_in: state.loginState.logged_in})
-}
+const mapStateToProps = (state) => {
+  return { logged_in: state.loginState.logged_in };
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#CAE3EA",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
-export default connect(mapStateToProps)(Fiubify)
+export default connect(mapStateToProps)(Fiubify);
