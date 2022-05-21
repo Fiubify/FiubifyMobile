@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
@@ -13,7 +13,7 @@ import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 
-export default function RegistrationForm({ backFunction, setUid }) {
+export default function RegistrationForm({ backFunction, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -116,7 +116,7 @@ export default function RegistrationForm({ backFunction, setUid }) {
               name,
               surname,
               birthDate,
-              setUid
+              navigation
             );
           } else {
             alert("Please accept the terms & conditions");
@@ -126,17 +126,10 @@ export default function RegistrationForm({ backFunction, setUid }) {
     </View>
   );
 
-  async function send(
-    email,
-    password,
-    passwordRepeat,
-    name,
-    surname,
-    birthDate,
-    setUid
-  ) {
-    let url =
-      "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
+
+
+  async function send(email, password, passwordRepeat, name, surname, birthDate, navigation) {
+    let url = "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
 
     if (password != passwordRepeat) {
       alert("Password does not match confirmation!");
@@ -164,7 +157,9 @@ export default function RegistrationForm({ backFunction, setUid }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      setUid(body.uid);
+      navigation.navigate('Profile', {
+        userId: body.uid
+      })
     } else {
       alert(response.statusText);
     }

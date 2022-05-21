@@ -1,40 +1,40 @@
 import React, { Component, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-
 import LoginForm from "./LoginForm.jsx";
 import RegistrationForm from "./RegistrationForm.jsx";
+import UiButton from '../ui/UiButton.jsx'
+import PasswordRecovery from "./PasswordRecovery";
 
-function MainComponent({
-  backFunction,
-  currentForm,
-  openRegistration,
-  setUid,
-  uid,
-}) {
-  if (currentForm === "LOGIN") {
+function MainComponent({ closeRegistration, currentForm, openRegistration, navigation, backFunction }) {
+  if (currentForm === 'LOGIN') {
     return (
-      <View style={styles.view}>
-        <LoginForm
-          setUid={setUid}
-          openRegistration={openRegistration}
-          backFunction={backFunction}
+      <View>
+        <LoginForm navigation={navigation} />
+        <PasswordRecovery/>
+        <UiButton
+          title="SIGN UP"
+          onPress={openRegistration}
         />
       </View>
     );
   } else if (currentForm === "SIGNUP") {
     return (
-      <View style={styles.view}>
-        <RegistrationForm setUid={setUid} backFunction={backFunction} />
+
+      <View>
+        <RegistrationForm
+          navigation={navigation}
+          backFunction={backFunction}
+        />
       </View>
     );
   }
 }
 
-function LoginScreen({ currentForm, setCurrent, setUid, uid }) {
+function LoginScreen({ navigation, setCurrent, currentForm }) {
+  const [currentForm, setCurrentForm] = useState('LOGIN')
   return (
     <MainComponent
-      setUid={setUid}
-      uid={uid}
+      navigation={navigation}
       currentForm={currentForm}
       openRegistration={() => setCurrent("SIGNUP")}
       backFunction={() => setCurrent("MAINSCREEN")}

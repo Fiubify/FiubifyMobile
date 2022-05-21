@@ -17,7 +17,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import PasswordRecovery from "./PasswordRecovery.jsx";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function LoginForm({ actions, setUid, openRegistration, backFunction }) {
+function LoginForm({ navigation, openRegistration, backFunction }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -78,15 +78,17 @@ function LoginForm({ actions, setUid, openRegistration, backFunction }) {
     </View>
   );
 
-  async function send(email, password, logInAction, setUid) {
+  async function send(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        setUid(user.uid);
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+
+        navigation.navigate('Profile', {
+          userId: user.uid
+        })
+      }).catch(error => {
+      alert(error.message);
+    });
   }
 }
 
