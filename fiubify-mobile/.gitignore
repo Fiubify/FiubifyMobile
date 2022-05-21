@@ -2,6 +2,7 @@ node_modules/
 .expo/
 dist/
 coverage
+android
 npm-debug.*
 *.jks
 *.p8
