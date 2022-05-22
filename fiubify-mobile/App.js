@@ -1,20 +1,20 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
-import { Provider } from 'react-redux'
-import configureStore from './state/store/configureStore.js'
+import { Provider } from "react-redux";
+import configureStore from "./state/store/configureStore.js";
 
-import Fiubify from './Fiubify.jsx'
+import Fiubify from "./Fiubify.jsx";
 
-const store = configureStore()
+const store = configureStore();
 
 class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <Fiubify/>
+        <Fiubify />
       </Provider>
     );
   }
 }
 
-export default App
+export default App;

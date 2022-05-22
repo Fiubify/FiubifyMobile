@@ -5,8 +5,8 @@ import UiLogo from "./ui/UiLogo";
 import { connect } from "react-redux";
 import LoginScreen from "./login/Screen.jsx";
 import RegistrationForm from "./login/RegistrationForm";
-import Profile from "./profile/Profile";
 import { useState } from "react";
+import ScreenController from "./Screens/ScreenController";
 
 function LoginDispatcher(props) {
   if (props.uid === "") {
@@ -19,13 +19,13 @@ function LoginDispatcher(props) {
       />
     );
   } else {
-    return <Profile userId={uid}></Profile>; // App
+    return <ScreenController uid={props.uid} />;
   }
 }
 
 function MainScreen(props) {
   const [currentForm, setCurrentForm] = useState("MAINSCREEN");
-  const [uid, setUid] = useState("");
+  const [uid, setUid] = useState("7Wx30Z2qRFTSnWWvG5dkmd8WhD42");
 
   if (currentForm === "LOGIN") {
     return (
