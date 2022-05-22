@@ -52,7 +52,6 @@ function MusicPlayer() {
 
         <AntDesign
           onPress={() => {
-            console.log(Songs.length);
             if (Songs.length !== currentSong.id + 1) {
               setCurrentSong(Songs[currentSong.id + 1]);
             } else {
