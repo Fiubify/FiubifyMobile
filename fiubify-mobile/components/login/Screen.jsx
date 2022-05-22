@@ -8,7 +8,7 @@ import UiButton from "../ui/UiButton.jsx";
 import { heightPercentageToDP } from "react-native-responsive-screen";
 
 function MainComponent({
-  closeRegistration,
+  backFunction,
   currentForm,
   openRegistration,
   setUid,
@@ -17,13 +17,17 @@ function MainComponent({
   if (currentForm === "LOGIN") {
     return (
       <View style={styles.view}>
-        <LoginForm setUid={setUid} openRegistration={openRegistration} />
+        <LoginForm
+          setUid={setUid}
+          openRegistration={openRegistration}
+          backFunction={backFunction}
+        />
       </View>
     );
   } else if (currentForm === "SIGNUP") {
     return (
       <View style={styles.view}>
-        <RegistrationForm setUid={setUid} backFunction={closeRegistration} />
+        <RegistrationForm setUid={setUid} backFunction={backFunction} />
       </View>
     );
   }
@@ -36,7 +40,7 @@ function LoginScreen({ currentForm, setCurrent, setUid, uid }) {
       uid={uid}
       currentForm={currentForm}
       openRegistration={() => setCurrent("SIGNUP")}
-      closeRegistration={() => setCurrent("MAINSCREEN")}
+      backFunction={() => setCurrent("MAINSCREEN")}
     />
   );
 }

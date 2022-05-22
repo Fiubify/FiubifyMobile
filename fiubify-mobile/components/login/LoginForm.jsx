@@ -15,13 +15,18 @@ import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import PasswordRecovery from "./PasswordRecovery.jsx";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function LoginForm({ actions, setUid, openRegistration }) {
+function LoginForm({ actions, setUid, openRegistration, backFunction }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View style={styles.view}>
+      <Text style={styles.link} onPress={backFunction}>
+        <MaterialIcons name="arrow-back-ios" />
+        Back
+      </Text>
       <View style={styles.acountsButtonsView}>
         <UiButton
           title="Log in with Facebook"
@@ -156,10 +161,14 @@ const styles = StyleSheet.create({
     marginBottom: hp(2),
   },
   link: {
+    width: wp(90),
     fontWeight: "bold",
-    color: "blue",
-    marginTop: 5,
-    marginBottom: 15,
+    fontSize: 16,
+    color: "#006E95",
+    marginBottom: hp(2),
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   register_button: {
     margin: 10,

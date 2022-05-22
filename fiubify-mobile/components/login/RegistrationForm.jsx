@@ -10,6 +10,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 
 export default function RegistrationForm({ backFunction, setUid }) {
@@ -18,14 +19,16 @@ export default function RegistrationForm({ backFunction, setUid }) {
   const [passwordRepeat, setPasswordRepeat] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurName] = useState("");
+  const [terms, setTerms] = useState(false);
   const [birthDate, setBirthDate] = useState(new Date());
   const today = new Date();
 
   return (
     <View style={styles.view}>
-      {/* <Text style={styles.link} onPress={backFunction}>
+      <Text style={styles.link} onPress={backFunction}>
+        <MaterialIcons name="arrow-back-ios" />
         Back
-      </Text> */}
+      </Text>
       <UiButton
         title="Log in with Facebook"
         pressableStyle={styles.facebookButton}
@@ -87,23 +90,38 @@ export default function RegistrationForm({ backFunction, setUid }) {
         />
       </View>
 
-      {/*  <View style={styl}
-      <RadioButton value="first" /> */}
+      <View style={styles.terms}>
+        <RadioButton
+          value="terms"
+          color="#006E95"
+          uncheckedColor="#006E95"
+          status={terms ? "checked" : "unchecked"}
+          onPress={() => setTerms(!terms)}
+        />
+        <Text style={styles.terms_text}>
+          I have read and agreed to the{" "}
+          <Text style={styles.bold}>terms & conditions</Text>
+        </Text>
+      </View>
 
       <UiButton
         title="Sign Up"
         pressableStyle={styles.signUp}
-        onPress={() =>
-          send(
-            email,
-            password,
-            passwordRepeat,
-            name,
-            surname,
-            birthDate,
-            setUid
-          )
-        }
+        onPress={() => {
+          if (terms) {
+            send(
+              email,
+              password,
+              passwordRepeat,
+              name,
+              surname,
+              birthDate,
+              setUid
+            );
+          } else {
+            alert("Please accept the terms & conditions");
+          }
+        }}
       />
     </View>
   );
@@ -204,15 +222,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#006E95",
   },
+  terms: {
+    marginVertical: hp(2),
+    padding: 0,
+    width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  terms_text: {
+    color: "#006E95",
+    fontSize: 18,
+  },
+  bold: {
+    fontWeight: "bold",
+  },
   signUp: {
     backgroundColor: "#006E95",
-    marginTop: hp(10),
   },
   link: {
+    width: wp(90),
     fontWeight: "bold",
-    color: "blue",
-    marginTop: 5,
-    marginBottom: 15,
+    fontSize: 16,
+    color: "#006E95",
+    marginBottom: hp(2),
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   text_input: {
     marginBottom: 10,
