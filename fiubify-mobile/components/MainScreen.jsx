@@ -25,7 +25,7 @@ function LoginDispatcher(props) {
 
 function MainScreen(props) {
   const [currentForm, setCurrentForm] = useState("MAINSCREEN");
-  const [uid, setUid] = useState("7Wx30Z2qRFTSnWWvG5dkmd8WhD42");
+  const [uid, setUid] = useState("");
 
   if (currentForm === "LOGIN") {
     return (

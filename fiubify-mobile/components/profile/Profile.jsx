@@ -34,7 +34,6 @@ export default function Profile({ userUId, setCurrentScreen }) {
         </View>
         <View style={styles.title}>
           <Text style={styles.title_text}>
-            NAME USERNAME
             {user.name} {user.surname}
           </Text>
         </View>

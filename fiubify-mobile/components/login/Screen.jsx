@@ -4,9 +4,6 @@ import { StyleSheet, Text, View } from "react-native";
 import LoginForm from "./LoginForm.jsx";
 import RegistrationForm from "./RegistrationForm.jsx";
 
-import UiButton from "../ui/UiButton.jsx";
-import { heightPercentageToDP } from "react-native-responsive-screen";
-
 function MainComponent({
   backFunction,
   currentForm,
