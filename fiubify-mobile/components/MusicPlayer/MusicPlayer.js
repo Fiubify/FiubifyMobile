@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   sliderSection: {
-    width: wp(48),
+    width: wp(46),
   },
 });
 
