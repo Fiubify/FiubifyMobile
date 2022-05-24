@@ -1,30 +1,57 @@
-import React, { Component, useState } from 'react'
-import { StyleSheet, Text } from 'react-native'
+import React, { Component } from "react";
+import { StyleSheet, Text } from "react-native";
+import {
+  heightPercentageToDP,
+  widthPercentageToDP,
+} from "react-native-responsive-screen";
 
-import UiTextInput from '../ui/UiTextInput.jsx'
-import UiButton from '../ui/UiButton.jsx'
+import PasswordRecoveryForm from "./PasswordRecoveryForm.jsx";
 
-import PasswordRecoveryForm from './PasswordRecoveryForm.jsx'
-
-export default function PasswordRecovery(props) {
-  const [toggled, setToggled] = useState(false)
-
-  if (toggled) {
-    return <PasswordRecoveryForm/>
+function MainComponent(props) {
+  if (props.toggled) {
+    return <PasswordRecoveryForm />;
   } else {
     return (
-      <Text style={styles.link} onPress={() => setToggled(true)}>
-        Too stupid to remember a password?
+      <Text style={styles.link} onPress={props.onClick}>
+        Forgot password?
       </Text>
-    )
+    );
   }
 }
+class PasswordRecovery extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      toggled: false,
+    };
+
+    this.toggleRecovery = this.toggleRecovery.bind(this);
+  }
+
+  render() {
+    return (
+      <MainComponent
+        toggled={this.state.toggled}
+        onClick={this.toggleRecovery}
+      />
+    );
+  }
+
+  toggleRecovery() {
+    this.setState((prevState) => ({
+      toggled: !prevState.toggled,
+    }));
+  }
+}
 const styles = StyleSheet.create({
   link: {
-    fontWeight: 'bold',
-    color: 'blue',
-    marginTop: 5,
-    marginBottom: 15
-  }
+    width: widthPercentageToDP(50),
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#006E95",
+    marginTop: heightPercentageToDP(2),
+    textAlign: "center",
+  },
 });
+export default PasswordRecovery;

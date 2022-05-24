@@ -1,59 +1,65 @@
 import React, { Component, useState } from "react";
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from "react-native";
 
-import LoginForm from './LoginForm.jsx'
-import RegistrationForm from './RegistrationForm.jsx'
-import PasswordRecovery from './PasswordRecovery.jsx'
+import LoginForm from "./LoginForm.jsx";
+import RegistrationForm from "./RegistrationForm.jsx";
 
-import UiButton from '../ui/UiButton.jsx'
-
-function MainComponent({ closeRegistration, currentForm, openRegistration, setUid, uid }) {
-  if (currentForm === 'LOGIN') {
+function MainComponent({
+  backFunction,
+  currentForm,
+  openRegistration,
+  setUid,
+  uid,
+}) {
+  if (currentForm === "LOGIN") {
     return (
-      <View>
-        <LoginForm setUid={setUid} />
-        <PasswordRecovery/>
-        <UiButton
-          title="SIGN UP"
-          onPress={openRegistration}
-        />
-      </View>
-    )
-  } else if (currentForm === 'REGISTRATION') {
-    return (
-      <View>
-        <RegistrationForm
+      <View style={styles.view}>
+        <LoginForm
           setUid={setUid}
-          backFunction={closeRegistration}
+          openRegistration={openRegistration}
+          backFunction={backFunction}
         />
       </View>
-    )
+    );
+  } else if (currentForm === "SIGNUP") {
+    return (
+      <View style={styles.view}>
+        <RegistrationForm setUid={setUid} backFunction={backFunction} />
+      </View>
+    );
   }
 }
 
-function LoginScreen({setUid, uid}) {
-  const [currentForm, setCurrentForm] = useState('LOGIN')
+function LoginScreen({ currentForm, setCurrent, setUid, uid }) {
   return (
     <MainComponent
       setUid={setUid}
       uid={uid}
       currentForm={currentForm}
-      openRegistration={() => setCurrentForm('REGISTRATION')}
-      closeRegistration={() => setCurrentForm('LOGIN')}
+      openRegistration={() => setCurrent("SIGNUP")}
+      backFunction={() => setCurrent("MAINSCREEN")}
     />
-  )
+  );
 }
 
 const styles = StyleSheet.create({
+  view: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
   link: {
-    fontWeight: 'bold',
-    color: 'blue',
+    fontWeight: "bold",
+    color: "blue",
     marginTop: 5,
-    marginBottom: 15
+    marginBottom: 15,
   },
   register_button: {
-    margin: 10
-  }
+    margin: 10,
+  },
 });
 
-export default LoginScreen
+export default LoginScreen;
