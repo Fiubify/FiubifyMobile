@@ -8,8 +8,7 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 
-export default function Profile({ route, navigation, userUId, setCurrentScreen }) {
-  const {userId: userUId} = route.params
+export default function Profile({userUId, route, navigation, setCurrentScreen }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 

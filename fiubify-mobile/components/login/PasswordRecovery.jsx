@@ -7,12 +7,12 @@ import {
 
 import PasswordRecoveryForm from "./PasswordRecoveryForm.jsx";
 
-function MainComponent(props) {
-  if (props.toggled) {
+function MainComponent({ onClick, toggled }) {
+  if (toggled) {
     return <PasswordRecoveryForm />;
   } else {
     return (
-      <Text style={styles.link} onPress={props.onClick}>
+      <Text style={styles.link} onPress={onClick}>
         Forgot password?
       </Text>
     );

@@ -13,7 +13,7 @@ import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 
-export default function RegistrationForm({ backFunction, navigation }) {
+export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -25,7 +25,7 @@ export default function RegistrationForm({ backFunction, navigation }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={backFunction}>
+      <Text style={styles.link} onPress={() => navigation.navigate('Entry')}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>

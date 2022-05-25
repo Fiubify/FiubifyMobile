@@ -1,12 +1,16 @@
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { StyleSheet } from "react-native";
-import Profile from "./../profile/Profile";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import Header from "./Header";
-import Footer from "./Footer";
+import { useEffect } from "react";
 
-function Home({ setCurrentScreen }) {
-  return <View></View>;
+function Home() {
+  return <View style={{
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+  }}><Text style={{
+    color: '#000000',
+    fontSize: 60
+  }}>ALO ALO ALO</Text></View>;
 }
 
 const styles = StyleSheet.create({});

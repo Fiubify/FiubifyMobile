@@ -17,13 +17,13 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import PasswordRecovery from "./PasswordRecovery.jsx";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function LoginForm({ navigation, openRegistration, backFunction }) {
+function LoginForm({ navigation, openRegistration }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={backFunction}>
+      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -60,7 +60,7 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
         <UiButton
           title="Log In"
           pressableStyle={styles.logIn}
-          onPress={() => send(email, password, actions.logIn, setUid)}
+          onPress={() => send(email, password)}
         />
       </View>
       <PasswordRecovery />
@@ -73,7 +73,7 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
         title="SIGN UP"
         pressableStyle={styles.SignUp}
         textStyle={styles.signUpText}
-        onPress={openRegistration}
+        onPress={() => navigation.navigate("Registration")}
       />
     </View>
   );
@@ -83,9 +83,9 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
       .then((userCredentials) => {
         const user = userCredentials.user;
 
-        navigation.navigate('Profile', {
-          userId: user.uid
-        })
+        navigation.navigate("Home", {
+          uid: user.uid,
+        });
       }).catch(error => {
       alert(error.message);
     });

@@ -3,75 +3,33 @@ import { StyleSheet } from "react-native";
 import UiButton from "./ui/UiButton";
 import UiLogo from "./ui/UiLogo";
 import { connect } from "react-redux";
-import LoginScreen from "./login/Screen.jsx";
-import RegistrationForm from "./login/RegistrationForm";
-import { useState } from "react";
-import ScreenController from "./Screens/ScreenController";
 
-function LoginDispatcher(props) {
-  if (props.uid === "") {
-    return (
-      <LoginScreen
-        currentForm={props.currentForm}
-        setCurrent={props.setCurrent}
-        setUid={props.setUid}
-        uid={props.uid}
-      />
-    );
-  } else {
-    return <ScreenController uid={props.uid} />;
-  }
-}
-
-function MainScreen(props) {
-  const [currentForm, setCurrentForm] = useState("MAINSCREEN");
-  const [uid, setUid] = useState("");
-
-  if (currentForm === "LOGIN") {
-    return (
-      <LoginDispatcher
-        uid={uid}
-        setUid={setUid}
-        currentForm={currentForm}
-        setCurrent={setCurrentForm}
-        logged_in={props.logged_in}
-      />
-    );
-  } else if (currentForm === "SIGNUP") {
-    return (
-      <View style={styles.view}>
-        <RegistrationForm
-          setUid={setUid}
-          backFunction={() => setCurrentForm("MAINSCREEN")}
+function MainScreen({ navigation }) {
+  return (
+    <View style={styles.view}>
+      <UiLogo logoStyles={styles.Logo} />
+      <View style={styles.ButtonView}>
+        <UiButton
+          pressableStyle={styles.signUp}
+          title="Sign Up"
+          onPress={() => {
+            navigation.navigate("Registration");
+          }}
+        />
+        <Text style={styles.text}>Or</Text>
+        <UiButton
+          pressableStyle={styles.logIn}
+          textStyle={styles.logInText}
+          title="Log In"
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
         />
       </View>
-    );
-  } else {
-    return (
-      <View style={styles.view}>
-        <UiLogo logoStyles={styles.Logo} />
-        <View style={styles.ButtonView}>
-          <UiButton
-            pressableStyle={styles.signUp}
-            title="Sign Up"
-            onPress={() => {
-              setCurrentForm("SIGNUP");
-            }}
-          />
-          <Text style={styles.text}>Or</Text>
-          <UiButton
-            pressableStyle={styles.logIn}
-            textStyle={styles.logInText}
-            title="Log In"
-            onPress={() => {
-              setCurrentForm("LOGIN");
-            }}
-          />
-        </View>
-      </View>
-    );
-  }
+    </View>
+  );
 }
+
 const mapStateToProps = (state) => {
   return { logged_in: state.loginState.logged_in };
 };
