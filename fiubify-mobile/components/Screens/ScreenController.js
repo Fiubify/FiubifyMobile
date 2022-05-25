@@ -3,28 +3,14 @@ import Home from "./Home";
 import Profile from "../profile/Profile";
 import Header from "./Header";
 import Footer from "./Footer";
-import SongForm from "./SongForm";
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Search } from "./Search";
 
-function stopAndSetSong(song, setSong) {
-  return (newSong) => {
-    if (song) {
-      song.sound.pauseAsync().then(() => {
-        song.sound.unloadAsync().then(() => {
-          setSong(newSong);
-        });
-      });
-    } else {
-      setSong(newSong);
-    }
-  };
-}
+import { StyleSheet, View, Text } from "react-native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Tab = createNativeStackNavigator();
 
 function ScreenController({ navigation, route }) {
-  const [song, setSong] = useState();
-  const [otherUid, setOtheruid] = useState()
-  const { uid } = route.params;
+  const {uid} = route.params
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -45,7 +31,7 @@ function ScreenController({ navigation, route }) {
     } else {
       setComponent(null);
     }
-  }, [currentScreen, song]);
+  }, [currentScreen]);
 
   if (currentScreen === "PROFILE") {
     return <Profile currentUserId={uid} userUId={uid} setCurrentScreen={setCurrentScreen} />;

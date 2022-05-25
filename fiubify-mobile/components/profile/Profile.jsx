@@ -12,8 +12,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
 
-export default function Profile({ route, navigation, userUId, setCurrentScreen }) {
-  const {userId: userUId} = route.params
+export default function Profile({userUId, route, navigation, setCurrentScreen }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
