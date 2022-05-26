@@ -6,11 +6,15 @@ import {
 } from "react-native-responsive-screen";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Songs from "./../../model/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function MusicPlayer({song}) {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
+
+  useEffect(() => {
+    setPlaying(false)
+  }, [song])
 
   return (
     <View style={styles.view}>

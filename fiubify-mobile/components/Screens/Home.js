@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import UiButton from "../ui/UiButton";
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { downloadSong } from "../../src/reproducirCanciones";
 
 async function getSongs() {
   try {
@@ -41,9 +40,17 @@ function AllSongs({setSong}) {
     aux().then();
   }, []);
   if (songs) {
-    return <View>
-      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
-    </View>;
+    return (
+      <View style={styles.view}>
+        {songs.map((song) => (
+          <ListedSong
+            key={song.title + song.artistId + song.url}
+            song={song}
+            onPress={setSong}
+          />
+        ))}
+      </View>
+    );
   } else {
     return (
       <View style={styles.view}>
