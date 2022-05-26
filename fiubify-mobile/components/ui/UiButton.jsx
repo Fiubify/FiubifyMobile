@@ -1,19 +1,17 @@
-import React, { Component } from "react";
-import { Text, View, StyleSheet, Pressable } from "react-native";
+import React from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
 
-class UiButton extends Component {
-  render() {
-    return (
-      <Pressable
-        style={[styles.pressable, this.props.pressableStyle]}
-        onPress={this.props.onPress}
-      >
-        <Text style={[styles.text, this.props.textStyle]}>
-          {this.props.title}
-        </Text>
-      </Pressable>
-    );
-  }
+function UiButton({ onPress, pressableStyle, textStyle, title }) {
+  return (
+    <Pressable
+      style={[styles.pressable, pressableStyle]}
+      onPress={onPress}
+    >
+      <Text style={[styles.text, textStyle]}>
+        {title}
+      </Text>
+    </Pressable>
+  );
 }
 
 const styles = StyleSheet.create({
