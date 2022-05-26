@@ -17,17 +17,20 @@ async function getSongs() {
 }
 
 
-function ListedSong({ song, onPress }) {
+function ListedSong({song, onPress}) {
+
+
   return <UiButton pressableStyle={styles.songs}
                    textStyle={styles.songsText}
-                   title={song.title} onPress={async () => {
-    const songSound = await downloadSong(song.url);
-    onPress({ sound: songSound, data: song });
-  }}></UiButton>;
+    title={song.title} onPress={async () => {
+    const songSound = await downloadSong(song.url)
+    onPress({ sound: songSound, data: song })
+  }
+  }></UiButton>
 }
 
-function AllSongs({ setSong }) {
-  const [songs, setSongs] = useState(null);
+function AllSongs({setSong}) {
+  const [songs, setSongs] = useState(null)
 
   useEffect(() => {
     async function aux() {
@@ -39,6 +42,7 @@ function AllSongs({ setSong }) {
     aux().then();
   }, []);
   if (songs) {
+<<<<<<< HEAD
     return (<View style={styles.view}>
         {songs.map((song) => (<ListedSong
             key={song.title + song.artistId + song.url}
@@ -46,6 +50,11 @@ function AllSongs({ setSong }) {
             onPress={(song) => setSong(song)}
           />))}
       </View>);
+=======
+    return <View>
+      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
+    </View>;
+>>>>>>> Se reproducen las canciones seleccionadas
   } else {
     return (<View style={styles.view}>
       <Text>WAITING</Text>
@@ -53,12 +62,18 @@ function AllSongs({ setSong }) {
   }
 }
 
+<<<<<<< HEAD
 function Home({ setSong, setCurrentScreen }) {
   return (<View style={styles.view}>
     <AllSongs setSong={setSong} />
   </View>);
+=======
+function Home({ setSong }) {
+  return <View style={styles.view}>
+  <AllSongs setSong={setSong}/>
+</View>;
+>>>>>>> Se reproducen las canciones seleccionadas
 }
-
 const styles = StyleSheet.create({
   view: {
     width: "100%", height: hp(100), justifyContent: "flex-start", alignItems: "center", display: "flex",

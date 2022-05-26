@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text} from "react-native";
 import Slider from "@react-native-community/slider";
 import {
   heightPercentageToDP as hp,
