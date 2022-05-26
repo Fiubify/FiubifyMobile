@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import Profile from "../profile/Profile";
 import Header from "./Header";
 import Footer from "./Footer";
 import SongForm from "./SongForm";
 import { StyleSheet, View } from "react-native";
-import React from "react";
+
 
 function ScreenController({ route }) {
   const { uid } = route.params;

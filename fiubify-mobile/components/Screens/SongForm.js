@@ -1,11 +1,12 @@
-import UiButton from "../ui/UiButton";
-import UiTextInput from "../ui/UiTextInput";
-import { uploadSong } from "../../src/reproducirCanciones";
-import { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-function SongForm({ userUId, setCurrentScreen }) {
+import React, { useState } from "react";
+import { View } from "react-native";
+import UiTextInput from "../ui/UiTextInput";
+import UiButton from "../ui/UiButton";
+import { getUser } from "../../src/GetUser";
+import { uploadSong } from "../../src/reproducirCanciones";
+
+export function SongForm({ userUId, setCurrentScreen }) {
   const [title, setTitle] = useState("");
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
@@ -49,43 +50,37 @@ function SongForm({ userUId, setCurrentScreen }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(title, userUId, albumId, duration, tier, description, genre);
+          send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen);
         }}
       />
     </View>
   );
 
-  async function send(
-    title,
-    userUId,
-    albumId,
-    duration,
-    tier,
-    description,
-    genre
-  ) {
+  async function send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
     const songUrl = `${userUId}/${albumId}/${title}`;
 
-    // await uploadSong(songUrl);
+    const userData = await getUser(userUId);
+    await uploadSong(songUrl);
     // title, artistId, albumId, duration, url, tier, genre, description
+    const body = {
+      title,
+      artistId: userData._id,
+      albumId: "628ecc871a89da40fa02745c",
+      duration: parseInt(duration),
+      url: songUrl,
+      tier,
+      genre,
+      description,
+    };
     let request = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        title,
-        artistId: userUId,
-        albumId: "628ecc871a89da40fa02745c",
-        duration: parseInt(duration),
-        url: songUrl,
-        tier,
-        genre,
-        description,
-      }),
+      body: JSON.stringify(body),
     };
 
     let response = await fetch(url, request);
@@ -93,13 +88,13 @@ function SongForm({ userUId, setCurrentScreen }) {
     if (response.ok) {
       const body = (await response.json()).data;
       console.log(`CANCION CREADA CON URL: ${songUrl}`);
+      setCurrentScreen("HOME")
     } else {
       console.log(await response.json());
       alert(response.statusText);
     }
   }
 }
-
 const styles = StyleSheet.create({
   view: {
     width: "100%",
