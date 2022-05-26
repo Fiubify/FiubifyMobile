@@ -5,7 +5,6 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { StyleSheet, View, Text } from "react-native";
 import SongForm from "./SongForm";
-
 function ScreenController({ navigation, route }) {
   const { uid } = route.params
   const [currentScreen, setCurrentScreen] = useState("HOME");
