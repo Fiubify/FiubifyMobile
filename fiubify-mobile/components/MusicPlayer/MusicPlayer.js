@@ -7,10 +7,12 @@ import {
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Songs from "./../../model/data";
 import { useEffect, useState } from "react";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 function MusicPlayer({ song }) {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
+  const [sound, setSound] = useState(null)
 
   useEffect(() => {
     setPlaying(false)
@@ -43,7 +45,7 @@ function MusicPlayer({ song }) {
         {playing ? (
           <AntDesign
             onPress={() => {
-              song.sound.pauseAsync();
+              sound.pauseAsync()
               setPlaying(false);
             }}
             name="pausecircleo"
@@ -53,8 +55,12 @@ function MusicPlayer({ song }) {
         ) : (
           <AntDesign
             onPress={() => {
-              song.sound.playAsync();
-              setPlaying(true);
+              downloadSong("St8KNZCkuzfeCDopiCnHZvNA6Le2/10/sound").then((song) => {
+                setSound(song)
+                song.playAsync()
+                console.log("ANTES DE TERMINAR")
+                setPlaying(true);
+              })
             }}
             name="playcircleo"
             color="white"

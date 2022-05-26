@@ -205,9 +205,9 @@ export default function RegistrationForm({ navigation, backFunction, setUid }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      navigation.navigate("Home", {
-        uid: body.uid,
-      });
+      navigation.navigate('Home', {
+        uid: body.uid
+      })
     } else {
       alert(response.statusText);
     }
