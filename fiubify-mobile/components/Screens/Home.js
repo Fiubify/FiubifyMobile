@@ -37,10 +37,17 @@ function AllSongs({ setSong }) {
     aux().then();
   }, []);
   if (songs) {
-    return <View>
-      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song}
-                                       onPress={(song) => setSong(song)} />)}
-    </View>;
+    return (
+      <View style={styles.view}>
+        {songs.map((song) => (
+          <ListedSong
+            key={song.title + song.artistId + song.url}
+            song={song}
+            onPress={(song) => setSong(song)}
+          />
+        ))}
+      </View>
+    );
   } else {
     return (<View style={styles.view}>
       <Text>WAITING</Text>
