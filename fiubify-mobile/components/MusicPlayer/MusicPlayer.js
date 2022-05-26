@@ -8,7 +8,7 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Songs from "./../../model/data";
 import { useState } from "react";
 
-function MusicPlayer({song}) {
+function MusicPlayer({ song }) {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
 
@@ -19,7 +19,9 @@ function MusicPlayer({song}) {
           style={styles.imageTitle}
           source={require("./../../assets/tanBionica.jpg")}
         />
-        <Text style={styles.textTitle}>{song?.data.title}</Text>
+        <Text style={styles.textTitle}>
+          {song ? song.data.title : "choose a song"}
+        </Text>
       </View>
       <View style={styles.controls}>
         <AntDesign
@@ -47,8 +49,8 @@ function MusicPlayer({song}) {
         ) : (
           <AntDesign
             onPress={() => {
-                song.sound.playAsync()
-                setPlaying(true);
+              song.sound.playAsync();
+              setPlaying(true);
             }}
             name="playcircleo"
             color="white"
