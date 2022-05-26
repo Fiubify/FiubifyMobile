@@ -1,7 +1,5 @@
-import { StyleSheet, View } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-import { AllSongs} from "./AllSongs";
+import { View, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import { getSongs } from "../../src/fetchSongs";
 
@@ -19,9 +17,7 @@ function Home({ setSong }) {
   }, []);
   if (songs) {
     return <View>
-
-      {songs.map((song) => <UiButton key={song.title + song.artistId + song.url} title={song.title}></UiButton>)}
-
+      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
     </View>;
   } else {
     return <View><Text>WAITING</Text></View>
