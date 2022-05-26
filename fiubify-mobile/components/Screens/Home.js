@@ -19,7 +19,6 @@ async function getSongs() {
 }
 
 function ListedSong({song, onPress}) {
-
   return <UiButton pressableStyle={styles.songs}
                    textStyle={styles.songsText}
     title={song.title} onPress={async () => {
@@ -42,18 +41,9 @@ function AllSongs({setSong}) {
     aux().then();
   }, []);
   if (songs) {
-    return (
-      <View style={styles.view}>
-        {songs.map((song) => (
-          <UiButton
-            pressableStyle={styles.songs}
-            textStyle={styles.songsText}
-            key={song.title + song.artistId + song.url}
-            title={song.title}
-          ></UiButton>
-        ))}
-      </View>
-    );
+    return <View>
+      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
+    </View>;
   } else {
     return (
       <View style={styles.view}>
