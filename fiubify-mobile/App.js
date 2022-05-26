@@ -19,11 +19,17 @@ function App() {
   return (
     <NavigationContainer>
       <Provider store={store}>
-        <Stack.Navigator initialRouteName="Entry" screenOptions={{headerShown:false}}>
-          <Stack.Screen name="Entry" component={ MainScreen } />
-          <Stack.Screen name="Login" component={ LoginForm } />
+        <Stack.Navigator
+          initialRouteName="Entry"
+          screenOptions={{ headerShown: false }}
+        >
+          <Stack.Screen name="Entry" component={MainScreen} />
+          <Stack.Screen name="Login" component={LoginForm} />
           <Stack.Screen name="Registration" component={RegistrationForm} />
-          <Stack.Screen name="ForgotPassword" component={ PasswordRecoveryForm } />
+          <Stack.Screen
+            name="ForgotPassword"
+            component={PasswordRecoveryForm}
+          />
           <Stack.Screen name="Home" component={ScreenController} />
         </Stack.Navigator>
       </Provider>

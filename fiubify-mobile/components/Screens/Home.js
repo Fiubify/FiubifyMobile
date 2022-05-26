@@ -8,7 +8,6 @@ import { getSongs } from "../../src/fetchSongs";
 function Home({ setSong }) {
   const [songs, setSongs] = useState(null);
 
-
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongs();

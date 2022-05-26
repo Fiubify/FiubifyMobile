@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text } from "react-native";
-import UiTextInput from "../ui/UiTextInput";
+
 import UiButton from "../ui/UiButton";
-import { getUser } from "../../src/GetUser";
+import UiTextInput from "../ui/UiTextInput";
 import { uploadSong } from "../../src/reproducirCanciones";
+import React, { useState } from "react";
+import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-export function SongForm({ userUId, setCurrentScreen }) {
+function SongForm({ userUId, setCurrentScreen }) {
   const [title, setTitle] = useState("");
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
@@ -73,33 +73,30 @@ export function SongForm({ userUId, setCurrentScreen }) {
     duration,
     tier,
     description,
-    genre,
-    setCurrentScreen
+    genre
   ) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
-    const songUrl = `${userUId}/628ecc871a89da40fa02745c/${title}`;
+    const songUrl = `${userUId}/${albumId}/${title}`;
 
-    const userData = await getUser(userUId);
-    await uploadSong(songUrl);
+    // await uploadSong(songUrl);
     // title, artistId, albumId, duration, url, tier, genre, description
-    const body = {
-      title,
-      artistId: userData._id,
-      albumId: "628ecc871a89da40fa02745c",
-      duration: parseInt(duration),
-      url: songUrl,
-      tier,
-      genre,
-      description,
-    };
     let request = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        title,
+        artistId: userUId,
+        albumId: "628ecc871a89da40fa02745c",
+        duration: parseInt(duration),
+        url: songUrl,
+        tier,
+        genre,
+        description,
+      }),
     };
 
     let response = await fetch(url, request);
@@ -123,6 +120,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
+    zIndex: 0,
   },
   text_input: {
     marginBottom: hp(2),

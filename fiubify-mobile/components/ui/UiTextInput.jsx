@@ -17,7 +17,7 @@ function UiTextInput({ onChange, placeholder, secure, style }) {
 const styles = StyleSheet.create({
   text_input: {
     width: "90%",
-    paddingVertical: 10,
+    paddingVertical: 15,
     paddingHorizontal: 32,
     borderRadius: 20,
     backgroundColor: "white",

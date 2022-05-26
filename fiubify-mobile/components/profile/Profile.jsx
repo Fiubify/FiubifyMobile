@@ -12,7 +12,7 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function Profile({userUId, setCurrentScreen }) {
+export default function Profile({ userUId, setCurrentScreen }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 

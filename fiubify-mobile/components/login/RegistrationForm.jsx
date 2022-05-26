@@ -27,7 +27,7 @@ export default function RegistrationForm({ navigation, backFunction, setUid }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={() => navigation.navigate('Entry')}>
+      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -205,9 +205,9 @@ export default function RegistrationForm({ navigation, backFunction, setUid }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      navigation.navigate('Home', {
-        uid: body.uid
-      })
+      navigation.navigate("Home", {
+        uid: body.uid,
+      });
     } else {
       alert(response.statusText);
     }

@@ -89,9 +89,10 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
         navigation.navigate("Home", {
           uid: user.uid,
         });
-      }).catch(error => {
-      alert(error.message);
-    });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }
 }
 
