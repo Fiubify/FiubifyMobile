@@ -86,7 +86,6 @@ function LoginForm({ navigation, openRegistration }) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-
         navigation.navigate("Home", {
           uid: user.uid,
         });

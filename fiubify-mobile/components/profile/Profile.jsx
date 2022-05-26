@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
-import axios from "axios";
+import { Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import Info from "./Info";
 import UiButton from "../ui/UiButton";
+import { getUser } from "../../src/GetUser";
 
 export default function Profile({ userUId, setCurrentScreen }) {
   const [user, setUser] = useState();
@@ -65,17 +62,6 @@ export default function Profile({ userUId, setCurrentScreen }) {
         <Text style={styles.loading}>Loading...</Text>
       </View>
     );
-}
-
-async function getUser(userId) {
-  try {
-    let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user/${userId}`
-    );
-    return response.data;
-  } catch (e) {
-    throw e;
-  }
 }
 
 const styles = StyleSheet.create({
