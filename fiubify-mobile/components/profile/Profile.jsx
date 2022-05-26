@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, Text, StyleSheet, Image, Button } from "react-native";
 import axios from "axios";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
@@ -7,8 +7,9 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import Info from "./Info";
+import UiButton from "../ui/UiButton";
 
-export default function Profile({userUId, route, navigation, setCurrentScreen }) {
+export default function Profile({userUId, setCurrentScreen }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -49,6 +50,7 @@ export default function Profile({userUId, route, navigation, setCurrentScreen })
           icon="calendar-heart"
         />
         <Info title="Plan" contain={user.plan} icon="cash-remove" />
+        {(user.role === "Artist") && <UiButton onPress={() => setCurrentScreen("LOAD-SONG")}></UiButton>}
       </View>
     );
   else

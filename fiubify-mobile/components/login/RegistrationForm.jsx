@@ -157,8 +157,8 @@ export default function RegistrationForm({ navigation }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      navigation.navigate('Profile', {
-        userId: body.uid
+      navigation.navigate('Home', {
+        uid: body.uid
       })
     } else {
       alert(response.statusText);
