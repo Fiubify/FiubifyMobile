@@ -31,10 +31,10 @@ function Footer({ currentScreen, setCurrentScreen }) {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: hp(20),
-    marginBottom: hp(-3),
+    height: hp(15),
     backgroundColor: "#006E95",
-    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     display: "flex",
     flexDirection: "row",
     zIndex: 1,

@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
-    marginBottom: hp(2),
     color: "white",
     fontSize: 16,
   },
