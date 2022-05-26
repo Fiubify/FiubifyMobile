@@ -30,7 +30,7 @@ function AllSongs() {
   if (songs) {
     return <View>
 
-      {songs.map((song) => <UiButton key={song.title + song.artistId} title={song.title}></UiButton>)}
+      {songs.map((song) => <UiButton key={song.title + song.artistId + song.url} title={song.title}></UiButton>)}
 
     </View>;
   } else {
