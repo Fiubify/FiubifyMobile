@@ -17,11 +17,15 @@ function Home({ setSong }) {
 
     aux().then();
   }, []);
-  return (
-    <View style={styles.view}>
-      <AllSongs setSong={setSong} songs={songs}/>
-    </View>
-  );
+  if (songs) {
+    return <View>
+
+      {songs.map((song) => <UiButton key={song.title + song.artistId + song.url} title={song.title}></UiButton>)}
+
+    </View>;
+  } else {
+    return <View><Text>WAITING</Text></View>
+  }
 }
 const styles = StyleSheet.create({
   view: {

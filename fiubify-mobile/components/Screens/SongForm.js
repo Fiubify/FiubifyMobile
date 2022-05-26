@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
@@ -60,7 +60,7 @@ export function SongForm({ userUId, setCurrentScreen }) {
   async function send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
-    const songUrl = `${userUId}/${albumId}/${title}`;
+    const songUrl = `${userUId}/628ecc871a89da40fa02745c/${title}`;
 
     const userData = await getUser(userUId);
     await uploadSong(songUrl);
