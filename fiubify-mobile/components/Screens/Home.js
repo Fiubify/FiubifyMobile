@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import UiButton from "../ui/UiButton";
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 async function getSongs() {
   try {
@@ -17,8 +18,19 @@ async function getSongs() {
   }
 }
 
-function Home({ setSong }) {
-  const [songs, setSongs] = useState(null);
+function ListedSong({song, onPress}) {
+
+  return <UiButton pressableStyle={styles.songs}
+                   textStyle={styles.songsText}
+    title={song.title} onPress={async () => {
+    const songSound = await downloadSong(song.url)
+    onPress({ sound: songSound, data: song })
+  }
+  }></UiButton>
+}
+
+function AllSongs({setSong}) {
+  const [songs, setSongs] = useState(null)
 
   useEffect(() => {
     async function aux() {
@@ -50,6 +62,13 @@ function Home({ setSong }) {
   }
 }
 
+function Home({ setSong }) {
+  return (
+    <View style={styles.view}>
+      <AllSongs setSong={setSong} />
+    </View>
+  );
+}
 const styles = StyleSheet.create({
   view: {
     width: "100%",
