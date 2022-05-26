@@ -1,7 +1,21 @@
 
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text } from "react-native";
+import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import { getSongs } from "../../src/fetchSongs";
+import UiButton from "../ui/UiButton";
+import axios from "axios";
+import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+
+async function getSongs() {
+  try {
+    let response = await axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/songs`
+    );
+    return response.data;
+  } catch (e) {
+    throw e;
+  }
+}
 
 function Home({ setSong }) {
   const [songs, setSongs] = useState(null);
@@ -20,9 +34,14 @@ function Home({ setSong }) {
       {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
     </View>;
   } else {
-    return <View><Text>WAITING</Text></View>
+    return (
+      <View style={styles.view}>
+        <Text>WAITING</Text>
+      </View>
+    );
   }
 }
+
 const styles = StyleSheet.create({
   view: {
     width: "100%",
@@ -30,6 +49,15 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     display: "flex",
+  },
+  songs: {
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    marginTop: 20,
+  },
+  songsText: {
+    color: "#006E95",
   },
 });
 

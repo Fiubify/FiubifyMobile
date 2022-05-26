@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
@@ -51,13 +51,31 @@ export function SongForm({ userUId, setCurrentScreen }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen);
+          send(
+            title,
+            userUId,
+            albumId,
+            duration,
+            tier,
+            description,
+            genre,
+            setCurrentScreen
+          );
         }}
       />
     </View>
   );
 
-  async function send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen) {
+  async function send(
+    title,
+    userUId,
+    albumId,
+    duration,
+    tier,
+    description,
+    genre,
+    setCurrentScreen
+  ) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
     const songUrl = `${userUId}/628ecc871a89da40fa02745c/${title}`;
@@ -89,7 +107,7 @@ export function SongForm({ userUId, setCurrentScreen }) {
     if (response.ok) {
       const body = (await response.json()).data;
       console.log(`CANCION CREADA CON URL: ${songUrl}`);
-      setCurrentScreen("HOME")
+      setCurrentScreen("HOME");
     } else {
       console.log(await response.json());
       alert(response.statusText);
@@ -105,7 +123,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    zIndex: 0,
   },
   text_input: {
     marginBottom: hp(2),

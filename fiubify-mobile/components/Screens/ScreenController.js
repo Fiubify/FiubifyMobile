@@ -3,9 +3,8 @@ import Home from "./Home";
 import Profile from "../profile/Profile";
 import Header from "./Header";
 import Footer from "./Footer";
-import { StyleSheet, View, Text } from "react-native";
 import SongForm from "./SongForm";
-
+import { ScrollView, StyleSheet, View } from "react-native";
 
 function ScreenController({ route }) {
   const [song, setSong] = useState()
