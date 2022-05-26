@@ -17,27 +17,27 @@ async function getSongsWith(title) {
 }
 
 export function Search({ setCurrentScreen, setSong }) {
-  const [songs, setSongs] = useState(undefined)
+  const [songs, setSongs] = useState([])
   const [searchBy, setSearchBy] = useState(undefined)
   const [startSearch, setStartSearch] = useState(false)
 
   useEffect(() => {
-    // async function aux() {
-    //   const fetchedSongs = await getSongsWith();
-    //   console.log(fetchedSongs);
-    //   setSongs(fetchedSongs.data);
-    // }
+    async function aux() {
+      const fetchedSongs = await getSongsWith(searchBy);
+      console.log(fetchedSongs);
+      setSongs(fetchedSongs.data);
+    }
 
     if (startSearch) {
-      // setStartSearch(false)
       console.log(searchBy)
-      // aux().then();
+      aux().then();
+      setStartSearch(false)
     }
   }, [startSearch]);
 
   return <View>
     <UiTextInput placeholder="Search by artist, song, etc" onChange={(text) => setSearchBy(text)}></UiTextInput>
     <UiButton title="Search" onPress={() => setStartSearch(true)}></UiButton>
-    {startSearch && <AllSongs setSong={setSong} wayToSearch={() => getSongsWith(searchBy)}></AllSongs>}
+    <AllSongs setSong={setSong} songs={songs} />
   </View>;
 }

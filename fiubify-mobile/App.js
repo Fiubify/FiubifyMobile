@@ -9,6 +9,9 @@ import RegistrationForm from "./components/login/RegistrationForm";
 import LoginForm from "./components/login/LoginForm";
 import PasswordRecoveryForm from "./components/login/PasswordRecoveryForm";
 import ScreenController from "./components/Screens/ScreenController";
+import { LogBox } from "react-native";
+
+LogBox.ignoreAllLogs(true)
 
 const store = configureStore();
 
