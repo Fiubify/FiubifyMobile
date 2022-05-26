@@ -45,11 +45,12 @@ function AllSongs({setSong}) {
     return (
       <View style={styles.view}>
         {songs.map((song) => (
-          <ListedSong
+          <UiButton
+            pressableStyle={styles.songs}
+            textStyle={styles.songsText}
             key={song.title + song.artistId + song.url}
-            song={song}
-            onPress={(song) => setSong(song)}
-          />
+            title={song.title}
+          ></UiButton>
         ))}
       </View>
     );
