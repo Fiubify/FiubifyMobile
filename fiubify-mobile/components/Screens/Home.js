@@ -5,6 +5,7 @@ import UiButton from "../ui/UiButton";
 import axios from "axios";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 async function getSongs() {
   try {
@@ -15,13 +16,14 @@ async function getSongs() {
   }
 }
 
+
 function ListedSong({ song, onPress }) {
-
-
-  return <UiButton title={song.title} onPress={async () => {
+  return <UiButton pressableStyle={styles.songs}
+                   textStyle={styles.songsText}
+                   title={song.title} onPress={async () => {
     const songSound = await downloadSong(song.url);
     onPress({ sound: songSound, data: song });
-  }} pressableStyle={styles.songs} textStyle={styles.songsText}></UiButton>;
+  }}></UiButton>;
 }
 
 function AllSongs({ setSong }) {
@@ -37,17 +39,13 @@ function AllSongs({ setSong }) {
     aux().then();
   }, []);
   if (songs) {
-    return (
-      <View style={styles.view}>
-        {songs.map((song) => (
-          <ListedSong
+    return (<View style={styles.view}>
+        {songs.map((song) => (<ListedSong
             key={song.title + song.artistId + song.url}
             song={song}
             onPress={(song) => setSong(song)}
-          />
-        ))}
-      </View>
-    );
+          />))}
+      </View>);
   } else {
     return (<View style={styles.view}>
       <Text>WAITING</Text>
