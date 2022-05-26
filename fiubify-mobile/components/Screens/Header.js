@@ -7,6 +7,7 @@ import {
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
+import { elementOrParentIsFixed } from "materialize-css";
 
 function Header({ setCurrentScreen, song}) {
   return (
@@ -36,6 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    zIndex: 1,
   },
   logoSection: {
     width: hp(22),

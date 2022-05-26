@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
@@ -15,6 +15,7 @@ export function SongForm({ userUId, setCurrentScreen }) {
   const [genre, setGenre] = useState("");
   return (
     <View style={styles.view}>
+      <Text style={styles.title}>Upload Your Song</Text>
       <UiTextInput
         style={styles.text_input}
         onChange={setTitle}
@@ -50,13 +51,31 @@ export function SongForm({ userUId, setCurrentScreen }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen);
+          send(
+            title,
+            userUId,
+            albumId,
+            duration,
+            tier,
+            description,
+            genre,
+            setCurrentScreen
+          );
         }}
       />
     </View>
   );
 
-  async function send(title, userUId, albumId, duration, tier, description, genre, setCurrentScreen) {
+  async function send(
+    title,
+    userUId,
+    albumId,
+    duration,
+    tier,
+    description,
+    genre,
+    setCurrentScreen
+  ) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
     const songUrl = `${userUId}/628ecc871a89da40fa02745c/${title}`;
@@ -88,7 +107,7 @@ export function SongForm({ userUId, setCurrentScreen }) {
     if (response.ok) {
       const body = (await response.json()).data;
       console.log(`CANCION CREADA CON URL: ${songUrl}`);
-      setCurrentScreen("HOME")
+      setCurrentScreen("HOME");
     } else {
       console.log(await response.json());
       alert(response.statusText);
@@ -98,19 +117,24 @@ export function SongForm({ userUId, setCurrentScreen }) {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: "65%",
+    height: hp(100),
     display: "flex",
     backgroundColor: "#CAE3EA",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    zIndex: 0,
   },
   text_input: {
     marginBottom: hp(2),
   },
   upload: {
     backgroundColor: "#006E95",
+  },
+  title: {
+    fontSize: 40,
+    color: "#006E95",
+    fontWeight: "bold",
+    marginBottom: hp(4),
   },
 });
 

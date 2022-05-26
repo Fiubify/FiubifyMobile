@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     display: "flex",
     flexDirection: "row",
+    zIndex: 1,
   },
 });
 

@@ -4,8 +4,7 @@ import Profile from "../profile/Profile";
 import Header from "./Header";
 import Footer from "./Footer";
 import SongForm from "./SongForm";
-import { StyleSheet, View } from "react-native";
-
+import { ScrollView, StyleSheet, View } from "react-native";
 
 function ScreenController({ route }) {
   const [song, setSong] = useState()
@@ -33,7 +32,12 @@ function ScreenController({ route }) {
     return (
       <View style={styles.view}>
         <Header setCurrentScreen={setCurrentScreen} song={song}/>
-        {component}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+        >
+          {component}
+        </ScrollView>
         <Footer
           currentScreen={currentScreen}
           setCurrentScreen={setCurrentScreen}
@@ -47,9 +51,18 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
+    backgroundColor: "#CAE3EA",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+  },
+  scroll: {
+    width: "100%",
+    display: "flex",
+  },
+  scrollContent: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
 
