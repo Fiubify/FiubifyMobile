@@ -55,14 +55,12 @@ function MusicPlayer({ song }) {
         ) : (
           <AntDesign
             onPress={() => {
-              downloadSong("St8KNZCkuzfeCDopiCnHZvNA6Le2/10/sound").then(
-                (song) => {
-                  setSound(song);
-                  song.playAsync();
-                  console.log("ANTES DE TERMINAR");
-                  setPlaying(true);
-                }
-              );
+
+              downloadSong("St8KNZCkuzfeCDopiCnHZvNA6Le2/10/sound").then((song) => {
+                setSound(song)
+                song.playAsync()
+                setPlaying(true);
+              })
             }}
             name="playcircleo"
             color="white"

@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image, Button } from "react-native";
-import axios from "axios";
+import { Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
