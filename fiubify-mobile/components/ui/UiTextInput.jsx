@@ -20,7 +20,7 @@ class UiTextInput extends Component {
 const styles = StyleSheet.create({
   text_input: {
     width: "90%",
-    paddingVertical: 20,
+    paddingVertical: 15,
     paddingHorizontal: 32,
     borderRadius: 20,
     backgroundColor: "white",

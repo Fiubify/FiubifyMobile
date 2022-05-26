@@ -31,13 +31,12 @@ function Footer({ currentScreen, setCurrentScreen }) {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: hp(15),
+    height: hp(20),
+    marginBottom: hp(-3),
     backgroundColor: "#006E95",
     borderRadius: 25,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
 });
 

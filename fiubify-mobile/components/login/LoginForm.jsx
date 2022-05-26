@@ -14,7 +14,6 @@ import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import PasswordRecovery from "./PasswordRecovery.jsx";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 function LoginForm({ navigation, openRegistration }) {
@@ -63,7 +62,12 @@ function LoginForm({ navigation, openRegistration }) {
           onPress={() => send(email, password)}
         />
       </View>
-      <PasswordRecovery />
+      <Text
+        style={styles.forgot}
+        onPress={() => navigation.navigate("ForgotPassword")}
+      >
+        Forgot password?
+      </Text>
       <View style={styles.middle}>
         <View style={styles.line} />
       </View>
@@ -86,9 +90,10 @@ function LoginForm({ navigation, openRegistration }) {
         navigation.navigate("Home", {
           uid: user.uid,
         });
-      }).catch(error => {
-      alert(error.message);
-    });
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
   }
 }
 
@@ -105,6 +110,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
+    backgroundColor: "#CAE3EA",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -183,6 +189,15 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: "#006E95",
+  },
+  forgot: {
+    width: wp(50),
+    fontWeight: "bold",
+    fontSize: 20,
+    textDecorationLine: "underline",
+    color: "#006E95",
+    marginTop: hp(2),
+    textAlign: "center",
   },
 });
 

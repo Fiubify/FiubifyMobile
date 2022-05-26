@@ -40,6 +40,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#CAE3EA",
     alignItems: "center",
     justifyContent: "space-evenly",
   },

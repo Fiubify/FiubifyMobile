@@ -12,7 +12,7 @@ import { downloadSong } from "../../src/reproducirCanciones";
 function MusicPlayer() {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
-  const [sound, setSound] = useState(null)
+  const [sound, setSound] = useState(null);
 
   return (
     <View style={styles.view}>
@@ -39,7 +39,7 @@ function MusicPlayer() {
         {playing ? (
           <AntDesign
             onPress={() => {
-              sound.pauseAsync()
+              sound.pauseAsync();
               setPlaying(false);
             }}
             name="pausecircleo"
@@ -49,12 +49,14 @@ function MusicPlayer() {
         ) : (
           <AntDesign
             onPress={() => {
-              downloadSong("St8KNZCkuzfeCDopiCnHZvNA6Le2/10/sound").then((song) => {
-                setSound(song)
-                song.playAsync()
-                console.log("ANTES DE TERMINAR")
-                setPlaying(true);
-              })
+              downloadSong("St8KNZCkuzfeCDopiCnHZvNA6Le2/10/sound").then(
+                (song) => {
+                  setSound(song);
+                  song.playAsync();
+                  console.log("ANTES DE TERMINAR");
+                  setPlaying(true);
+                }
+              );
             }}
             name="playcircleo"
             color="white"
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(3),
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   title: {
     width: "100%",

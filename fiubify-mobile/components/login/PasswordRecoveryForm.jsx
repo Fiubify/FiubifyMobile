@@ -1,19 +1,28 @@
-import React, { Component, useState } from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import React, { Component, useState } from "react";
+import { StyleSheet, View, Text } from "react-native";
 
-import UiTextInput from '../ui/UiTextInput.jsx'
-import UiButton from '../ui/UiButton.jsx'
+import UiTextInput from "../ui/UiTextInput.jsx";
+import UiButton from "../ui/UiButton.jsx";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
 
-import { auth } from '../../firebase.js'
-import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth } from "../../firebase.js";
+import { sendPasswordResetEmail } from "firebase/auth";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export default function PasswordRecoveryForm(props) {
-  const [sent, setSent] = useState(false)
-  const [email, setEmail] = useState("")
+export default function PasswordRecoveryForm({ navigation }) {
+  const [sent, setSent] = useState(false);
+  const [email, setEmail] = useState("");
 
   if (!sent) {
     return (
-      <View style={{display: 'block ruby'}}>
+      <View style={styles.view}>
+        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+          <MaterialIcons name="arrow-back-ios" />
+          Back
+        </Text>
         <UiTextInput
           onChange={setEmail}
           placeholder="E-mail"
@@ -23,44 +32,66 @@ export default function PasswordRecoveryForm(props) {
           title="SEND"
           onPress={() => send(email)}
           pressableStyle={styles.button_pressable}
-          textStyle={styles.button_text}
         />
       </View>
-    )
+    );
   } else {
     return (
-      <Text style={styles.text}> 
-        An account recovery link has been sent to your e-mail account 
-      </Text>
-    )
+      <View style={styles.view}>
+        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+          <MaterialIcons name="arrow-back-ios" />
+          Back
+        </Text>
+        <Text style={styles.text}>
+          An account recovery link has been sent to your e-mail account
+        </Text>
+      </View>
+    );
   }
 
   async function send(email) {
     sendPasswordResetEmail(auth, email)
-      .then(response => {
-        setSent(true)
-      }).catch(error => {
-        alert(error.message)
+      .then((response) => {
+        setSent(true);
       })
+      .catch((error) => {
+        alert(error.message);
+      });
   }
 }
 
 const styles = StyleSheet.create({
-  text: {
-    width: 220,
-    margin: 15
+  view: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    backgroundColor: "#CAE3EA",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  link: {
+    width: wp(90),
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#006E95",
+    marginBottom: hp(2),
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
   text_input: {
-    width: 155,
-    marginTop: 10,
-    marginRight: 5,
-    height: 35
+    marginBottom: hp(2),
   },
   button_pressable: {
-    backgroundColor: 'blue', 
-    marginTop: 5,
-    marginBottom: 10,
-    width: 20,
-    height: 35
-  }
-})
+    backgroundColor: "#006E95",
+  },
+  text: {
+    width: wp(90),
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
+    marginTop: hp(2),
+    textAlign: "center",
+  },
+});

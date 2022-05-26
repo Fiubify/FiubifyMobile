@@ -1,4 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 function FooterButton({ icon, title, changeCurrent }) {
@@ -24,6 +28,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   text: {
+    marginBottom: hp(2),
     color: "white",
     fontSize: 16,
   },

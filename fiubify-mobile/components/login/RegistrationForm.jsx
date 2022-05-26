@@ -25,7 +25,7 @@ export default function RegistrationForm({ navigation }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={() => navigation.navigate('Entry')}>
+      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -126,10 +126,17 @@ export default function RegistrationForm({ navigation }) {
     </View>
   );
 
-
-
-  async function send(email, password, passwordRepeat, name, surname, birthDate, navigation) {
-    let url = "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
+  async function send(
+    email,
+    password,
+    passwordRepeat,
+    name,
+    surname,
+    birthDate,
+    navigation
+  ) {
+    let url =
+      "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
 
     if (password != passwordRepeat) {
       alert("Password does not match confirmation!");
@@ -157,9 +164,9 @@ export default function RegistrationForm({ navigation }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      navigation.navigate('Home', {
-        uid: body.uid
-      })
+      navigation.navigate("Home", {
+        uid: body.uid,
+      });
     } else {
       alert(response.statusText);
     }
@@ -172,6 +179,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#CAE3EA",
     alignItems: "center",
     justifyContent: "center",
   },

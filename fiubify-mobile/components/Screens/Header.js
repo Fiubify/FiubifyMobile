@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
   logoSection: {
     width: hp(22),
     height: hp(22),
-    marginLeft: -wp(10),
-    padding: wp(4),
+    marginLeft: -wp(8),
+    padding: wp(6),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 500,
@@ -50,8 +50,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   Logo: {
-    width: "80%",
-    height: "80%",
+    width: "100%",
+    height: "100%",
   },
   perfil: {
     display: "flex",

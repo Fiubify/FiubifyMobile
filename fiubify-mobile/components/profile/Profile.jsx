@@ -9,7 +9,7 @@ import {
 import Info from "./Info";
 import UiButton from "../ui/UiButton";
 
-export default function Profile({userUId, setCurrentScreen }) {
+export default function Profile({ userUId, setCurrentScreen }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -50,13 +50,19 @@ export default function Profile({userUId, setCurrentScreen }) {
           icon="calendar-heart"
         />
         <Info title="Plan" contain={user.plan} icon="cash-remove" />
-        {(user.role === "Artist") && <UiButton onPress={() => setCurrentScreen("LOAD-SONG")}></UiButton>}
+        {user.role === "Artist" && (
+          <UiButton
+            title="LOAD SONG"
+            pressableStyle={styles.button}
+            onPress={() => setCurrentScreen("LOAD-SONG")}
+          />
+        )}
       </View>
     );
   else
     return (
-      <View>
-        <Text>Loading</Text>
+      <View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
       </View>
     );
 }
@@ -76,11 +82,11 @@ const styles = StyleSheet.create({
   view: {
     width: "100%",
     height: "100%",
-    marginTop: hp(10),
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#CAE3EA",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   link: {
     width: wp(90),
@@ -119,5 +125,13 @@ const styles = StyleSheet.create({
   description: {
     width: "90%",
     color: "#006E95",
+  },
+  loading: {
+    fontSize: 30,
+    color: "#006E95",
+  },
+  button: {
+    marginTop: hp(2),
+    backgroundColor: "#006E95",
   },
 });
