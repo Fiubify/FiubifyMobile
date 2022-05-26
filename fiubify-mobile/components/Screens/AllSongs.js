@@ -5,20 +5,27 @@ import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 function ListedSong({ song, onPress }) {
-  return (
-    <UiButton
-      pressableStyle={styles.songs}
-      textStyle={styles.songsText}
-      title={song.title}
-      onPress={async () => {
-        const songSound = await downloadSong(song.url);
-        onPress({ sound: songSound, data: song });
-      }}
-    ></UiButton>
-  );
+  return <UiButton pressableStyle={styles.songs}
+                   textStyle={styles.songsText}
+                   title={song.title} onPress={async () => {
+    const songSound = await downloadSong(song.url);
+    onPress({ sound: songSound, data: song });
+  }
+  }></UiButton>;
 }
 
-export function AllSongs({ setSong, songs }) {
+export function AllSongs({ setSong , wayToSearch}) {
+  const [songs, setSongs] = useState(null);
+
+  useEffect(() => {
+    async function aux() {
+      const fetchedSongs = await wayToSearch();
+      console.log(fetchedSongs);
+      setSongs(fetchedSongs.data);
+    }
+
+    aux().then();
+  }, []);
   if (songs) {
     return (
       <View style={styles.view}>

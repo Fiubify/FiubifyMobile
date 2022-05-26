@@ -5,6 +5,22 @@ import Header from "./Header";
 import Footer from "./Footer";
 import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { Search } from "./Search";
+
+function stopAndSetSong(song, setSong) {
+  return (newSong) => {
+    if (song) {
+      song.sound.pauseAsync().then(() => {
+        song.sound.unloadAsync().then(() => {
+          setSong(newSong);
+        });
+      });
+    } else {
+      setSong(newSong);
+    }
+
+  };
+}
 
 function ScreenController({ route }) {
   const [song, setSong] = useState();
@@ -14,18 +30,7 @@ function ScreenController({ route }) {
 
   useEffect(() => {
     if (currentScreen === "HOME") {
-      setComponent(<Home setCurrentScreen={setCurrentScreen} setSong={(newSong) => {
-        if (song) {
-          song.sound.pauseAsync().then(() => {
-            song.sound.unloadAsync().then(() => {
-              setSong(newSong)
-            })
-          })
-        } else {
-          setSong(newSong);
-        }
-
-      }} />);
+      setComponent(<Home setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} />);
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
     } else if (currentScreen === "LOAD-SONG") {
