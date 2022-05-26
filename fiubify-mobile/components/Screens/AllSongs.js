@@ -14,18 +14,7 @@ function ListedSong({ song, onPress }) {
   }></UiButton>;
 }
 
-export function AllSongs({ setSong , wayToSearch}) {
-  const [songs, setSongs] = useState(null);
-
-  useEffect(() => {
-    async function aux() {
-      const fetchedSongs = await wayToSearch();
-      console.log(fetchedSongs);
-      setSongs(fetchedSongs.data);
-    }
-
-    aux().then();
-  }, []);
+export function AllSongs({ setSong , songs}) {
   if (songs) {
     return (
       <View style={styles.view}>
