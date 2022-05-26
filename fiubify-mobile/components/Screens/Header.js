@@ -8,13 +8,13 @@ import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
 
-function Header({ setCurrentScreen }) {
+function Header({ setCurrentScreen, song}) {
   return (
     <View style={styles.view}>
       <View style={styles.logoSection}>
         <UiLogo logoStyles={styles.Logo} />
       </View>
-      <MusicPlayer />
+      <MusicPlayer song={song}/>
       <Ionicons
         onPress={() => setCurrentScreen("PROFILE")}
         name="person-circle-outline"

@@ -8,13 +8,14 @@ import { StyleSheet, View } from "react-native";
 
 
 function ScreenController({ route }) {
+  const [song, setSong] = useState()
   const { uid } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
   useEffect(() => {
     if (currentScreen === "HOME") {
-      setComponent(<Home setCurrentScreen={setCurrentScreen} />);
+      setComponent(<Home setCurrentScreen={setCurrentScreen} setSong={setSong}/>);
     } else if (currentScreen === "SEARCH") {
       setComponent(null);
     } else if (currentScreen === "LOAD-SONG") {
@@ -31,7 +32,7 @@ function ScreenController({ route }) {
   } else
     return (
       <View style={styles.view}>
-        <Header setCurrentScreen={setCurrentScreen} />
+        <Header setCurrentScreen={setCurrentScreen} song={song}/>
         {component}
         <Footer
           currentScreen={currentScreen}

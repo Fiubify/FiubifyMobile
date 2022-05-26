@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 import UiButton from "../ui/UiButton";
 import axios from "axios";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 async function getSongs() {
   try {
@@ -15,8 +16,18 @@ async function getSongs() {
   }
 }
 
-function AllSongs() {
-  const [songs, setSongs] = useState(null);
+function ListedSong({song, onPress}) {
+
+
+  return <UiButton title={song.title} onPress={async () => {
+    const songSound = await downloadSong(song.url)
+    onPress({ sound: songSound, data: song })
+  }
+  }></UiButton>
+}
+
+function AllSongs({setSong}) {
+  const [songs, setSongs] = useState(null)
 
   useEffect(() => {
     async function aux() {
@@ -29,16 +40,14 @@ function AllSongs() {
   }, []);
   if (songs) {
     return <View>
-
-      {songs.map((song) => <UiButton key={song.title + song.artistId + song.url} title={song.title}></UiButton>)}
-
+      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
     </View>;
   } else {
     return <View><Text>WAITING</Text></View>
   }
 }
 
-function Home() {
+function Home({ setSong }) {
 
   return <View style={{
     justifyContent: "center",
@@ -47,7 +56,7 @@ function Home() {
     width: "100%",
     height: "70%",
   }}>
-    <AllSongs />
+    <AllSongs setSong={setSong}/>
   </View>;
 }
 
