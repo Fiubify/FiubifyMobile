@@ -54,8 +54,8 @@ function MusicPlayer({ song }) {
         ) : (
           <AntDesign
             onPress={() => {
-                song.sound.playAsync()
-                setPlaying(true);
+              song.sound.playAsync();
+              setPlaying(true);
             }}
             name="playcircleo"
             color="white"
