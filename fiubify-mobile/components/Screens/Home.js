@@ -5,7 +5,6 @@ import UiButton from "../ui/UiButton";
 import axios from "axios";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { downloadSong } from "../../src/reproducirCanciones";
 
 async function getSongs() {
   try {
@@ -42,7 +41,6 @@ function AllSongs({setSong}) {
     aux().then();
   }, []);
   if (songs) {
-<<<<<<< HEAD
     return (<View style={styles.view}>
         {songs.map((song) => (<ListedSong
             key={song.title + song.artistId + song.url}
@@ -50,11 +48,6 @@ function AllSongs({setSong}) {
             onPress={(song) => setSong(song)}
           />))}
       </View>);
-=======
-    return <View>
-      {songs.map((song) => <ListedSong key={song.title + song.artistId + song.url} song={song} onPress={(song) => setSong(song)}/>)}
-    </View>;
->>>>>>> Se reproducen las canciones seleccionadas
   } else {
     return (<View style={styles.view}>
       <Text>WAITING</Text>
@@ -62,17 +55,10 @@ function AllSongs({setSong}) {
   }
 }
 
-<<<<<<< HEAD
-function Home({ setSong, setCurrentScreen }) {
-  return (<View style={styles.view}>
-    <AllSongs setSong={setSong} />
-  </View>);
-=======
 function Home({ setSong }) {
   return <View style={styles.view}>
   <AllSongs setSong={setSong}/>
 </View>;
->>>>>>> Se reproducen las canciones seleccionadas
 }
 const styles = StyleSheet.create({
   view: {

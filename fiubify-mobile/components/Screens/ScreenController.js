@@ -7,31 +7,42 @@ import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 function ScreenController({ route }) {
-  const [song, setSong] = useState()
+  const [song, setSong] = useState();
   const { uid } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
   useEffect(() => {
     if (currentScreen === "HOME") {
-      setComponent(<Home setCurrentScreen={setCurrentScreen} setSong={setSong}/>);
+      setComponent(<Home setCurrentScreen={setCurrentScreen} setSong={(newSong) => {
+        if (song) {
+          song.sound.pauseAsync().then(() => {
+            song.sound.unloadAsync().then(() => {
+              setSong(newSong)
+            })
+          })
+        } else {
+          setSong(newSong);
+        }
+
+      }} />);
     } else if (currentScreen === "SEARCH") {
       setComponent(null);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
-        <SongForm userUId={uid} setCurrentScreen={setCurrentScreen} />
+        <SongForm userUId={uid} setCurrentScreen={setCurrentScreen} />,
       );
     } else {
       setComponent(null);
     }
-  }, [currentScreen]);
+  }, [currentScreen, song]);
 
   if (currentScreen === "PROFILE") {
     return <Profile userUId={uid} setCurrentScreen={setCurrentScreen} />;
   } else
     return (
       <View style={styles.view}>
-        <Header setCurrentScreen={setCurrentScreen} song={song}/>
+        <Header setCurrentScreen={setCurrentScreen} song={song} />
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
