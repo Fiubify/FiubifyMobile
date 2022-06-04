@@ -84,10 +84,12 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
 
   async function send(email, password) {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
+      .then(async (userCredentials) => {
         const user = userCredentials.user;
+        const token = await user.getIdToken()
         navigation.navigate("Home", {
           uid: user.uid,
+          token: token
         });
       })
       .catch((error) => {

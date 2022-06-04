@@ -6,6 +6,7 @@ import Footer from "./Footer";
 import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
+import { AlbumForm } from "./AlbumForm";
 
 function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -23,7 +24,8 @@ function stopAndSetSong(song, setSong) {
 
 function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
-  const { uid } = route.params;
+  const [otherUid, setOtheruid] = useState()
+  const { uid, token } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -39,7 +41,11 @@ function ScreenController({ navigation, route }) {
       setComponent(<Search setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
-        <SongForm userUId={uid} setCurrentScreen={setCurrentScreen} />
+        <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />
+      );
+    } else if (currentScreen === "CREATE-ALBUM") {
+      setComponent(
+        <AlbumForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />
       );
     } else {
       setComponent(null);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import {  Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -60,6 +60,21 @@ export default function Profile({ navigation, route }) {
           contain={user.birthdate}
           icon="calendar-heart"
         />
+        <Info title="Plan" contain={user.plan} icon="cash-remove" />
+        {user.role === "Artist" && currentUserId === userUId && (
+          <UiButton
+            title="LOAD SONG"
+            pressableStyle={styles.button}
+            onPress={() => setCurrentScreen("LOAD-SONG")}
+          />
+        )}
+        {user.role === "Artist" && currentUserId === userUId && (
+          <UiButton
+            title="CREATE SONG"
+            pressableStyle={styles.button}
+            onPress={() => setCurrentScreen("CREATE-ALBUM")}
+          />
+        )}
         <UiButton
           title="Log Out"
           pressableStyle={styles.buttonListener}

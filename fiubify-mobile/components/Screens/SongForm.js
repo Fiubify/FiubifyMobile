@@ -11,8 +11,7 @@ import {
 import Selector from "../ui/UiSelect";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-export function SongForm({ navigation, route }) {
-  const { userUId } = route.params;
+export function SongForm({ userUId, token, setCurrentScreen }) {
   const [title, setTitle] = useState("");
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
@@ -90,6 +89,7 @@ export function SongForm({ navigation, route }) {
         pressableStyle={styles.upload}
         onPress={() => {
           send(
+            token,
             title,
             userUId,
             albumId,
@@ -105,6 +105,7 @@ export function SongForm({ navigation, route }) {
   );
 
   async function send(
+    token,
     title,
     userUId,
     albumId,
@@ -123,6 +124,7 @@ export function SongForm({ navigation, route }) {
     // title, artistId, albumId, duration, url, tier, genre, description
     const body = {
       title,
+      token,
       artistId: userData._id,
       albumId: "628ecc871a89da40fa02745c",
       duration: parseInt(duration),
