@@ -23,6 +23,7 @@ function stopAndSetSong(song, setSong) {
 
 function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
+  const [otherUid, setOtheruid] = useState()
   const { uid } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
@@ -36,12 +37,7 @@ function ScreenController({ navigation, route }) {
         />
       );
     } else if (currentScreen === "SEARCH") {
-      setComponent(
-        <Search
-          setCurrentScreen={setCurrentScreen}
-          setSong={stopAndSetSong(song, setSong)}
-        />
-      );
+      setComponent(<Search setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
         <SongForm userUId={uid} setCurrentScreen={setCurrentScreen} />
@@ -52,13 +48,9 @@ function ScreenController({ navigation, route }) {
   }, [currentScreen, song]);
 
   if (currentScreen === "PROFILE") {
-    return (
-      <Profile
-        navigation={navigation}
-        userUId={uid}
-        setCurrentScreen={setCurrentScreen}
-      />
-    );
+    return <Profile currentUserId={uid} userUId={uid} setCurrentScreen={setCurrentScreen} />;
+  } else if (currentScreen === "OTHER PROFILE") {
+    return <Profile currentUserId={uid} userUId={otherUid} setCurrentScreen={setCurrentScreen} />;
   } else
     return (
       <View style={styles.view}>

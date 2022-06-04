@@ -1,16 +1,60 @@
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
-import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { getSongsWith } from "../../src/fetchSongs";
+import axios from "axios";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-async function getSongsWith(title) {
+
+// pressableStyle={styles.profiles}
+// textStyle={styles.profilesText}
+
+function ListedProfile({profile, onPress}) {
+  return (
+    <UiButton
+      pressableStyle={styles.profiles}
+      title={profile.email}
+      onPress={() => {
+        onPress(profile.uid)
+      }}
+    />
+  );
+
+}
+
+function AllProfiles({ profiles, setCurrentScreen, setOtheruid }) {
+  if (profiles) {
+    return (
+      <View style={styles.view}>
+        {profiles.map((profile) => (
+          <ListedProfile
+            key={profile.uid}
+            profile={profile}
+            onPress={(uid) => {
+              console.log(uid)
+              setOtheruid(uid)
+              setCurrentScreen("OTHER PROFILE")
+            }}
+          />
+        ))}
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
+      </View>
+    );
+  }
+}
+
+async function getProfilesWith(searchBy) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/contents/songs?title=${title}`
+      `https://fiubify-middleware-staging.herokuapp.com/user?name=${searchBy}`,
     );
     return response.data;
   } catch (e) {
@@ -18,15 +62,17 @@ async function getSongsWith(title) {
   }
 }
 
-export function Search({ setCurrentScreen, setSong }) {
+export function Search({ setCurrentScreen, setSong, setOtheruid }) {
   const [songs, setSongs] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
 
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongsWith(searchBy);
-      console.log(fetchedSongs);
+      const fetchedProfiles = await getProfilesWith(searchBy);
+      setProfiles(fetchedProfiles.data.users);
       setSongs(fetchedSongs.data);
     }
 
@@ -52,6 +98,7 @@ export function Search({ setCurrentScreen, setSong }) {
         ></UiButton>
       </View>
       <AllSongs setSong={setSong} songs={songs} />
+      <AllProfiles profiles={profiles} setCurrentScreen={setCurrentScreen} setOtheruid={setOtheruid}/>
     </View>
   );
 }
@@ -73,6 +120,10 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  profiles: {
+    backgroundColor: "#006E95",
+    marginTop: 20,
   },
   textInput: {
     marginBottom: hp(2),

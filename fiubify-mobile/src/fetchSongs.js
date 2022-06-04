@@ -10,3 +10,14 @@ export async function getSongs() {
     throw e;
   }
 }
+
+export async function getSongsWith(title) {
+  try {
+    let response = await axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/songs?title=${title}`,
+    );
+    return response.data;
+  } catch (e) {
+    throw e;
+  }
+}

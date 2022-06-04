@@ -11,7 +11,7 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function Profile({ userUId, setCurrentScreen, navigation }) {
+export default function Profile({ currentUserId, userUId, setCurrentScreen, navigation }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -52,7 +52,7 @@ export default function Profile({ userUId, setCurrentScreen, navigation }) {
           icon="calendar-heart"
         />
         <Info title="Plan" contain={user.plan} icon="cash-remove" />
-        {user.role === "Artist" && (
+        {user.role === "Artist" && currentUserId === userUId && (
           <UiButton
             title="LOAD SONG"
             pressableStyle={styles.button}
