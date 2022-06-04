@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import Info from "./Info";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
-export default function Profile({ userUId, setCurrentScreen }) {
+export default function Profile({ userUId, setCurrentScreen, navigation }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -54,6 +59,24 @@ export default function Profile({ userUId, setCurrentScreen }) {
             onPress={() => setCurrentScreen("LOAD-SONG")}
           />
         )}
+        <UiButton
+          title="Log Out"
+          pressableStyle={styles.button}
+          onPress={() => {
+            signOut(auth)
+              .then(() => {
+                navigation.navigate("Entry", {
+                  uid: "",
+                });
+              })
+              .catch((error) => {
+                navigation.navigate("Entry", {
+                  uid: "",
+                });
+                console.log(error);
+              });
+          }}
+        ></UiButton>
       </View>
     );
   else
