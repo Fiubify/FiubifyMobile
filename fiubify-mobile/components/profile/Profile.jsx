@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import {  Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -57,6 +57,13 @@ export default function Profile({ currentUserId, userUId, setCurrentScreen, navi
             title="LOAD SONG"
             pressableStyle={styles.button}
             onPress={() => setCurrentScreen("LOAD-SONG")}
+          />
+        )}
+        {user.role === "Artist" && currentUserId === userUId && (
+          <UiButton
+            title="CREATE SONG"
+            pressableStyle={styles.button}
+            onPress={() => setCurrentScreen("CREATE-ALBUM")}
           />
         )}
         <UiButton
