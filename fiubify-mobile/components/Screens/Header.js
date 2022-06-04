@@ -7,14 +7,15 @@ import {
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
+import { elementOrParentIsFixed } from "materialize-css";
 
-function Header({ setCurrentScreen }) {
+function Header({ setCurrentScreen, song}) {
   return (
     <View style={styles.view}>
       <View style={styles.logoSection}>
         <UiLogo logoStyles={styles.Logo} />
       </View>
-      <MusicPlayer />
+      <MusicPlayer song={song}/>
       <Ionicons
         onPress={() => setCurrentScreen("PROFILE")}
         name="person-circle-outline"
@@ -31,17 +32,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: hp(20),
     backgroundColor: "#006E95",
-    borderRadius: 25,
+    borderBottomLeftRadius: 25,
+    borderBottomRightRadius: 25,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    zIndex: 1,
   },
   logoSection: {
     width: hp(22),
     height: hp(22),
-    marginLeft: -wp(10),
-    padding: wp(4),
+    marginLeft: -wp(8),
+    padding: wp(6),
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 500,
@@ -50,8 +53,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   Logo: {
-    width: "80%",
-    height: "80%",
+    width: "100%",
+    height: "100%",
   },
   perfil: {
     display: "flex",

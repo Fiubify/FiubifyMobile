@@ -1,14 +1,17 @@
 import { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
-import axios from "axios";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
-  widthPercentageToDP as wp,
   heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Info from "./Info";
+import UiButton from "../ui/UiButton";
+import { getUser } from "../../src/GetUser";
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase";
 
-export default function Profile({ userUId, setCurrentScreen }) {
+export default function Profile({ currentUserId, userUId, setCurrentScreen, navigation }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -49,36 +52,50 @@ export default function Profile({ userUId, setCurrentScreen }) {
           icon="calendar-heart"
         />
         <Info title="Plan" contain={user.plan} icon="cash-remove" />
+        {user.role === "Artist" && currentUserId === userUId && (
+          <UiButton
+            title="LOAD SONG"
+            pressableStyle={styles.button}
+            onPress={() => setCurrentScreen("LOAD-SONG")}
+          />
+        )}
+        <UiButton
+          title="Log Out"
+          pressableStyle={styles.button}
+          onPress={() => {
+            signOut(auth)
+              .then(() => {
+                navigation.navigate("Entry", {
+                  uid: "",
+                });
+              })
+              .catch((error) => {
+                navigation.navigate("Entry", {
+                  uid: "",
+                });
+                console.log(error);
+              });
+          }}
+        ></UiButton>
       </View>
     );
   else
     return (
-      <View>
-        <Text>Loading</Text>
+      <View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
       </View>
     );
-}
-
-async function getUser(userId) {
-  try {
-    let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user/${userId}`
-    );
-    return response.data;
-  } catch (e) {
-    throw e;
-  }
 }
 
 const styles = StyleSheet.create({
   view: {
     width: "100%",
     height: "100%",
-    marginTop: hp(10),
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#CAE3EA",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
   },
   link: {
     width: wp(90),
@@ -117,5 +134,13 @@ const styles = StyleSheet.create({
   description: {
     width: "90%",
     color: "#006E95",
+  },
+  loading: {
+    fontSize: 30,
+    color: "#006E95",
+  },
+  button: {
+    marginTop: hp(2),
+    backgroundColor: "#006E95",
   },
 });

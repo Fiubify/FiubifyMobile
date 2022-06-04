@@ -1,5 +1,5 @@
-import React, { Component, useState } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import React, { useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
@@ -13,7 +13,7 @@ import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 
-export default function RegistrationForm({ backFunction, setUid }) {
+export default function RegistrationForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
@@ -25,7 +25,7 @@ export default function RegistrationForm({ backFunction, setUid }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={backFunction}>
+      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -116,7 +116,7 @@ export default function RegistrationForm({ backFunction, setUid }) {
               name,
               surname,
               birthDate,
-              setUid
+              navigation
             );
           } else {
             alert("Please accept the terms & conditions");
@@ -133,7 +133,7 @@ export default function RegistrationForm({ backFunction, setUid }) {
     name,
     surname,
     birthDate,
-    setUid
+    navigation
   ) {
     let url =
       "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
@@ -164,7 +164,9 @@ export default function RegistrationForm({ backFunction, setUid }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      setUid(body.uid);
+      navigation.navigate("Home", {
+        uid: body.uid,
+      });
     } else {
       alert(response.statusText);
     }
@@ -177,6 +179,7 @@ const styles = StyleSheet.create({
     height: "100%",
     display: "flex",
     flexDirection: "column",
+    backgroundColor: "#CAE3EA",
     alignItems: "center",
     justifyContent: "center",
   },

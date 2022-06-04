@@ -14,16 +14,15 @@ import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import PasswordRecovery from "./PasswordRecovery.jsx";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function LoginForm({ actions, setUid, openRegistration, backFunction }) {
+function LoginForm({ navigation, openRegistration }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={backFunction}>
+      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -60,10 +59,15 @@ function LoginForm({ actions, setUid, openRegistration, backFunction }) {
         <UiButton
           title="Log In"
           pressableStyle={styles.logIn}
-          onPress={() => send(email, password, actions.logIn, setUid)}
+          onPress={() => send(email, password)}
         />
       </View>
-      <PasswordRecovery />
+      <Text
+        style={styles.forgot}
+        onPress={() => navigation.navigate("ForgotPassword")}
+      >
+        Forgot password?
+      </Text>
       <View style={styles.middle}>
         <View style={styles.line} />
       </View>
@@ -73,16 +77,18 @@ function LoginForm({ actions, setUid, openRegistration, backFunction }) {
         title="SIGN UP"
         pressableStyle={styles.SignUp}
         textStyle={styles.signUpText}
-        onPress={openRegistration}
+        onPress={() => navigation.navigate("Registration")}
       />
     </View>
   );
 
-  async function send(email, password, logInAction, setUid) {
+  async function send(email, password) {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredentials) => {
         const user = userCredentials.user;
-        setUid(user.uid);
+        navigation.navigate("Home", {
+          uid: user.uid,
+        });
       })
       .catch((error) => {
         alert(error.message);
@@ -103,6 +109,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
+    backgroundColor: "#CAE3EA",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
@@ -181,6 +188,15 @@ const styles = StyleSheet.create({
   },
   signUpText: {
     color: "#006E95",
+  },
+  forgot: {
+    width: wp(50),
+    fontWeight: "bold",
+    fontSize: 20,
+    textDecorationLine: "underline",
+    color: "#006E95",
+    marginTop: hp(2),
+    textAlign: "center",
   },
 });
 

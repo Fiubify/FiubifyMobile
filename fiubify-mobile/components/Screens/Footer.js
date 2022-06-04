@@ -33,11 +33,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: hp(15),
     backgroundColor: "#006E95",
-    borderRadius: 25,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    zIndex: 1,
   },
 });
 

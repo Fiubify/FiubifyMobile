@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Image, Text} from "react-native";
 import Slider from "@react-native-community/slider";
 import {
   heightPercentageToDP as hp,
@@ -6,11 +6,15 @@ import {
 } from "react-native-responsive-screen";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import Songs from "./../../model/data";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function MusicPlayer() {
+function MusicPlayer({ song }) {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
+
+  useEffect(() => {
+    setPlaying(false)
+  }, [song])
 
   return (
     <View style={styles.view}>
@@ -19,7 +23,9 @@ function MusicPlayer() {
           style={styles.imageTitle}
           source={require("./../../assets/tanBionica.jpg")}
         />
-        <Text style={styles.textTitle}>{currentSong.title}</Text>
+        <Text style={styles.textTitle}>
+          {song ? song.data.title : "choose a song"}
+        </Text>
       </View>
       <View style={styles.controls}>
         <AntDesign
@@ -36,14 +42,20 @@ function MusicPlayer() {
         />
         {playing ? (
           <AntDesign
-            onPress={() => setPlaying(false)}
+            onPress={() => {
+              song.sound.pauseAsync();
+              setPlaying(false);
+            }}
             name="pausecircleo"
             color="white"
             size={30}
           />
         ) : (
           <AntDesign
-            onPress={() => setPlaying(true)}
+            onPress={() => {
+              song.sound.playAsync();
+              setPlaying(true);
+            }}
             name="playcircleo"
             color="white"
             size={30}
@@ -82,7 +94,7 @@ const styles = StyleSheet.create({
     marginHorizontal: wp(3),
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
   title: {
     width: "100%",
