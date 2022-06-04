@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -11,7 +11,7 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function Profile({ userUId, setCurrentScreen }) {
+export default function Profile({ userUId, setCurrentScreen, navigation }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
 
