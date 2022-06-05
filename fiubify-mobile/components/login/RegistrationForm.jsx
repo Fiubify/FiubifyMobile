@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
-import Profile from "../profile/Profile";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import {
   widthPercentageToDP as wp,
@@ -12,15 +11,18 @@ import {
 import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
+import Picker from "../ui/UiPicker.jsx";
 
-export default function RegistrationForm({ navigation }) {
+export default function RegistrationForm({ navigation, backFunction, setUid }) {
+  const [name, setName] = useState("");
+  const [surname, setSurName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordRepeat, setPasswordRepeat] = useState("");
-  const [name, setName] = useState("");
-  const [surname, setSurName] = useState("");
-  const [terms, setTerms] = useState(false);
+  const [role, setRole] = useState();
+  const [plan, setPlan] = useState();
   const [birthDate, setBirthDate] = useState(new Date());
+  const [terms, setTerms] = useState(false);
   const today = new Date();
 
   return (
@@ -30,7 +32,7 @@ export default function RegistrationForm({ navigation }) {
         Back
       </Text>
       <UiButton
-        title="Log in with Facebook"
+        title="Sign up with Facebook"
         pressableStyle={styles.facebookButton}
       />
 
@@ -67,7 +69,32 @@ export default function RegistrationForm({ navigation }) {
         placeholder="Repeat password"
         secure={true}
       />
-
+      <View style={styles.pickers}>
+        <Picker
+          items={[
+            { label: "Listener", value: "Listener" },
+            { label: "Artist", value: "Artist" },
+          ]}
+          value={role}
+          setValue={setRole}
+          placeholder="Role"
+          containerStyle={styles.container}
+          valueStyle={styles.value}
+          dropdownStyle={styles.dropdown}
+        />
+        <Picker
+          items={[
+            { label: "Free", value: "Free" },
+            { label: "Premium", value: "Premium" },
+          ]}
+          value={plan}
+          setValue={setPlan}
+          placeholder="Plan"
+          containerStyle={styles.container}
+          valueStyle={styles.value}
+          dropdownStyle={styles.dropdown}
+        />
+      </View>
       <View style={styles.birthday}>
         <Text style={styles.birthdayText}>Date of Birth</Text>
         <UiButton
@@ -115,6 +142,8 @@ export default function RegistrationForm({ navigation }) {
               passwordRepeat,
               name,
               surname,
+              role,
+              plan,
               birthDate,
               navigation
             );
@@ -132,6 +161,8 @@ export default function RegistrationForm({ navigation }) {
     passwordRepeat,
     name,
     surname,
+    role,
+    plan,
     birthDate,
     navigation
   ) {
@@ -140,6 +171,16 @@ export default function RegistrationForm({ navigation }) {
 
     if (password != passwordRepeat) {
       alert("Password does not match confirmation!");
+      return;
+    }
+
+    if (!role) {
+      alert("No role was selected");
+      return;
+    }
+
+    if (!plan) {
+      alert("No plan was selected");
       return;
     }
 
@@ -152,11 +193,11 @@ export default function RegistrationForm({ navigation }) {
       body: JSON.stringify({
         email: email,
         password: password,
-        role: "Listener",
+        role: role,
         name: name,
         surname: surname,
         birthDate: birthDate.toJSON(),
-        plan: "Free",
+        plan: plan,
       }),
     };
 
@@ -207,6 +248,34 @@ const styles = StyleSheet.create({
     fontSize: 20,
     justifyContent: "center",
   },
+  pickers: {
+    width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  container: {
+    width: wp(44),
+  },
+  value: {
+    marginBottom: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 32,
+    borderWidth: 0,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  dropdown: {
+    margin: 0,
+    paddingVertical: "2%",
+    borderTopWidth: 1,
+    borderWidth: 0,
+    borderTopColor: "#CAE3EA",
+    borderRadius: 20,
+    color: "#006E95",
+    fontSize: 20,
+  },
   birthday: {
     width: wp(90),
     display: "flex",
@@ -222,7 +291,7 @@ const styles = StyleSheet.create({
   },
   birthdayText: {
     fontWeight: "bold",
-    fontSize: 16,
+    fontSize: 20,
     color: "#006E95",
   },
   terms: {
@@ -232,7 +301,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   terms_text: {
     color: "#006E95",
