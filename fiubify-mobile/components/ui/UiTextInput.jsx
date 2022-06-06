@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, TextInput } from "react-native";
+import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 
 function UiTextInput({ onChange, placeholder, secure, style }) {
   return (
@@ -17,8 +18,8 @@ function UiTextInput({ onChange, placeholder, secure, style }) {
 const styles = StyleSheet.create({
   text_input: {
     width: "90%",
-    paddingVertical: 15,
-    paddingHorizontal: 32,
+    paddingVertical: 10,
+    paddingHorizontal: wp(7),
     borderRadius: 20,
     backgroundColor: "white",
     color: "#006E95",

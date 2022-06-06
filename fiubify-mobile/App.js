@@ -11,8 +11,10 @@ import LoginForm from "./components/login/LoginForm";
 import PasswordRecoveryForm from "./components/login/PasswordRecoveryForm";
 import ScreenController from "./components/Screens/ScreenController";
 import { LogBox } from "react-native";
+import Profile from "./components/profile/Profile.jsx";
+import SongForm from "./components/Screens/SongForm.js";
 
-LogBox.ignoreAllLogs(true)
+LogBox.ignoreAllLogs(true);
 
 const store = configureStore();
 
@@ -34,6 +36,8 @@ function App() {
             component={PasswordRecoveryForm}
           />
           <Stack.Screen name="Home" component={ScreenController} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="SongForm" component={SongForm} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

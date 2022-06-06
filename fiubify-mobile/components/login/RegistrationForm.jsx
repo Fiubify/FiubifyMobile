@@ -11,9 +11,9 @@ import {
 import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
-import Picker from "../ui/UiPicker.jsx";
+import Selector from "../ui/UiSelect.jsx";
 
-export default function RegistrationForm({ navigation, backFunction, setUid }) {
+export default function RegistrationForm({ navigation }) {
   const [name, setName] = useState("");
   const [surname, setSurName] = useState("");
   const [email, setEmail] = useState("");
@@ -23,6 +23,8 @@ export default function RegistrationForm({ navigation, backFunction, setUid }) {
   const [plan, setPlan] = useState();
   const [birthDate, setBirthDate] = useState(new Date());
   const [terms, setTerms] = useState(false);
+  const roles = ["Listener", "Artist"];
+  const plans = ["Free", "Premium"];
   const today = new Date();
 
   return (
@@ -70,29 +72,19 @@ export default function RegistrationForm({ navigation, backFunction, setUid }) {
         secure={true}
       />
       <View style={styles.pickers}>
-        <Picker
-          items={[
-            { label: "Listener", value: "Listener" },
-            { label: "Artist", value: "Artist" },
-          ]}
-          value={role}
-          setValue={setRole}
+        <Selector
+          data={roles}
           placeholder="Role"
-          containerStyle={styles.container}
+          setValue={setRole}
           valueStyle={styles.value}
-          dropdownStyle={styles.dropdown}
+          labelContainerStyle={styles.labelContainerStyle}
         />
-        <Picker
-          items={[
-            { label: "Free", value: "Free" },
-            { label: "Premium", value: "Premium" },
-          ]}
-          value={plan}
-          setValue={setPlan}
+        <Selector
+          data={plans}
           placeholder="Plan"
-          containerStyle={styles.container}
+          setValue={setPlan}
           valueStyle={styles.value}
-          dropdownStyle={styles.dropdown}
+          labelContainerStyle={styles.labelContainerStyle}
         />
       </View>
       <View style={styles.birthday}>
@@ -255,26 +247,22 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  container: {
-    width: wp(44),
-  },
   value: {
-    marginBottom: 10,
+    width: wp(44),
+    marginBottom: hp(2),
     paddingVertical: 10,
-    paddingHorizontal: 32,
     borderWidth: 0,
     borderRadius: 20,
     backgroundColor: "white",
   },
-  dropdown: {
-    margin: 0,
-    paddingVertical: "2%",
-    borderTopWidth: 1,
-    borderWidth: 0,
-    borderTopColor: "#CAE3EA",
-    borderRadius: 20,
-    color: "#006E95",
-    fontSize: 20,
+  labelContainerStyle: {
+    width: wp(39),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomColor: "#CAE3EA",
+    borderBottomWidth: 1,
   },
   birthday: {
     width: wp(90),

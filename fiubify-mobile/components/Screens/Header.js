@@ -7,17 +7,20 @@ import {
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
-import { elementOrParentIsFixed } from "materialize-css";
 
-function Header({ setCurrentScreen, song}) {
+function Header({ userUId, navigation, song }) {
   return (
     <View style={styles.view}>
       <View style={styles.logoSection}>
         <UiLogo logoStyles={styles.Logo} />
       </View>
-      <MusicPlayer song={song}/>
+      <MusicPlayer song={song} />
       <Ionicons
-        onPress={() => setCurrentScreen("PROFILE")}
+        onPress={() =>
+          navigation.navigate("Profile", {
+            userUId: userUId,
+          })
+        }
         name="person-circle-outline"
         color="white"
         size={70}
