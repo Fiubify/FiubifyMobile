@@ -70,7 +70,7 @@ export default function Profile({ navigation, route }) {
         )}
         {user.role === "Artist" && currentUserId === userUId && (
           <UiButton
-            title="CREATE SONG"
+            title="CREATE ALBUM"
             pressableStyle={styles.button}
             onPress={() => setCurrentScreen("CREATE-ALBUM")}
           />
