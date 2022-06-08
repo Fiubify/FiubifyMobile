@@ -1,19 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import { uploadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import RNPickerSelect from 'react-native-picker-select';
+import axios from "axios";
+
+// TODO
+//  [] Que se guarde en albumId el id del album que se selecciona (Modificar Select)
+//  [] Que se envie el albumId verdadero al back
+//  [] Quitar el albumId del form
+//  [] Modificar la url de la cancion para que se adapte al album (songUrl)
 
 export function SongForm({ userUId, token, setCurrentScreen }) {
   const [title, setTitle] = useState("");
+  const [albums, setAlbums] = useState([])
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
   const [tier, setTier] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
-  return (
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function aux() {
+      const user = await getUser(userUId)
+      const albumsData = await axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`)
+      console.log(albumsData)
+      setAlbums(albumsData.data.data)
+      setLoading(false)
+    }
+    aux().then()
+  }, [])
+
+  return loading || (
     <View style={styles.view}>
       <Text style={styles.title}>Upload Your Song</Text>
       <UiTextInput
@@ -31,6 +53,12 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
         style={styles.text_input}
         onChange={setAlbumId}
         placeholder="Album"
+      />
+      <RNPickerSelect
+        onValueChange={(value) => console.log(value)}
+        items={albums?.map((album) => {
+          return {label: album.title, value: "TODO: some value"}
+        })}
       />
       <UiTextInput
         style={styles.text_input}
