@@ -61,7 +61,7 @@ export default function Profile({ currentUserId, userUId, setCurrentScreen, navi
         )}
         {user.role === "Artist" && currentUserId === userUId && (
           <UiButton
-            title="CREATE SONG"
+            title="CREATE ALBUM"
             pressableStyle={styles.button}
             onPress={() => setCurrentScreen("CREATE-ALBUM")}
           />
