@@ -41,6 +41,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
     "Other",
   ]);
   const [loading, setLoading] = useState(true);
+  const tiers = ["Free", "Premium"];
 
   useEffect(() => {
     async function aux() {
@@ -48,18 +49,27 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
       const albumsData = await axios.get(
         `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`
       );
-      setAlbums(albumsData.data.data);
+      setAlbums(albumsData.data);
       setLoading(false);
     }
     aux().then();
   }, []);
 
+  useEffect(() => {
+    setAlbumId(getAlbumId());
+  }, [album]);
+
   const getAlbums = () => {
     var albumsNames = [];
-    albums?.map((album) => {
+    albums.data?.map((album) => {
       albumsNames.push(album.title);
     });
     return albumsNames;
+  };
+
+  const getAlbumId = () => {
+    //conseguir el albumId
+    console.log(albums.data?.filter((a) => a.title === album));
   };
 
   return (
@@ -99,10 +109,12 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
           onChange={setDuration}
           placeholder="Duration"
         />
-        <UiTextInput
-          style={styles.text_input}
-          onChange={setTier}
+        <Selector
+          data={tiers}
           placeholder="Tier"
+          setValue={setTier}
+          valueStyle={styles.value}
+          labelContainerStyle={styles.labelContainerStyle}
         />
         <Selector
           data={genres}
@@ -119,7 +131,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
               token,
               title,
               userUId,
-              albumId,
+              getAlbumId(),
               duration,
               tier,
               description,

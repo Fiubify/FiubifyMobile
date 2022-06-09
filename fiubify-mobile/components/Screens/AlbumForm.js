@@ -9,10 +9,12 @@ import {
 } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Selector from "../ui/UiSelect";
 
 export function AlbumForm({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [tier, setTier] = useState("");
+  const tiers = ["Free", "Premium"];
   const { userUId, token } = route.params;
 
   return (
@@ -34,10 +36,12 @@ export function AlbumForm({ navigation, route }) {
         onChange={setTitle}
         placeholder="Title"
       />
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setTier}
+      <Selector
+        data={tiers}
         placeholder="Tier"
+        setValue={setTier}
+        valueStyle={styles.value}
+        labelContainerStyle={styles.labelContainerStyle}
       />
       <UiButton
         title="Upload"
@@ -115,5 +119,23 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+  },
+  value: {
+    width: wp(90),
+    marginBottom: hp(2),
+    paddingVertical: 10,
+    paddingHorizontal: wp(5),
+    borderWidth: 0,
+    borderRadius: 20,
+    backgroundColor: "white",
+  },
+  labelContainerStyle: {
+    width: wp(85),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    borderBottomColor: "#CAE3EA",
+    borderBottomWidth: 1,
   },
 });
