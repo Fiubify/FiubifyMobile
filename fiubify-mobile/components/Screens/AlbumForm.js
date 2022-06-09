@@ -6,7 +6,7 @@ import React from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 
-export function AlbumForm({ userUId, token, setCurrentScreen }) {
+export function AlbumForm({ userUId, token, navigation }) {
   const [title, setTitle] = useState("");
   const [tier, setTier] = useState("");
 

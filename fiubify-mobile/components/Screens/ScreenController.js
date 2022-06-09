@@ -24,8 +24,8 @@ function stopAndSetSong(song, setSong) {
 
 function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
-  const [otherUid, setOtheruid] = useState()
   const { uid, token } = route.params;
+  const [otherUid, setOtheruid] = useState(uid);
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -51,7 +51,6 @@ function ScreenController({ navigation, route }) {
       setComponent(null);
     }
   }, [currentScreen, song]);
-
   if (currentScreen === "PROFILE") {
     return <Profile currentUserId={uid} userUId={uid} setCurrentScreen={setCurrentScreen} />;
   } else if (currentScreen === "OTHER PROFILE") {

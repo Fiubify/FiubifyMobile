@@ -5,7 +5,6 @@ import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import { uploadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import RNPickerSelect from 'react-native-picker-select';
 import axios from "axios";
 
 // TODO
@@ -16,96 +15,121 @@ import axios from "axios";
 
 export function SongForm({ userUId, token, setCurrentScreen }) {
   const [title, setTitle] = useState("");
-  const [albums, setAlbums] = useState([])
+  const [album, setAlbum] = useState("");
+  const [albums, setAlbums] = useState([]);
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
   const [tier, setTier] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
-  const [loading, setLoading] = useState(true)
+  const [genres, setGenres] = useState([
+    "Clásica",
+    "Country",
+    "Cumbia",
+    "Electrónica",
+    "Electro Pop",
+    "Hard Rock",
+    "Heavy Metal",
+    "Hip Hop",
+    "Jazz",
+    "Pop",
+    "Rap",
+    "Reggae",
+    "Rock",
+    "Tango",
+    "Trap",
+    "Other",
+  ]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function aux() {
-      const user = await getUser(userUId)
-      const albumsData = await axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`)
-      console.log(albumsData)
-      setAlbums(albumsData.data.data)
-      setLoading(false)
+      const user = await getUser(userUId);
+      const albumsData = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`
+      );
+      setAlbums(albumsData.data.data);
+      setLoading(false);
     }
-    aux().then()
-  }, [])
+    aux().then();
+  }, []);
 
-  return loading || (
-    <View style={styles.view}>
-      <Text
-        style={styles.link}
-        onPress={() =>
-          navigation.navigate("Profile", {
-            userUId: userUId,
-          })
-        }
-      >
-        <MaterialIcons name="arrow-back-ios" />
-        Back
-      </Text>
-      <Text style={styles.title}>Upload Your Song</Text>
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setTitle}
-        placeholder="Title"
-      />
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setDescription}
-        placeholder="Description"
-      />
-      {/* Tiene que ser DROPDOWN*/}
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setAlbumId}
-        placeholder="Album"
-      />
-      <RNPickerSelect
-        onValueChange={(value) => console.log(value)}
-        items={albums?.map((album) => {
-          return {label: album.title, value: "TODO: some value"}
-        })}
-      />
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setDuration}
-        placeholder="Duration"
-      />
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setTier}
-        placeholder="Tier"
-      />
-      <Selector
-        data={genres}
-        placeholder="Genre"
-        setValue={setGenre}
-        valueStyle={styles.value}
-        labelContainerStyle={styles.labelContainerStyle}
-      />
-      <UiButton
-        title="Upload"
-        pressableStyle={styles.upload}
-        onPress={() => {
-          send(
-            token,
-            title,
-            userUId,
-            albumId,
-            duration,
-            tier,
-            description,
-            genre,
-            navigation
-          );
-        }}
-      />
-    </View>
+  const getAlbums = () => {
+    var albumsNames = [];
+    albums?.map((album) => {
+      albumsNames.push(album.title);
+    });
+    return albumsNames;
+  };
+
+  return (
+    loading || (
+      <View style={styles.view}>
+        <Text
+          style={styles.link}
+          onPress={() =>
+            navigation.navigate("Profile", {
+              userUId: userUId,
+            })
+          }
+        >
+          <MaterialIcons name="arrow-back-ios" />
+          Back
+        </Text>
+        <Text style={styles.title}>Upload Your Song</Text>
+        <UiTextInput
+          style={styles.text_input}
+          onChange={setTitle}
+          placeholder="Title"
+        />
+        <UiTextInput
+          style={styles.text_input}
+          onChange={setDescription}
+          placeholder="Description"
+        />
+        <Selector
+          data={getAlbums()}
+          placeholder="Album"
+          setValue={setAlbum}
+          valueStyle={styles.value}
+          labelContainerStyle={styles.labelContainerStyle}
+        />
+        <UiTextInput
+          style={styles.text_input}
+          onChange={setDuration}
+          placeholder="Duration"
+        />
+        <UiTextInput
+          style={styles.text_input}
+          onChange={setTier}
+          placeholder="Tier"
+        />
+        <Selector
+          data={genres}
+          placeholder="Genre"
+          setValue={setGenre}
+          valueStyle={styles.value}
+          labelContainerStyle={styles.labelContainerStyle}
+        />
+        <UiButton
+          title="Upload"
+          pressableStyle={styles.upload}
+          onPress={() => {
+            send(
+              token,
+              title,
+              userUId,
+              albumId,
+              duration,
+              tier,
+              description,
+              genre,
+              navigation
+            );
+          }}
+        />
+      </View>
+    )
   );
 
   async function send(
@@ -153,6 +177,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
       console.log(`CANCION CREADA CON URL: ${songUrl}`);
       navigation.navigate("Home", {
         uid: userUId,
+        token: token,
       });
     } else {
       console.log(await response.json());

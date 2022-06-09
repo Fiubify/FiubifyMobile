@@ -8,7 +8,7 @@ import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
 
-function Header({ userUId, navigation, song }) {
+function Header({ userUId, currentUserId, token, navigation, song }) {
   return (
     <View style={styles.view}>
       <View style={styles.logoSection}>
@@ -19,6 +19,8 @@ function Header({ userUId, navigation, song }) {
         onPress={() =>
           navigation.navigate("Profile", {
             userUId: userUId,
+            currentUserId: currentUserId,
+            token: token,
           })
         }
         name="person-circle-outline"
