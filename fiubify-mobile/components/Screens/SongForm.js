@@ -22,6 +22,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
   const [tier, setTier] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
+  const [newGenre, setNewGenre] = useState("");
   const [genres, setGenres] = useState([
     "Clásica",
     "Country",
@@ -123,6 +124,13 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
           valueStyle={styles.value}
           labelContainerStyle={styles.labelContainerStyle}
         />
+        {genre === "Other" && (
+          <UiTextInput
+            style={styles.text_input}
+            onChange={setNewGenre}
+            placeholder="Insert New Genre"
+          />
+        )}
         <UiButton
           title="Upload"
           pressableStyle={styles.upload}
