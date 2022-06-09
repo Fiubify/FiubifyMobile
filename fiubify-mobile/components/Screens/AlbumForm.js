@@ -6,9 +6,10 @@ import React from "react";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 
-export function AlbumForm({ userUId, token, navigation }) {
+export function AlbumForm({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [tier, setTier] = useState("");
+  const { userUId, token } = route.params;
 
   return (
     <View style={styles.view}>
@@ -27,26 +28,15 @@ export function AlbumForm({ userUId, token, navigation }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(
-            token,
-            title,
-            userUId,
-            tier,
-            setCurrentScreen
-          );
+          send(token, title, userUId, tier, navigation);
         }}
       />
     </View>
   );
 
-  async function send(
-    token,
-    title,
-    userUId,
-    tier,
-    setCurrentScreen
-  ) {
-    let url = "https://fiubify-middleware-staging.herokuapp.com/contents/albums";
+  async function send(token, title, userUId, tier, navigation) {
+    let url =
+      "https://fiubify-middleware-staging.herokuapp.com/contents/albums";
 
     const userData = await getUser(userUId);
     const body = {
@@ -55,7 +45,7 @@ export function AlbumForm({ userUId, token, navigation }) {
       artistId: userData._id,
       tier,
     };
-    console.log(body)
+    console.log(body);
     let request = {
       method: "POST",
       headers: {
@@ -69,24 +59,25 @@ export function AlbumForm({ userUId, token, navigation }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      console.log(`ALBUM CREADO: ${body}`);
-      setCurrentScreen("HOME");
+      navigation.navigate("Home", {
+        uid: userUId,
+        token: token,
+      });
     } else {
       console.log(await response.json());
       alert(response.statusText);
     }
   }
-
 }
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: hp(100),
+    height: "100%",
     display: "flex",
-    backgroundColor: "#CAE3EA",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "center",
+    backgroundColor: "#CAE3EA",
   },
   text_input: {
     marginBottom: hp(2),

@@ -67,31 +67,33 @@ export default function Profile({ navigation, route }) {
         />
         {user.role === "Artist" ? (
           <View style={styles.artist}>
-            <UiButton
-              title="Load Song"
-              pressableStyle={styles.loadSong}
-              textStyle={styles.textStyle}
-              onPress={() =>
-                navigation.navigate("SongForm", {
-                  userUId: userUId,
-                  token: token,
-                })
-              }
-            />
-            <UiButton
-              title="Create Album"
-              pressableStyle={styles.loadSong}
-              textStyle={styles.textStyle}
-              onPress={() =>
-                navigation.navigate("AlbumSong", {
-                  userUId: userUId,
-                  token: token,
-                })
-              }
-            />
+            <View style={styles.artistCreate}>
+              <UiButton
+                title="Load Song"
+                pressableStyle={styles.loadSong}
+                textStyle={styles.textStyle}
+                onPress={() =>
+                  navigation.navigate("SongForm", {
+                    userUId: userUId,
+                    token: token,
+                  })
+                }
+              />
+              <UiButton
+                title="New Album"
+                pressableStyle={styles.loadSong}
+                textStyle={styles.textStyle}
+                onPress={() =>
+                  navigation.navigate("AlbumForm", {
+                    userUId: userUId,
+                    token: token,
+                  })
+                }
+              />
+            </View>
             <UiButton
               title="Log Out"
-              pressableStyle={styles.buttonArtist}
+              pressableStyle={styles.buttonListener}
               onPress={() => {
                 signOut(auth)
                   .then(() => {
@@ -189,6 +191,13 @@ const styles = StyleSheet.create({
   artist: {
     width: wp(90),
     display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  artistCreate: {
+    width: wp(90),
+    display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
@@ -196,13 +205,6 @@ const styles = StyleSheet.create({
   loading: {
     fontSize: 30,
     color: "#006E95",
-  },
-  buttonArtist: {
-    width: wp(44),
-    marginTop: hp(2),
-    backgroundColor: "#006E95",
-    borderColor: "#006E95",
-    borderWidth: 2,
   },
   buttonListener: {
     width: wp(90),
@@ -217,6 +219,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "#006E95",
     borderWidth: 2,
+    paddingHorizontal: 0,
   },
   textStyle: {
     fontWeight: "bold",
