@@ -8,10 +8,61 @@ import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-async function getSongsWith(title) {
+
+// pressableStyle={styles.profiles}
+// textStyle={styles.profilesText}
+
+function ListedProfile({ profile, onPress }) {
+  return (
+    <UiButton
+      pressableStyle={styles.profiles}
+      title={profile.email}
+      onPress={() => {
+        onPress(profile.uid);
+      }}
+    />
+  );
+}
+
+function AllProfiles({
+  profiles,
+  navigation,
+  currentUserId,
+  setOtheruid,
+  token,
+}) {
+  if (profiles) {
+    return (
+      <View style={styles.view}>
+        {profiles.map((profile) => (
+          <ListedProfile
+            key={profile.uid}
+            profile={profile}
+            onPress={(uid) => {
+              setOtheruid(uid);
+              navigation.navigate("Profile", {
+                userUId: uid,
+                currentUserId: currentUserId,
+                token: token,
+              });
+            }}
+          />
+        ))}
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
+      </View>
+    );
+  }
+}
+
+async function getProfilesWith(searchBy) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/contents/songs?title=${title}`
+      `https://fiubify-middleware-staging.herokuapp.com/user?name=${searchBy}`
     );
     return response.data;
   } catch (e) {
@@ -19,7 +70,13 @@ async function getSongsWith(title) {
   }
 }
 
-export function Search({ setCurrentScreen, setSong }) {
+export function Search({
+  navigation,
+  setSong,
+  currentUserId,
+  setOtheruid,
+  token,
+}) {
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
@@ -30,7 +87,6 @@ export function Search({ setCurrentScreen, setSong }) {
       console.log(fetchedSongs);
       setSongs(fetchedSongs.data);
     }
-
     if (startSearch) {
       console.log(searchBy);
       aux().then();
@@ -53,6 +109,13 @@ export function Search({ setCurrentScreen, setSong }) {
         ></UiButton>
       </View>
       <AllSongs setSong={setSong} songs={songs} />
+      <AllProfiles
+        profiles={profiles}
+        currentUserId={currentUserId}
+        navigation={navigation}
+        setOtheruid={setOtheruid}
+        token={token}
+      />
     </View>
   );
 }

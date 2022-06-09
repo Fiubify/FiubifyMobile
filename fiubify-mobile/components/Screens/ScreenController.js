@@ -38,7 +38,7 @@ function ScreenController({ navigation, route }) {
         />
       );
     } else if (currentScreen === "SEARCH") {
-      setComponent(<Search setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
+      setComponent(<Search setCurrentScreen={setCurrentScreen} token={token} currentUserId={uid} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
         <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />
