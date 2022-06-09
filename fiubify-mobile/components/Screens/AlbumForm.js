@@ -3,8 +3,12 @@ import { StyleSheet, Text, View } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import React from "react";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
 export function AlbumForm({ navigation, route }) {
   const [title, setTitle] = useState("");
@@ -13,6 +17,17 @@ export function AlbumForm({ navigation, route }) {
 
   return (
     <View style={styles.view}>
+      <Text
+        style={styles.link}
+        onPress={() =>
+          navigation.navigate("Profile", {
+            userUId: userUId,
+          })
+        }
+      >
+        <MaterialIcons name="arrow-back-ios" />
+        Back
+      </Text>
       <Text style={styles.title}>Create your album</Text>
       <UiTextInput
         style={styles.text_input}
@@ -90,5 +105,15 @@ const styles = StyleSheet.create({
     color: "#006E95",
     fontWeight: "bold",
     marginBottom: hp(4),
+  },
+  link: {
+    width: wp(90),
+    fontWeight: "bold",
+    fontSize: 16,
+    color: "#006E95",
+    marginBottom: hp(2),
+    display: "flex",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
   },
 });
