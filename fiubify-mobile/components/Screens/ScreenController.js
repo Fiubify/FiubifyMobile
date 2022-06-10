@@ -58,7 +58,7 @@ function ScreenController({ navigation, route }) {
   } else
     return (
       <View style={styles.view}>
-        <Header setCurrentScreen={setCurrentScreen} song={song} />
+        <Header setCurrentScreen={setCurrentScreen} song={song} token={token} navigation={navigation} currentUserId={uid} userUId={otherUid}/>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}

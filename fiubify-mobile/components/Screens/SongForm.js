@@ -4,8 +4,10 @@ import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import { uploadSong } from "../../src/reproducirCanciones";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import axios from "axios";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Selector from "../ui/UiSelect";
 
 
 export function SongForm({ navigation, route }) {

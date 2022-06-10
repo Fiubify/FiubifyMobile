@@ -7,6 +7,7 @@ import { AllSongs } from "./AllSongs";
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { getSongsWith } from "../../src/fetchSongs";
 
 
 // pressableStyle={styles.profiles}
@@ -59,6 +60,7 @@ function AllProfiles({
   }
 }
 
+// TODO: Poner el token en el body
 async function getProfilesWith(searchBy) {
   try {
     let response = await axios.get(
@@ -80,12 +82,17 @@ export function Search({
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
+  // TODO: Setear los profiles correctamente
+  const [profiles, setProfiles] = useState([])
 
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongsWith(searchBy);
+      const fetchedProfiles = await getProfilesWith(searchBy);
       console.log(fetchedSongs);
+      console.log(fetchedProfiles);
       setSongs(fetchedSongs.data);
+      // TODO: Setear los profiles
     }
     if (startSearch) {
       console.log(searchBy);
