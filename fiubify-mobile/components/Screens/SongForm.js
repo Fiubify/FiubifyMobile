@@ -7,23 +7,18 @@ import { uploadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import axios from "axios";
 
-// TODO
-//  [] Que se guarde en albumId el id del album que se selecciona (Modificar Select)
-//  [] Que se envie el albumId verdadero al back
-//  [] Quitar el albumId del form
-//  [] Modificar la url de la cancion para que se adapte al album (songUrl)
 
-export function SongForm({ userUId, token, setCurrentScreen }) {
+export function SongForm({ navigation, route }) {
+  const { userUId, token } = route.params;
   const [title, setTitle] = useState("");
-  const [album, setAlbum] = useState("");
   const [albums, setAlbums] = useState([]);
   const [albumId, setAlbumId] = useState("");
   const [duration, setDuration] = useState("");
   const [tier, setTier] = useState("");
   const [description, setDescription] = useState("");
   const [genre, setGenre] = useState("");
-  const [newGenre, setNewGenre] = useState("");
-  const [genres, setGenres] = useState([
+  const [_newGenre, setNewGenre] = useState("");
+  const [genres, _setGenres] = useState([
     "Clásica",
     "Country",
     "Cumbia",
@@ -48,30 +43,14 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
     async function aux() {
       const user = await getUser(userUId);
       const albumsData = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`,
       );
-      setAlbums(albumsData.data);
+      setAlbums(albumsData.data.data);
       setLoading(false);
     }
+
     aux().then();
   }, []);
-
-  useEffect(() => {
-    setAlbumId(getAlbumId());
-  }, [album]);
-
-  const getAlbums = () => {
-    var albumsNames = [];
-    albums.data?.map((album) => {
-      albumsNames.push(album.title);
-    });
-    return albumsNames;
-  };
-
-  const getAlbumId = () => {
-    //conseguir el albumId
-    console.log(albums.data?.filter((a) => a.title === album));
-  };
 
   return (
     loading || (
@@ -99,11 +78,15 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
           placeholder="Description"
         />
         <Selector
-          data={getAlbums()}
+          data={albums}
           placeholder="Album"
-          setValue={setAlbum}
+          setValue={(album) => {
+            console.log(album)
+            return setAlbumId(album._id);
+          }}
           valueStyle={styles.value}
           labelContainerStyle={styles.labelContainerStyle}
+          itemSelection={(item) => item.title}
         />
         <UiTextInput
           style={styles.text_input}
@@ -139,12 +122,12 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
               token,
               title,
               userUId,
-              getAlbumId(),
+              albumId,
               duration,
               tier,
               description,
               genre,
-              navigation
+              navigation,
             );
           }}
         />
@@ -161,11 +144,11 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
     tier,
     description,
     genre,
-    navigation
+    navigation,
   ) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
-    const songUrl = `${userUId}/628ecc871a89da40fa02745c/${title}`;
+    const songUrl = `${userUId}/${albumId}/${title}`;
 
     const userData = await getUser(userUId);
     await uploadSong(songUrl);
@@ -174,7 +157,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
       title,
       token,
       artistId: userData._id,
-      albumId: "628ecc871a89da40fa02745c",
+      albumId,
       duration: parseInt(duration),
       url: songUrl,
       tier,
@@ -205,6 +188,7 @@ export function SongForm({ userUId, token, setCurrentScreen }) {
     }
   }
 }
+
 const styles = StyleSheet.create({
   view: {
     width: "100%",

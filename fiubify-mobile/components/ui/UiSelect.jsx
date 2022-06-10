@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet } from "react-native";
-import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 import SelectDropdown from "react-native-select-dropdown";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
@@ -10,17 +9,18 @@ function Selector({
   setValue,
   valueStyle,
   labelContainerStyle,
+  itemSelection = (item) => item,
 }) {
   return (
     <SelectDropdown
       data={data}
       statusBarTranslucent={true}
       defaultButtonText={placeholder}
-      buttonTextAfterSelection={(selectedItem, index) => {
-        return selectedItem;
+      buttonTextAfterSelection={(selectedItem, _index) => {
+        return itemSelection(selectedItem);
       }}
-      rowTextForSelection={(item, index) => {
-        return item;
+      rowTextForSelection={(item, _index) => {
+        return itemSelection(item);
       }}
       renderDropdownIcon={(isOpened) => {
         return (
@@ -31,7 +31,7 @@ function Selector({
           />
         );
       }}
-      onSelect={(selectedItem, index) => {
+      onSelect={(selectedItem, _index) => {
         setValue(selectedItem);
       }}
       buttonStyle={valueStyle}
