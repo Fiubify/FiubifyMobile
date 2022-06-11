@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import {  Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -11,9 +11,10 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function Profile({ currentUserId, userUId, setCurrentScreen, navigation }) {
+export default function Profile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
+  const { userUId, token } = route.params;
 
   useEffect(() => {
     getUser(userUId).then((user) => {
@@ -25,7 +26,14 @@ export default function Profile({ currentUserId, userUId, setCurrentScreen, navi
   if (!loading)
     return (
       <View style={styles.view}>
-        <Text style={styles.link} onPress={() => setCurrentScreen("HOME")}>
+        <Text
+          style={styles.link}
+          onPress={() =>
+            navigation.navigate("Home", {
+              uid: userUId,
+            })
+          }
+        >
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>
@@ -51,32 +59,78 @@ export default function Profile({ currentUserId, userUId, setCurrentScreen, navi
           contain={user.birthdate}
           icon="calendar-heart"
         />
-        <Info title="Plan" contain={user.plan} icon="cash-remove" />
-        {user.role === "Artist" && currentUserId === userUId && (
+
+        <Info
+          title="Plan"
+          contain={user.plan}
+          icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
+        />
+        {user.role === "Artist" ? (
+          <View style={styles.artist}>
+            <View style={styles.artistCreate}>
+              <UiButton
+                title="Load Song"
+                pressableStyle={styles.loadSong}
+                textStyle={styles.textStyle}
+                onPress={() =>
+                  navigation.navigate("SongForm", {
+                    userUId: userUId,
+                    token: token,
+                  })
+                }
+              />
+              <UiButton
+                title="New Album"
+                pressableStyle={styles.loadSong}
+                textStyle={styles.textStyle}
+                onPress={() =>
+                  navigation.navigate("AlbumForm", {
+                    userUId: userUId,
+                    token: token,
+                  })
+                }
+              />
+            </View>
+            <UiButton
+              title="Log Out"
+              pressableStyle={styles.buttonListener}
+              onPress={() => {
+                signOut(auth)
+                  .then(() => {
+                    navigation.navigate("Entry", {
+                      uid: "",
+                    });
+                  })
+                  .catch((error) => {
+                    navigation.navigate("Entry", {
+                      uid: "",
+                    });
+                    console.log(error);
+                  });
+              }}
+            />
+          </View>
+        ) : (
           <UiButton
-            title="LOAD SONG"
-            pressableStyle={styles.button}
-            onPress={() => setCurrentScreen("LOAD-SONG")}
-          />
+            title="Log Out"
+            pressableStyle={styles.buttonListener}
+            onPress={() => {
+              signOut(auth)
+                .then(() => {
+                  navigation.navigate("Entry", {
+                    uid: "",
+                  });
+                })
+                .catch((error) => {
+                  navigation.navigate("Entry", {
+                    uid: "",
+                  });
+                  console.log(error);
+                });
+              }
+          }
+        />
         )}
-        <UiButton
-          title="Log Out"
-          pressableStyle={styles.button}
-          onPress={() => {
-            signOut(auth)
-              .then(() => {
-                navigation.navigate("Entry", {
-                  uid: "",
-                });
-              })
-              .catch((error) => {
-                navigation.navigate("Entry", {
-                  uid: "",
-                });
-                console.log(error);
-              });
-          }}
-        ></UiButton>
       </View>
     );
   else
@@ -108,8 +162,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   imageSection: {
-    width: wp(90),
-    height: hp(30),
+    height: hp(20),
     marginBottom: hp(5),
     justifyContent: "center",
     alignItems: "center",
@@ -135,12 +188,42 @@ const styles = StyleSheet.create({
     width: "90%",
     color: "#006E95",
   },
+  artist: {
+    width: wp(90),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  artistCreate: {
+    width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   loading: {
     fontSize: 30,
     color: "#006E95",
   },
-  button: {
+  buttonListener: {
+    width: wp(90),
     marginTop: hp(2),
     backgroundColor: "#006E95",
+    borderColor: "#006E95",
+    borderWidth: 2,
+  },
+  loadSong: {
+    width: wp(44),
+    marginTop: hp(2),
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    paddingHorizontal: 0,
+  },
+  textStyle: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
   },
 });

@@ -1,31 +1,31 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
 import { useEffect, useState } from "react";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
+
+import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getSongsWith } from "../../src/fetchSongs";
-import axios from "axios";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-
-// pressableStyle={styles.profiles}
-// textStyle={styles.profilesText}
-
-function ListedProfile({profile, onPress}) {
+function ListedProfile({ profile, onPress }) {
   return (
     <UiButton
       pressableStyle={styles.profiles}
       title={profile.email}
       onPress={() => {
-        onPress(profile.uid)
+        onPress(profile.uid);
       }}
     />
   );
-
 }
 
-function AllProfiles({ profiles, setCurrentScreen, setOtheruid }) {
+function AllProfiles({
+                       profiles,
+                       navigation,
+                       setOtheruid,
+                       token,
+                     }) {
   if (profiles) {
     return (
       <View style={styles.view}>
@@ -34,9 +34,11 @@ function AllProfiles({ profiles, setCurrentScreen, setOtheruid }) {
             key={profile.uid}
             profile={profile}
             onPress={(uid) => {
-              console.log(uid)
-              setOtheruid(uid)
-              setCurrentScreen("OTHER PROFILE")
+              setOtheruid(uid);
+              navigation.navigate("Profile", {
+                userUId: uid,
+                token: token,
+              });
             }}
           />
         ))}
@@ -51,6 +53,7 @@ function AllProfiles({ profiles, setCurrentScreen, setOtheruid }) {
   }
 }
 
+// TODO: Poner el token en el body
 async function getProfilesWith(searchBy) {
   try {
     let response = await axios.get(
@@ -62,18 +65,27 @@ async function getProfilesWith(searchBy) {
   }
 }
 
-export function Search({ setCurrentScreen, setSong, setOtheruid }) {
+export function Search({
+                         navigation,
+                         setSong,
+                         currentUserId,
+                         setOtheruid,
+                         token,
+                       }) {
   const [songs, setSongs] = useState([]);
-  const [profiles, setProfiles] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
+  // TODO: Setear los profiles correctamente
+  const [profiles, _setProfiles] = useState([]);
 
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongsWith(searchBy);
       const fetchedProfiles = await getProfilesWith(searchBy);
-      setProfiles(fetchedProfiles.data.users);
+      console.log(fetchedSongs);
+      console.log(fetchedProfiles);
       setSongs(fetchedSongs.data);
+      // TODO: Setear los profiles
     }
 
     if (startSearch) {
@@ -98,7 +110,13 @@ export function Search({ setCurrentScreen, setSong, setOtheruid }) {
         ></UiButton>
       </View>
       <AllSongs setSong={setSong} songs={songs} />
-      <AllProfiles profiles={profiles} setCurrentScreen={setCurrentScreen} setOtheruid={setOtheruid}/>
+      <AllProfiles
+        profiles={profiles}
+        currentUserId={currentUserId}
+        navigation={navigation}
+        setOtheruid={setOtheruid}
+        token={token}
+      />
     </View>
   );
 }
@@ -120,10 +138,6 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
-  },
-  profiles: {
-    backgroundColor: "#006E95",
-    marginTop: 20,
   },
   textInput: {
     marginBottom: hp(2),

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Home from "./Home";
-import Profile from "../profile/Profile";
 import Header from "./Header";
 import Footer from "./Footer";
 import SongForm from "./SongForm";
@@ -23,8 +22,8 @@ function stopAndSetSong(song, setSong) {
 
 function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
-  const [otherUid, setOtheruid] = useState()
-  const { uid } = route.params;
+  const { uid, token } = route.params;
+  const [otherUid, setOtheruid] = useState(uid);
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -34,39 +33,36 @@ function ScreenController({ navigation, route }) {
         <Home
           setCurrentScreen={setCurrentScreen}
           setSong={stopAndSetSong(song, setSong)}
-        />
+        />,
       );
     } else if (currentScreen === "SEARCH") {
-      setComponent(<Search setCurrentScreen={setCurrentScreen} setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
+      setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
+                           setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
-        <SongForm userUId={uid} setCurrentScreen={setCurrentScreen} />
+        <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
       );
     } else {
       setComponent(null);
     }
   }, [currentScreen, song]);
 
-  if (currentScreen === "PROFILE") {
-    return <Profile currentUserId={uid} userUId={uid} setCurrentScreen={setCurrentScreen} />;
-  } else if (currentScreen === "OTHER PROFILE") {
-    return <Profile currentUserId={uid} userUId={otherUid} setCurrentScreen={setCurrentScreen} />;
-  } else
-    return (
-      <View style={styles.view}>
-        <Header setCurrentScreen={setCurrentScreen} song={song} />
-        <ScrollView
-          style={styles.scroll}
-          contentContainerStyle={styles.scrollContent}
-        >
-          {component}
-        </ScrollView>
-        <Footer
-          currentScreen={currentScreen}
-          setCurrentScreen={setCurrentScreen}
-        />
-      </View>
-    );
+  return (
+    <View style={styles.view}>
+      <Header song={song} token={token} navigation={navigation}
+              currentUserId={uid} userUId={otherUid} />
+      <ScrollView
+        style={styles.scroll}
+        contentContainerStyle={styles.scrollContent}
+      >
+        {component}
+      </ScrollView>
+      <Footer
+        currentScreen={currentScreen}
+        setCurrentScreen={setCurrentScreen}
+      />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

@@ -16,7 +16,7 @@ import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function LoginForm({ navigation, openRegistration }) {
+function LoginForm({ navigation, openRegistration, backFunction }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -84,10 +84,12 @@ function LoginForm({ navigation, openRegistration }) {
 
   async function send(email, password) {
     signInWithEmailAndPassword(auth, email, password)
-      .then((userCredentials) => {
+      .then(async (userCredentials) => {
         const user = userCredentials.user;
+        const token = await user.getIdToken()
         navigation.navigate("Home", {
           uid: user.uid,
+          token: token
         });
       })
       .catch((error) => {
