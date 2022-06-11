@@ -101,11 +101,10 @@ export default function Profile({ navigation, route }) {
                       uid: "",
                     });
                   })
-                  .catch((error) => {
+                  .catch((_error) => {
                     navigation.navigate("Entry", {
                       uid: "",
                     });
-                    console.log(error);
                   });
               }}
             />
@@ -121,11 +120,10 @@ export default function Profile({ navigation, route }) {
                     uid: "",
                   });
                 })
-                .catch((error) => {
+                .catch((_error) => {
                   navigation.navigate("Entry", {
                     uid: "",
                   });
-                  console.log(error);
                 });
               }
           }

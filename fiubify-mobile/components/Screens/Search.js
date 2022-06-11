@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
@@ -7,61 +7,20 @@ import { AllSongs } from "./AllSongs";
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getSongsWith } from "../../src/fetchSongs";
-
-function ListedProfile({ profile, onPress }) {
-  return (
-    <UiButton
-      pressableStyle={styles.profiles}
-      title={profile.email}
-      onPress={() => {
-        onPress(profile.uid);
-      }}
-    />
-  );
-}
-
-function AllProfiles({
-                       profiles,
-                       navigation,
-                       setOtheruid,
-                       token,
-                     }) {
-  if (profiles) {
-    return (
-      <View style={styles.view}>
-        {profiles.map((profile) => (
-          <ListedProfile
-            key={profile.uid}
-            profile={profile}
-            onPress={(uid) => {
-              setOtheruid(uid);
-              navigation.navigate("Profile", {
-                userUId: uid,
-                token: token,
-              });
-            }}
-          />
-        ))}
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.view}>
-        <Text style={styles.loading}>Loading...</Text>
-      </View>
-    );
-  }
-}
+import { AllProfiles } from "./AllProfiles";
 
 // TODO: Poner el token en el body
-async function getProfilesWith(searchBy) {
+async function getProfilesWith(name) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user?name=${searchBy}`,
+      `https://fiubify-middleware-staging.herokuapp.com/user?name=${name}`,
     );
     return response.data;
   } catch (e) {
-    throw e;
+    if (e.response.status !== 404) {
+      throw e;
+    }
+    return { data: [] }
   }
 }
 
@@ -76,22 +35,20 @@ export function Search({
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
   // TODO: Setear los profiles correctamente
-  const [profiles, _setProfiles] = useState([]);
+  const [profiles, setProfiles] = useState([]);
 
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongsWith(searchBy);
       const fetchedProfiles = await getProfilesWith(searchBy);
-      console.log(fetchedSongs);
-      console.log(fetchedProfiles);
       setSongs(fetchedSongs.data);
-      // TODO: Setear los profiles
+      setProfiles(fetchedProfiles.data)
     }
 
     if (startSearch) {
-      console.log(searchBy);
-      aux().then();
-      setStartSearch(false);
+      aux().then(() => {
+        setStartSearch(false);
+      })
     }
   }, [startSearch]);
 

@@ -1,8 +1,6 @@
 import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
-import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 function ListedSong({ song, onPress }) {
   return (
@@ -42,7 +40,6 @@ export function AllSongs({ setSong, songs }) {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: hp(100),
     justifyContent: "flex-start",
     alignItems: "center",
     display: "flex",

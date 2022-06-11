@@ -87,7 +87,6 @@ export function SongForm({ navigation, route }) {
           data={albums}
           placeholder="Album"
           setValue={(album) => {
-            console.log(album)
             return setAlbumId(album._id);
           }}
           valueStyle={styles.value}
@@ -182,13 +181,11 @@ export function SongForm({ navigation, route }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      console.log(`CANCION CREADA CON URL: ${songUrl}`);
       navigation.navigate("Home", {
         uid: userUId,
         token: token,
       });
     } else {
-      console.log(await response.json());
       alert(response.statusText);
     }
   }

@@ -18,6 +18,10 @@ export async function getSongsWith(title) {
     );
     return response.data;
   } catch (e) {
-    throw e;
+    if (e.response.status !== 404) {
+      throw e
+    } else {
+      return { data: [] }
+    }
   }
 }
