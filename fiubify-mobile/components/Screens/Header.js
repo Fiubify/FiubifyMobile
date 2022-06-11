@@ -1,4 +1,4 @@
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { StyleSheet } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -8,7 +8,7 @@ import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
 
-function Header({ userUId, currentUserId, token, navigation, song }) {
+function Header({ userUId, token, navigation, song }) {
   return (
     <View style={styles.view}>
       <View style={styles.logoSection}>
@@ -19,7 +19,6 @@ function Header({ userUId, currentUserId, token, navigation, song }) {
         onPress={() =>
           navigation.navigate("Profile", {
             userUId: userUId,
-            currentUserId: currentUserId,
             token: token,
           })
         }

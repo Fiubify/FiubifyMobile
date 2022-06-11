@@ -24,6 +24,7 @@ export function AlbumForm({ navigation, route }) {
         onPress={() =>
           navigation.navigate("Profile", {
             userUId: userUId,
+            token
           })
         }
       >

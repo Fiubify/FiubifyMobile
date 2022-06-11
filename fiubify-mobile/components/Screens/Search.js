@@ -6,12 +6,7 @@ import { AllSongs } from "./AllSongs";
 
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { getSongsWith } from "../../src/fetchSongs";
-
-
-// pressableStyle={styles.profiles}
-// textStyle={styles.profilesText}
 
 function ListedProfile({ profile, onPress }) {
   return (
@@ -26,12 +21,11 @@ function ListedProfile({ profile, onPress }) {
 }
 
 function AllProfiles({
-  profiles,
-  navigation,
-  currentUserId,
-  setOtheruid,
-  token,
-}) {
+                       profiles,
+                       navigation,
+                       setOtheruid,
+                       token,
+                     }) {
   if (profiles) {
     return (
       <View style={styles.view}>
@@ -43,7 +37,6 @@ function AllProfiles({
               setOtheruid(uid);
               navigation.navigate("Profile", {
                 userUId: uid,
-                currentUserId: currentUserId,
                 token: token,
               });
             }}
@@ -64,7 +57,7 @@ function AllProfiles({
 async function getProfilesWith(searchBy) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user?name=${searchBy}`
+      `https://fiubify-middleware-staging.herokuapp.com/user?name=${searchBy}`,
     );
     return response.data;
   } catch (e) {
@@ -73,17 +66,17 @@ async function getProfilesWith(searchBy) {
 }
 
 export function Search({
-  navigation,
-  setSong,
-  currentUserId,
-  setOtheruid,
-  token,
-}) {
+                         navigation,
+                         setSong,
+                         currentUserId,
+                         setOtheruid,
+                         token,
+                       }) {
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
   // TODO: Setear los profiles correctamente
-  const [profiles, setProfiles] = useState([])
+  const [profiles, _setProfiles] = useState([]);
 
   useEffect(() => {
     async function aux() {
@@ -94,6 +87,7 @@ export function Search({
       setSongs(fetchedSongs.data);
       // TODO: Setear los profiles
     }
+
     if (startSearch) {
       console.log(searchBy);
       aux().then();

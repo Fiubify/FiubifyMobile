@@ -14,7 +14,7 @@ import { auth } from "../../firebase";
 export default function Profile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const { userUId, currentUserId, token } = route.params;
+  const { userUId, token } = route.params;
 
   useEffect(() => {
     getUser(userUId).then((user) => {

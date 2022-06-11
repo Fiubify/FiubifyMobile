@@ -54,14 +54,18 @@ export function SongForm({ navigation, route }) {
     aux().then();
   }, []);
 
-  return (
-    loading || (
+    if(loading)
+      return (<View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
+      </View>)
+    return (
       <View style={styles.view}>
         <Text
           style={styles.link}
           onPress={() =>
             navigation.navigate("Profile", {
               userUId: userUId,
+              token,
             })
           }
         >
@@ -134,7 +138,6 @@ export function SongForm({ navigation, route }) {
           }}
         />
       </View>
-    )
   );
 
   async function send(
