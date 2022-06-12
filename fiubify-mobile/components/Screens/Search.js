@@ -6,7 +6,7 @@ import { AllSongs } from "./AllSongs";
 
 import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getSongsWith } from "../../src/fetchSongs";
+import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
 import { AllProfiles } from "./AllProfiles";
 
 // TODO: Poner el token en el body
@@ -39,9 +39,13 @@ export function Search({
 
   useEffect(() => {
     async function aux() {
-      const fetchedSongs = await getSongsWith(searchBy);
+      const fetchedSongs = [];
+      const fetchedSongsByTitle = await getSongsWithTitle(searchBy);
+      const fetchedSongsByGenre = await getSongsWithGenre(searchBy);
       const fetchedProfiles = await getProfilesWith(searchBy);
-      setSongs(fetchedSongs.data);
+      fetchedSongs.push.apply(fetchedSongs, fetchedSongsByTitle.data);
+      fetchedSongs.push.apply(fetchedSongs, fetchedSongsByGenre.data);
+      setSongs(fetchedSongs);
       setProfiles(fetchedProfiles.data)
     }
 
@@ -76,6 +80,11 @@ export function Search({
       />
     </View>
   );
+}
+
+Array.prototype.extend = function (other_array) {
+  /* You should include a test to check whether other_array really is an array */
+  other_array.forEach(function(v) {this.push(v)}, this);
 }
 
 const styles = StyleSheet.create({
