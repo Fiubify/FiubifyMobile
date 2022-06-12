@@ -1,11 +1,16 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import React from "react";
+import React, { useState } from "react";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import UiTextInput from "../ui/UiTextInput";
+import { Checkbox } from "react-native-paper";
+import UiButton from "../ui/UiButton";
 
 export function PlaylistForm({ navigation, route }) {
-  // TODO: Ver todos los campos
   const { userUId, token } = route.params;
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [collaborative, setCollaborative] = useState(false);
 
   return (
     <View style={styles.view}>
@@ -13,6 +18,41 @@ export function PlaylistForm({ navigation, route }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
+      <Text style={styles.title}>Create your playlist</Text>
+      <UiTextInput
+        style={styles.text_input}
+        onChange={setTitle}
+        placeholder="Title"
+      />
+      <UiTextInput
+        style={styles.text_input}
+        onChange={setDescription}
+        placeholder="Description"
+      />
+      <View style={{
+        flexDirection: "row"
+      }}>
+        <Text style={{ padding: 7}}>Collaborative</Text>
+        <Checkbox
+          status={collaborative ? "checked" : "unchecked"}
+          onPress={() => {
+            setCollaborative(!collaborative);
+          }}
+          color="#006E95"
+        />
+      </View>
+      <UiButton
+        title="Upload"
+        pressableStyle={styles.upload}
+        onPress={() => {
+          console.log({
+            title,
+            description,
+            collaborative,
+            owners: [userUId]
+          })
+        }}
+      />
     </View>
   );
 
@@ -37,6 +77,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     marginVertical: hp(2),
+  },
+  upload: {
+    backgroundColor: "#006E95",
   },
   line: {
     backgroundColor: "#006E95",
@@ -76,23 +119,11 @@ const styles = StyleSheet.create({
     borderBottomColor: "#CAE3EA",
     borderBottomWidth: 1,
   },
-  birthday: {
-    width: wp(90),
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  birthdayButton: {
-    width: wp(25),
-    backgroundColor: "white",
-    borderColor: "#006E95",
-    borderWidth: 2,
-  },
-  birthdayText: {
-    fontWeight: "bold",
-    fontSize: 20,
+  title: {
+    fontSize: 40,
     color: "#006E95",
+    fontWeight: "bold",
+    marginBottom: hp(4),
   },
   terms: {
     marginVertical: hp(2),
