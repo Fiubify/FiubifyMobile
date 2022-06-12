@@ -10,6 +10,7 @@ import PasswordRecoveryForm from "./components/login/PasswordRecoveryForm";
 import ScreenController from "./components/Screens/ScreenController";
 import { LogBox } from "react-native";
 import SongForm from "./components/Screens/SongForm.js";
+import PlanManagement from "./components/Screens/PlanManagement.js";
 import { AlbumForm } from "./components/Screens/AlbumForm.js";
 import Profile from "./components/profile/Profile";
 
@@ -36,6 +37,7 @@ function App() {
           />
           <Stack.Screen name="Home" component={ScreenController} />
           <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="PlanManagement" component={PlanManagement} />
           <Stack.Screen name="SongForm" component={SongForm} />
           <Stack.Screen name="AlbumForm" component={AlbumForm} />
         </Stack.Navigator>

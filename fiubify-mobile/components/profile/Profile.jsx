@@ -65,6 +65,15 @@ export default function Profile({ navigation, route }) {
           contain={user.plan}
           icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
         />
+        <Text style={styles.link}
+          onPress={() =>
+            navigation.navigate("PlanManagement", {
+              user: user,
+              token: token
+            })
+          }
+        > Upgrade
+        </Text>
         {user.role === "Artist" ? (
           <View style={styles.artist}>
             <View style={styles.artistCreate}>
