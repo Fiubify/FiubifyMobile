@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Provider } from "react-redux";
@@ -12,6 +12,7 @@ import { LogBox } from "react-native";
 import SongForm from "./components/Screens/SongForm.js";
 import { AlbumForm } from "./components/Screens/AlbumForm.js";
 import Profile from "./components/profile/Profile";
+import { PlaylistForm } from "./components/Screens/PlaylistForm";
 
 LogBox.ignoreAllLogs(true);
 
@@ -38,6 +39,7 @@ function App() {
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="SongForm" component={SongForm} />
           <Stack.Screen name="AlbumForm" component={AlbumForm} />
+          <Stack.Screen name="PlaylistForm" component={PlaylistForm} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
