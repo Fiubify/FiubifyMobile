@@ -11,10 +11,25 @@ export async function getSongs() {
   }
 }
 
-export async function getSongsWith(title) {
+export async function getSongsWithTitle(title) {
   try {
     let response = await axios.get(
       `https://fiubify-middleware-staging.herokuapp.com/contents/songs?title=${title}`,
+    );
+    return response.data;
+  } catch (e) {
+    if (e.response.status !== 404) {
+      throw e
+    } else {
+      return { data: [] }
+    }
+  }
+}
+
+export async function getSongsWithGenre(genre) {
+  try {
+    let response = await axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}`,
     );
     return response.data;
   } catch (e) {
