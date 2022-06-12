@@ -5,6 +5,30 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import UiTextInput from "../ui/UiTextInput";
 import { Checkbox } from "react-native-paper";
 import UiButton from "../ui/UiButton";
+import { getUser } from "../../src/GetUser";
+import axios from "axios";
+
+async function createPlaylist(title, description, collaborative, userUId, whenDone) {
+  // https://fiubify-middleware-staging.herokuapp.com/contents/playlists/
+
+  const userData = await getUser(userUId);
+
+  const body = {
+    title,
+    description,
+    collaborative,
+    owners: [{
+      name: userData.name,
+      id: userData._id
+    }]
+  }
+  try {
+    const response = await axios.post("https://fiubify-middleware-staging.herokuapp.com/contents/playlists/", body);
+    whenDone();
+  } catch (e) {
+    console.error(e)
+  }
+}
 
 export function PlaylistForm({ navigation, route }) {
   const { userUId, token } = route.params;
@@ -45,12 +69,12 @@ export function PlaylistForm({ navigation, route }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          console.log({
-            title,
-            description,
-            collaborative,
-            owners: [userUId]
-          })
+          createPlaylist(title, description, collaborative, userUId, () => {
+            navigation.navigate("Home", {
+              uid: userUId,
+              token: token,
+            })
+          }).then()
         }}
       />
     </View>
