@@ -3,7 +3,6 @@ import UiButton from "../ui/UiButton";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
 function ListedProfile({ profile, onPress }) {
-  console.log(profile);
   return (
     <UiButton
       pressableStyle={styles.button}
@@ -22,7 +21,6 @@ export function AllProfiles({
                               token,
                             }) {
   if (profiles.length > 0) {
-    console.log("ENTRA");
     return (
       <View style={styles.view}>
         {profiles.map((profile) => (

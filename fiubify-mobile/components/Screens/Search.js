@@ -8,6 +8,7 @@ import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
 import { AllProfiles } from "./AllProfiles";
+import CheckBox from "expo-checkbox";
 
 async function getProfilesWith(name) {
   try {
@@ -30,16 +31,19 @@ export function Search({
                          setOtheruid,
                          token,
                        }) {
+
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
+  const [tierFilter, setTierFilter] = useState(null);
+  const [checkboxSelected, setCheckboxSelected] = useState(false);
   const [startSearch, setStartSearch] = useState(false);
   const [profiles, setProfiles] = useState([]);
 
   useEffect(() => {
     async function aux() {
       const fetchedSongs = [];
-      const fetchedSongsByTitle = await getSongsWithTitle(searchBy);
-      const fetchedSongsByGenre = await getSongsWithGenre(searchBy);
+      const fetchedSongsByTitle = await getSongsWithTitle(searchBy, tierFilter);
+      const fetchedSongsByGenre = await getSongsWithGenre(searchBy, tierFilter);
       const fetchedProfiles = await getProfilesWith(searchBy);
       fetchedSongs.push.apply(fetchedSongs, fetchedSongsByTitle.data);
       fetchedSongs.push.apply(fetchedSongs, fetchedSongsByGenre.data);
@@ -62,6 +66,22 @@ export function Search({
           placeholder="Search by artist, song, etc"
           onChange={(text) => setSearchBy(text)}
         ></UiTextInput>
+        <View style={styles.checkboxContainer}>
+          <CheckBox
+            value={checkboxSelected}
+            onValueChange={(newValue) => {
+              setCheckboxSelected(newValue);
+              if(newValue){
+                setTierFilter('Free');
+              } else {
+                setTierFilter(null);
+              }
+            }}
+            style={styles.checkbox}
+          />
+          <Text style={styles.label}>Free content only</Text>
+        </View>
+
         <UiButton
           pressableStyle={styles.button}
           title={<Text>Search</Text>}
@@ -108,5 +128,15 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#006E95",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
+  checkbox: {
+    alignSelf: "center",
+  },
+  label: {
+    margin: 8,
   },
 });
