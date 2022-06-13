@@ -35,7 +35,7 @@ export function Search({
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
-  const [isSelected, setSelection] = useState(false);
+  const [checkboxSelected, setCheckboxSelected] = useState(false);
   const [startSearch, setStartSearch] = useState(false);
   const [profiles, setProfiles] = useState([]);
 
@@ -68,9 +68,9 @@ export function Search({
         ></UiTextInput>
         <View style={styles.checkboxContainer}>
           <CheckBox
-            value={isSelected}
+            value={checkboxSelected}
             onValueChange={(newValue) => {
-              setSelection(newValue);
+              setCheckboxSelected(newValue);
               if(newValue){
                 setTierFilter('Free');
               } else {
