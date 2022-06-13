@@ -10,7 +10,6 @@ function Home({ setSong }) {
   useEffect(() => {
     async function aux() {
       const fetchedSongs = await getSongs();
-      console.log(fetchedSongs);
       setSongs(fetchedSongs.data);
     }
 
