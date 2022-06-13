@@ -15,6 +15,27 @@ export function AlbumForm({ navigation, route }) {
   const [title, setTitle] = useState("");
   const [tier, setTier] = useState("");
   const tiers = ["Free", "Premium"];
+  const [genre, setGenre] = useState("");
+  const [_newGenre, setNewGenre] = useState("");
+  const [genres, _setGenres] = useState([
+    "Clásica",
+    "Country",
+    "Cumbia",
+    "Electrónica",
+    "Electro Pop",
+    "Hard Rock",
+    "Heavy Metal",
+    "Hip Hop",
+    "Jazz",
+    "Pop",
+    "Rap",
+    "Reggae",
+    "Rock",
+    "Tango",
+    "Trap",
+    "Other",
+  ]);
+
   const { userUId, token } = route.params;
 
   return (
@@ -44,17 +65,31 @@ export function AlbumForm({ navigation, route }) {
         valueStyle={styles.value}
         labelContainerStyle={styles.labelContainerStyle}
       />
+      <Selector
+        data={genres}
+        placeholder="Genre"
+        setValue={setGenre}
+        valueStyle={styles.value}
+        labelContainerStyle={styles.labelContainerStyle}
+      />
+      {genre === "Other" && (
+        <UiTextInput
+          style={styles.text_input}
+          onChange={setNewGenre}
+          placeholder="Insert New Genre"
+        />
+      )}
       <UiButton
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(token, title, userUId, tier, navigation);
+          send(token, title, userUId, tier, genre, navigation);
         }}
       />
     </View>
   );
 
-  async function send(token, title, userUId, tier, navigation) {
+  async function send(token, title, userUId, tier, genre, navigation) {
     let url =
       "https://fiubify-middleware-staging.herokuapp.com/contents/albums";
 
@@ -64,6 +99,7 @@ export function AlbumForm({ navigation, route }) {
       title,
       artistId: userData._id,
       tier,
+      genre,
     };
     console.log(body);
     let request = {
