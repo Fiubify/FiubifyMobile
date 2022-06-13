@@ -9,7 +9,6 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
 import { AllProfiles } from "./AllProfiles";
 
-// TODO: Poner el token en el body
 async function getProfilesWith(name) {
   try {
     let response = await axios.get(
@@ -34,7 +33,6 @@ export function Search({
   const [songs, setSongs] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [startSearch, setStartSearch] = useState(false);
-  // TODO: Setear los profiles correctamente
   const [profiles, setProfiles] = useState([]);
 
   useEffect(() => {
