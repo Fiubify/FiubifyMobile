@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from "react-native";
 import UiButton from "../ui/UiButton";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
+//TODO: no mostrar los botones de "My Profile" al visualizar el perfil de otra persona
+
 function ListedProfile({ profile, onPress }) {
   return (
     <UiButton
