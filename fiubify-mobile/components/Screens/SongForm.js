@@ -63,7 +63,7 @@ export function SongForm({ navigation, route }) {
         <Text
           style={styles.link}
           onPress={() =>
-            navigation.navigate("Profile", {
+            navigation.navigate("MyProfile", {
               userUId: userUId,
               token,
             })

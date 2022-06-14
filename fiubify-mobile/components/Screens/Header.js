@@ -17,7 +17,7 @@ function Header({ userUId, token, navigation, song }) {
       <MusicPlayer song={song} />
       <Ionicons
         onPress={() =>
-          navigation.navigate("Profile", {
+          navigation.navigate("MyProfile", {
             userUId: userUId,
             token: token,
           })

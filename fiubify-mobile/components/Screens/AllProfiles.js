@@ -31,7 +31,7 @@ export function AllProfiles({
             profile={profile}
             onPress={(uid) => {
               setOtheruid(uid);
-              navigation.navigate("Profile", {
+              navigation.navigate("MyProfile", {
                 userUId: uid,
                 token: token,
               });

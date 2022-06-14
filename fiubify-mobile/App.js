@@ -36,7 +36,7 @@ function App() {
             component={PasswordRecoveryForm}
           />
           <Stack.Screen name="Home" component={ScreenController} />
-          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="MyProfile" component={Profile} />
           <Stack.Screen name="SongForm" component={SongForm} />
           <Stack.Screen name="AlbumForm" component={AlbumForm} />
           <Stack.Screen name="PlaylistForm" component={PlaylistForm} />
