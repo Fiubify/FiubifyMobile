@@ -11,7 +11,7 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 
-export default function Profile({ navigation, route }) {
+export default function MyProfile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const { userUId, token } = route.params;
