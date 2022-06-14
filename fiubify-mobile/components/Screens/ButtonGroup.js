@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
+import { getAlbumsWithTitle, getSongsWithGenre, getSongsWithTitle } from "../../src/fetchContent";
 import { getArtistsWith, getProfilesWith } from "../../src/fetchProfiles";
 
-export default function ButtonGroup({setSearchFunction, setStartSearch, setContentFunction, setSongs, setProfiles}) {
+export default function ButtonGroup({ setSearchFunction,
+                                      setStartSearch,
+                                      setContentFunction,
+                                      setSongs,
+                                      setProfiles,
+                                      setAlbums }) {
 
   const [selection, setSelection] = useState(1);
 
@@ -20,6 +25,9 @@ export default function ButtonGroup({setSearchFunction, setStartSearch, setConte
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, selection === 2 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
           setSelection(2);
+          setSearchFunction(() => getAlbumsWithTitle);
+          setContentFunction(() => setAlbums);
+          setStartSearch(true);
         }}>
           <Text style={[styles.btnText, selection === 2 ? { color: "white" } : { color: "black" }]}>Albums</Text>
         </TouchableOpacity>
