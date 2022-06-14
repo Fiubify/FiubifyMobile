@@ -5,10 +5,11 @@ import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
 
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getSongsWithTitle } from "../../src/fetchSongs";
+import { getSongsWithTitle } from "../../src/fetchContent";
 import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
 import ButtonGroup from "./ButtonGroup";
+import { AllAlbums } from "./AllAlbums";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")
@@ -22,6 +23,7 @@ export function Search({
 
   const [songs, setSongs] = useState([]);
   const [profiles, setProfiles] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
@@ -84,7 +86,8 @@ export function Search({
           setSearchFunction={setSearchFunction}
           setContentFunction={setContentFunction}
           setSongs={setSongs}
-          setProfiles={setProfiles}/>
+          setProfiles={setProfiles}
+          setAlbums={setAlbums} />
       </View>
       <AllSongs setSong={setSong} songs={songs} />
       <AllProfiles
@@ -92,6 +95,10 @@ export function Search({
         currentUserId={currentUserId}
         navigation={navigation}
       />
+      <AllAlbums
+        albums={albums}
+        currentUserId={currentUserId}
+        navigation={navigation}/>
     </View>
   );
 }
