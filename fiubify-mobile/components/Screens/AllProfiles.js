@@ -19,8 +19,7 @@ function ListedProfile({ profile, onPress }) {
 export function AllProfiles({
                               profiles,
                               navigation,
-                              setOtheruid,
-                              token,
+                              currentUserId,
                             }) {
   if (profiles.length > 0) {
     return (
@@ -30,10 +29,9 @@ export function AllProfiles({
             key={profile.uid}
             profile={profile}
             onPress={(uid) => {
-              setOtheruid(uid);
-              navigation.navigate("MyProfile", {
+              navigation.navigate("ExternProfile", {
                 userUId: uid,
-                token: token,
+                currentUserUId: currentUserId,
               });
             }}
           />
