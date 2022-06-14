@@ -4,9 +4,8 @@ import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
 
-import axios from "axios";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
+import { getSongsWithTitle } from "../../src/fetchSongs";
 import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
 import ButtonGroup from "./ButtonGroup";
@@ -27,7 +26,7 @@ export function Search({
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
-  //const [setContent, setContentFunction] = useState(() => setSongs);
+  const [contentFunction, setContentFunction] = useState(() => setSongs);
   const [startSearch, setStartSearch] = useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = useState(false);
@@ -45,10 +44,13 @@ export function Search({
       console.log("antes de usar la funcion")
       const fetchedContent = await searchFunction(searchBy, tierFilter);
       console.log("desps de usar la funcion")
-      setSongs(fetchedContent.data);
+      //setSongs(fetchedContent.data);
+      contentFunction(fetchedContent.data)
     }
 
     if (startSearch) {
+      setSongs([]);
+      setProfiles([]);
       aux().then(() => {
         setStartSearch(false);
       });
@@ -86,7 +88,12 @@ export function Search({
         ></UiButton>
       </View>
       <View style={styles.filterButtons}>
-        <ButtonGroup setStartSearch={setStartSearch} setSearchFunction={setSearchFunction}/>
+        <ButtonGroup
+          setStartSearch={setStartSearch}
+          setSearchFunction={setSearchFunction}
+          setContentFunction={setContentFunction}
+          setSongs={setSongs}
+          setProfiles={setProfiles}/>
       </View>
       <AllSongs setSong={setSong} songs={songs} />
       <AllProfiles
