@@ -17,8 +17,7 @@ export function Search({
                          navigation,
                          setSong,
                          currentUserId,
-                         setOtheruid,
-                         token,
+                         _token,
                        }) {
 
   const [songs, setSongs] = useState([]);
@@ -92,8 +91,6 @@ export function Search({
         profiles={profiles}
         currentUserId={currentUserId}
         navigation={navigation}
-        setOtheruid={setOtheruid}
-        token={token}
       />
     </View>
   );
