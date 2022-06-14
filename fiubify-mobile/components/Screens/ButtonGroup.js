@@ -20,11 +20,8 @@ export default function ButtonGroup({setSearchFunction, setStartSearch, setConte
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, selection === 2 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
           setSelection(2);
-          setSearchFunction(() => getSongsWithGenre);
-          setContentFunction(() => setSongs);
-          setStartSearch(true);
         }}>
-          <Text style={[styles.btnText, selection === 2 ? { color: "white" } : { color: "black" }]}>Genres</Text>
+          <Text style={[styles.btnText, selection === 2 ? { color: "white" } : { color: "black" }]}>Albums</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, selection === 3 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
           setSelection(3);
@@ -36,11 +33,24 @@ export default function ButtonGroup({setSearchFunction, setStartSearch, setConte
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, selection === 4 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
           setSelection(4);
+          setSearchFunction(() => getSongsWithGenre);
+          setContentFunction(() => setSongs);
+          setStartSearch(true);
+        }}>
+          <Text style={[styles.btnText, selection === 4 ? { color: "white" } : { color: "black" }]}>Genres</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.btn, selection === 5 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
+          setSelection(5);
+        }}>
+          <Text style={[styles.btnText, selection === 5 ? { color: "white" } : { color: "black" }]}>Playlists</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.btn, selection === 6 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
+          setSelection(6);
           setSearchFunction(() => getProfilesWith);
           setContentFunction(() => setProfiles);
           setStartSearch(true);
         }}>
-          <Text style={[styles.btnText, selection === 4 ? { color: "white" } : { color: "black" }]}>Profiles</Text>
+          <Text style={[styles.btnText, selection === 6 ? { color: "white" } : { color: "black" }]}>Profiles</Text>
         </TouchableOpacity>
       </View>
 
