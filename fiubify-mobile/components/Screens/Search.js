@@ -32,26 +32,15 @@ export function Search({
   const [checkboxSelected, setCheckboxSelected] = useState(false);
 
   useEffect(() => {
-    async function aux() {
-      // const fetchedSongs = [];
-      // const fetchedSongsByTitle = await getSongsWithTitle(searchBy, tierFilter);
-      // const fetchedSongsByGenre = await getSongsWithGenre(searchBy, tierFilter);
-      // const fetchedProfiles = await getProfilesWith(searchBy);
-      // fetchedSongs.push.apply(fetchedSongs, fetchedSongsByTitle.data);
-      // fetchedSongs.push.apply(fetchedSongs, fetchedSongsByGenre.data);
-      // setSongs(fetchedSongs);
-      // setProfiles(fetchedProfiles.data);
-      console.log("antes de usar la funcion")
+    async function fetchContent() {
       const fetchedContent = await searchFunction(searchBy, tierFilter);
-      console.log("desps de usar la funcion")
-      //setSongs(fetchedContent.data);
       contentFunction(fetchedContent.data)
     }
 
     if (startSearch) {
       setSongs([]);
       setProfiles([]);
-      aux().then(() => {
+      fetchContent().then(() => {
         setStartSearch(false);
       });
     }
