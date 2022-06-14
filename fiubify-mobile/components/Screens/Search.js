@@ -33,8 +33,10 @@ export function Search({
 
   useEffect(() => {
     async function fetchContent() {
-      const fetchedContent = await searchFunction(searchBy, tierFilter);
-      contentFunction(fetchedContent.data)
+      if (searchBy !== undefined){
+        const fetchedContent = await searchFunction(searchBy, tierFilter);
+        contentFunction(fetchedContent.data)
+      }
     }
 
     if (startSearch) {
@@ -64,6 +66,7 @@ export function Search({
               } else {
                 setTierFilter(null);
               }
+              setStartSearch(true);
             }}
             style={styles.checkbox}
           />
@@ -140,7 +143,7 @@ const styles = StyleSheet.create({
   filterButtons: {
     width: "100%",
     height: hp(15),
-    display: "flex",
-    flexDirection: "row",
+    // display: "flex",
+    // flexDirection: "row",
   },
 });
