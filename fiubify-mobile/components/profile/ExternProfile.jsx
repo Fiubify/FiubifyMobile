@@ -6,15 +6,12 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Info from "./Info";
-import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
-import { signOut } from "firebase/auth";
-import { auth } from "../../firebase";
 
-export default function Profile({ navigation, route }) {
+export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const { userUId, token } = route.params;
+  const { userUId, currenUserUId } = route.params;
 
   useEffect(() => {
     getUser(userUId).then((user) => {
@@ -30,7 +27,7 @@ export default function Profile({ navigation, route }) {
           style={styles.link}
           onPress={() =>
             navigation.navigate("Home", {
-              uid: userUId,
+              uid: currenUserUId,
             })
           }
         >
@@ -65,81 +62,6 @@ export default function Profile({ navigation, route }) {
           contain={user.plan}
           icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
         />
-        <UiButton
-          title="New Playlist"
-          pressableStyle={styles.loadSong}
-          textStyle={styles.textStyle}
-          onPress={() =>
-            navigation.navigate("PlaylistForm", {
-              userUId: userUId,
-              token: token,
-            })
-          }
-        />
-        {user.role === "Artist" ? (
-          <View style={styles.artist}>
-            <View style={styles.artistCreate}>
-              <UiButton
-                title="Load Song"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("SongForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
-              />
-              <UiButton
-                title="New Album"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("AlbumForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
-              />
-            </View>
-            <UiButton
-              title="Log Out"
-              pressableStyle={styles.buttonListener}
-              onPress={() => {
-                signOut(auth)
-                  .then(() => {
-                    navigation.navigate("Entry", {
-                      uid: "",
-                    });
-                  })
-                  .catch((_error) => {
-                    navigation.navigate("Entry", {
-                      uid: "",
-                    });
-                  });
-              }}
-            />
-          </View>
-        ) : (
-          <UiButton
-            title="Log Out"
-            pressableStyle={styles.buttonListener}
-            onPress={() => {
-              signOut(auth)
-                .then(() => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                })
-                .catch((_error) => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                });
-              }
-          }
-        />
-        )}
       </View>
     );
   else

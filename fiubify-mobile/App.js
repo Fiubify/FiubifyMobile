@@ -11,8 +11,9 @@ import ScreenController from "./components/Screens/ScreenController";
 import { LogBox } from "react-native";
 import SongForm from "./components/Screens/SongForm.js";
 import { AlbumForm } from "./components/Screens/AlbumForm.js";
-import Profile from "./components/profile/Profile";
+import MyProfile from "./components/profile/MyProfile";
 import { PlaylistForm } from "./components/Screens/PlaylistForm";
+import ExternProfile from "./components/profile/ExternProfile";
 
 LogBox.ignoreAllLogs(true);
 
@@ -36,7 +37,8 @@ function App() {
             component={PasswordRecoveryForm}
           />
           <Stack.Screen name="Home" component={ScreenController} />
-          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen name="MyProfile" component={MyProfile} />
+          <Stack.Screen name="ExternProfile" component={ExternProfile} />
           <Stack.Screen name="SongForm" component={SongForm} />
           <Stack.Screen name="AlbumForm" component={AlbumForm} />
           <Stack.Screen name="PlaylistForm" component={PlaylistForm} />

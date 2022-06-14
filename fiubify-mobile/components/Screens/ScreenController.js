@@ -23,7 +23,7 @@ function stopAndSetSong(song, setSong) {
 function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
   const { uid, token } = route.params;
-  const [otherUid, setOtheruid] = useState(uid);
+  //const [otherUid, setOtheruid] = useState(uid);
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -37,7 +37,7 @@ function ScreenController({ navigation, route }) {
       );
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
-                           setSong={stopAndSetSong(song, setSong)} setOtheruid={setOtheruid} />);
+                           setSong={stopAndSetSong(song, setSong)} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
         <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
@@ -49,8 +49,7 @@ function ScreenController({ navigation, route }) {
 
   return (
     <View style={styles.view}>
-      <Header song={song} token={token} navigation={navigation}
-              currentUserId={uid} userUId={otherUid} />
+      <Header song={song} token={token} navigation={navigation} userUId={uid} />
       <ScrollView
         style={styles.scroll}
         contentContainerStyle={styles.scrollContent}
