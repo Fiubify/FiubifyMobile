@@ -9,20 +9,10 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
 import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
+import ButtonGroup from "./ButtonGroup";
 
-async function getProfilesWith(name) {
-  try {
-    let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user?name=${name}`,
-    );
-    return response.data;
-  } catch (e) {
-    if (e.response.status !== 404) {
-      throw e;
-    }
-    return { data: [] }
-  }
-}
+//TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
+// mostrar un "Oops, try something else")
 
 export function Search({
                          navigation,
@@ -33,28 +23,35 @@ export function Search({
                        }) {
 
   const [songs, setSongs] = useState([]);
+  const [profiles, setProfiles] = useState([]);
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
-  const [checkboxSelected, setCheckboxSelected] = useState(false);
+  const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
+  //const [setContent, setContentFunction] = useState(() => setSongs);
   const [startSearch, setStartSearch] = useState(false);
-  const [profiles, setProfiles] = useState([]);
+
+  const [checkboxSelected, setCheckboxSelected] = useState(false);
 
   useEffect(() => {
     async function aux() {
-      const fetchedSongs = [];
-      const fetchedSongsByTitle = await getSongsWithTitle(searchBy, tierFilter);
-      const fetchedSongsByGenre = await getSongsWithGenre(searchBy, tierFilter);
-      const fetchedProfiles = await getProfilesWith(searchBy);
-      fetchedSongs.push.apply(fetchedSongs, fetchedSongsByTitle.data);
-      fetchedSongs.push.apply(fetchedSongs, fetchedSongsByGenre.data);
-      setSongs(fetchedSongs);
-      setProfiles(fetchedProfiles.data)
+      // const fetchedSongs = [];
+      // const fetchedSongsByTitle = await getSongsWithTitle(searchBy, tierFilter);
+      // const fetchedSongsByGenre = await getSongsWithGenre(searchBy, tierFilter);
+      // const fetchedProfiles = await getProfilesWith(searchBy);
+      // fetchedSongs.push.apply(fetchedSongs, fetchedSongsByTitle.data);
+      // fetchedSongs.push.apply(fetchedSongs, fetchedSongsByGenre.data);
+      // setSongs(fetchedSongs);
+      // setProfiles(fetchedProfiles.data);
+      console.log("antes de usar la funcion")
+      const fetchedContent = await searchFunction(searchBy, tierFilter);
+      console.log("desps de usar la funcion")
+      setSongs(fetchedContent.data);
     }
 
     if (startSearch) {
       aux().then(() => {
         setStartSearch(false);
-      })
+      });
     }
   }, [startSearch]);
 
@@ -71,8 +68,8 @@ export function Search({
             value={checkboxSelected}
             onValueChange={(newValue) => {
               setCheckboxSelected(newValue);
-              if(newValue){
-                setTierFilter('Free');
+              if (newValue) {
+                setTierFilter("Free");
               } else {
                 setTierFilter(null);
               }
@@ -88,6 +85,9 @@ export function Search({
           onPress={() => setStartSearch(true)}
         ></UiButton>
       </View>
+      <View style={styles.filterButtons}>
+        <ButtonGroup setStartSearch={setStartSearch} setSearchFunction={setSearchFunction}/>
+      </View>
       <AllSongs setSong={setSong} songs={songs} />
       <AllProfiles
         profiles={profiles}
@@ -100,10 +100,12 @@ export function Search({
   );
 }
 
-Array.prototype.extend = function (other_array) {
+Array.prototype.extend = function(other_array) {
   /* You should include a test to check whether other_array really is an array */
-  other_array.forEach(function(v) {this.push(v)}, this);
-}
+  other_array.forEach(function(v) {
+    this.push(v);
+  }, this);
+};
 
 const styles = StyleSheet.create({
   view: {
@@ -138,5 +140,11 @@ const styles = StyleSheet.create({
   },
   label: {
     margin: 8,
+  },
+  filterButtons: {
+    width: "100%",
+    height: hp(15),
+    display: "flex",
+    flexDirection: "row",
   },
 });
