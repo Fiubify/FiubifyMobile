@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { AllSongs} from "./AllSongs";
 import { useEffect, useState } from "react";
-import { getSongs } from "../../src/fetchSongs";
+import { getSongs } from "../../src/fetchContent";
 
 function Home({ setSong }) {
   const [songs, setSongs] = useState(null);
