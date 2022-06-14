@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { getSongsWithGenre, getSongsWithTitle } from "../../src/fetchSongs";
-import { getProfilesWith } from "../../src/fetchProfiles";
+import { getArtistsWith, getProfilesWith } from "../../src/fetchProfiles";
 
 export default function ButtonGroup({setSearchFunction, setStartSearch, setContentFunction, setSongs, setProfiles}) {
 
@@ -28,14 +28,19 @@ export default function ButtonGroup({setSearchFunction, setStartSearch, setConte
         </TouchableOpacity>
         <TouchableOpacity style={[styles.btn, selection === 3 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
           setSelection(3);
+          setSearchFunction(() => getArtistsWith)
+          setContentFunction(() => setProfiles);
+          setStartSearch(true);
+        }}>
+          <Text style={[styles.btnText, selection === 3 ? { color: "white" } : { color: "black" }]}>Artists</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={[styles.btn, selection === 4 ? { backgroundColor: "#6B7280" } : null]} onPress={() => {
+          setSelection(4);
           setSearchFunction(() => getProfilesWith);
           setContentFunction(() => setProfiles);
           setStartSearch(true);
         }}>
-          <Text style={[styles.btnText, selection === 3 ? { color: "white" } : { color: "black" }]}>Profiles</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.btn, selection === 4 ? { backgroundColor: "#6B7280" } : null]} onPress={() => setSelection(4)}>
-          <Text style={[styles.btnText, selection === 4 ? { color: "white" } : { color: "black" }]}>Button 4</Text>
+          <Text style={[styles.btnText, selection === 4 ? { color: "white" } : { color: "black" }]}>Profiles</Text>
         </TouchableOpacity>
       </View>
 
