@@ -26,6 +26,7 @@ export function AlbumView({ navigation, route }) {
     return (
       <View style={styles.view}>
         <Header song={song} token={token} navigation={navigation} userUId={currentUserUId} />
+        <View style={styles.viewBody}>
         <Text
           style={styles.link}
           onPress={() =>
@@ -63,11 +64,12 @@ export function AlbumView({ navigation, route }) {
           icon="playlist-music"
         />
         <AllSongs songs={album.tracks} setSong={stopAndSetSong(song, setSong)} />
+        </View>
       </View>
     );
   } else {
     return (
-      <View style={styles.view}>
+      <View style={styles.viewBody}>
         <Text style={styles.loading}>Loading...</Text>
       </View>
     );
@@ -83,7 +85,17 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     backgroundColor: "#CAE3EA",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    marginTop: "5%",
+  },
+  viewBody: {
+    width: "100%",
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+    backgroundColor: "#CAE3EA",
+    alignItems: "center",
+    marginTop: "5%",
   },
   link: {
     width: wp(90),

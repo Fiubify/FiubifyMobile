@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: "5%",
   },
   scroll: {
     width: "100%",
