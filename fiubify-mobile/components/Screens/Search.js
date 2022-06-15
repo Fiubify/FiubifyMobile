@@ -18,7 +18,8 @@ export function Search({
                          navigation,
                          setSong,
                          currentUserId,
-                         _token,
+                         token,
+                         song
                        }) {
 
   const [songs, setSongs] = useState(null);
@@ -99,7 +100,10 @@ export function Search({
       <AllAlbums
         albums={albums}
         currentUserId={currentUserId}
-        navigation={navigation}/>
+        navigation={navigation}
+        setSong={setSong}
+        song={song}
+        token={token}/>
     </View>
   );
 }

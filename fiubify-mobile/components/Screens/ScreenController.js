@@ -6,7 +6,7 @@ import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
 
-function stopAndSetSong(song, setSong) {
+export function stopAndSetSong(song, setSong) {
   return (newSong) => {
     if (song) {
       song.sound.pauseAsync().then(() => {
@@ -20,7 +20,7 @@ function stopAndSetSong(song, setSong) {
   };
 }
 
-function ScreenController({ navigation, route }) {
+export default function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
   const { uid, token } = route.params;
   //const [otherUid, setOtheruid] = useState(uid);
@@ -37,7 +37,7 @@ function ScreenController({ navigation, route }) {
       );
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
-                           setSong={stopAndSetSong(song, setSong)} />);
+                           setSong={stopAndSetSong(song, setSong)} song={song} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
         <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
@@ -83,5 +83,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default ScreenController;

@@ -4,11 +4,16 @@ import Info from "../profile/Info";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
+import { AllSongs } from "../Screens/AllSongs";
+import Header from "../Screens/Header";
+import React from "react";
+import {stopAndSetSong} from "../Screens/ScreenController";
 
 export function AlbumView({ navigation, route }) {
-  const { album, currentUserUId } = route.params;
+  const { album, currentUserUId, token } = route.params;
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
+  const [song, setSong] = useState();
 
   useEffect(() => {
     getUser(album.artistId).then((user) => {
@@ -20,6 +25,7 @@ export function AlbumView({ navigation, route }) {
   if (!loading){
     return (
       <View style={styles.view}>
+        <Header song={song} token={token} navigation={navigation} userUId={currentUserUId} />
         <Text
           style={styles.link}
           onPress={() =>
@@ -51,6 +57,12 @@ export function AlbumView({ navigation, route }) {
           contain={album.genre}
           icon="music-circle-outline"
         />
+        <Info
+          title="Tracks"
+          contain=""
+          icon="playlist-music"
+        />
+        <AllSongs songs={album.tracks} setSong={stopAndSetSong(song, setSong)} />
       </View>
     );
   } else {
@@ -83,10 +95,6 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
   },
-  perfilImage: {
-    width: wp(50),
-    resizeMode: "contain",
-  },
   title: {
     width: "90%",
     display: "flex",
@@ -100,38 +108,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "justify",
   },
-  description: {
-    width: "90%",
-    color: "#006E95",
-  },
-  artist: {
-    width: wp(90),
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  artistCreate: {
-    width: wp(90),
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
   loading: {
     fontSize: 30,
-    color: "#006E95",
-  },
-  buttonListener: {
-    width: wp(90),
-    marginTop: hp(2),
-    backgroundColor: "#006E95",
-    borderColor: "#006E95",
-    borderWidth: 2,
-  },
-  textStyle: {
-    fontWeight: "bold",
-    fontSize: 20,
     color: "#006E95",
   },
 });

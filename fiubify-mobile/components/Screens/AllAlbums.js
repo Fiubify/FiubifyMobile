@@ -16,7 +16,10 @@ function ListedAlbum({ album, onPress }) {
 
 export function AllAlbums({ albums,
                             navigation,
-                            currentUserId, }) {
+                            currentUserId,
+                            setSong,
+                            song,
+                            token }) {
   if (albums){
     if (albums.length > 0) {
       return (
@@ -29,6 +32,9 @@ export function AllAlbums({ albums,
                 navigation.navigate("AlbumView", {
                   album: album,
                   currentUserUId: currentUserId,
+                  setSong: setSong,
+                  song: song,
+                  token: token,
                 });
               }}
             />
