@@ -23,7 +23,7 @@ export function MyPlaylists({ token, navigation, currentUserId }) {
     return <View style={styles.view}>
       {playlists.map((playlist) => (
         <ListedPlaylist
-          key={playlist.uid}
+          key={playlist._id}
           playlist={playlist}
           onPress={(uid) => {
             navigation.navigate("Playlist", {
