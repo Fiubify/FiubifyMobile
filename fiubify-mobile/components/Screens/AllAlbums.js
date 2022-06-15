@@ -17,31 +17,34 @@ function ListedAlbum({ album, onPress }) {
 export function AllAlbums({ albums,
                             navigation,
                             currentUserId, }) {
-  if (albums.length > 0) {
-    return (
-      <View style={styles.view}>
-        {albums.map((album) => (
-          <ListedAlbum
-            key={album._id}
-            album={album}
-            onPress={(_id) => {
-              // navigation.navigate("ExternProfile", {
-              //   userUId: _id,
-              //   currentUserUId: currentUserId,
-              // });//"Album"
-              console.log("album id: ", _id);
-            }}
-          />
-        ))}
-      </View>
-    );
+  if (albums){
+    if (albums.length > 0) {
+      return (
+        <View style={styles.view}>
+          {albums.map((album) => (
+            <ListedAlbum
+              key={album._id}
+              album={album}
+              onPress={(_id) => {
+                // navigation.navigate("ExternProfile", {
+                //   userUId: _id,
+                //   currentUserUId: currentUserId,
+                // });//"Album"
+                console.log("album id: ", _id);
+              }}
+            />
+          ))}
+        </View>
+      );
+    } else {
+      return (
+        <Text>No Content available</Text>
+      );
+    }
   } else {
-    return (
-      <View style={styles.view}>
-        <Text style={styles.loading}>Loading...</Text>
-      </View>
-    );
+    return null;
   }
+
 }
 
 const styles = StyleSheet.create({

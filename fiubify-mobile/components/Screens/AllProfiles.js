@@ -21,29 +21,31 @@ export function AllProfiles({
                               navigation,
                               currentUserId,
                             }) {
-  if (profiles.length > 0) {
-    return (
-      <View style={styles.view}>
-        {profiles.map((profile) => (
-          <ListedProfile
-            key={profile.uid}
-            profile={profile}
-            onPress={(uid) => {
-              navigation.navigate("ExternProfile", {
-                userUId: uid,
-                currentUserUId: currentUserId,
-              });
-            }}
-          />
-        ))}
-      </View>
-    );
+  if (profiles){
+    if (profiles.length > 0) {
+      return (
+        <View style={styles.view}>
+          {profiles.map((profile) => (
+            <ListedProfile
+              key={profile.uid}
+              profile={profile}
+              onPress={(uid) => {
+                navigation.navigate("ExternProfile", {
+                  userUId: uid,
+                  currentUserUId: currentUserId,
+                });
+              }}
+            />
+          ))}
+        </View>
+      );
+    } else {
+      return (
+        <Text>No Content available</Text>
+      );
+    }
   } else {
-    return (
-      <View style={styles.view}>
-        <Text style={styles.loading}>Loading...</Text>
-      </View>
-    );
+    return null;
   }
 }
 

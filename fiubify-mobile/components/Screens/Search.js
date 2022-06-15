@@ -21,9 +21,9 @@ export function Search({
                          _token,
                        }) {
 
-  const [songs, setSongs] = useState([]);
-  const [profiles, setProfiles] = useState([]);
-  const [albums, setAlbums] = useState([]);
+  const [songs, setSongs] = useState(null);
+  const [profiles, setProfiles] = useState(null);
+  const [albums, setAlbums] = useState(null);
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
@@ -41,8 +41,9 @@ export function Search({
     }
 
     if (startSearch) {
-      setSongs([]);
-      setProfiles([]);
+      setSongs(null);
+      setProfiles(null);
+      setAlbums(null);
       fetchContent().then(() => {
         setStartSearch(false);
       });
