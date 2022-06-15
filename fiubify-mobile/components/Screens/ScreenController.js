@@ -36,7 +36,7 @@ export default function ScreenController({ navigation, route }) {
       );
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
-                           setSong={stopAndSetSong(song, setSong)} song={song} />);
+                           setSong={stopAndSetSong(song, setSong)} />);
     } else if (currentScreen === "LOAD-SONG") {
       setComponent(
         <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,

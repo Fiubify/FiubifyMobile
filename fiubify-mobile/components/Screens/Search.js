@@ -19,7 +19,6 @@ export function Search({
                          setSong,
                          currentUserId,
                          token,
-                         song
                        }) {
 
   const [songs, setSongs] = useState(null);
@@ -35,9 +34,9 @@ export function Search({
 
   useEffect(() => {
     async function fetchContent() {
-      if (searchBy !== undefined){
+      if (searchBy !== undefined) {
         const fetchedContent = await searchFunction(searchBy, tierFilter);
-        contentFunction(fetchedContent.data)
+        contentFunction(fetchedContent.data);
       }
     }
 
@@ -101,9 +100,7 @@ export function Search({
         albums={albums}
         currentUserId={currentUserId}
         navigation={navigation}
-        setSong={setSong}
-        song={song}
-        token={token}/>
+        token={token} />
     </View>
   );
 }
