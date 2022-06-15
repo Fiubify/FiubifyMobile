@@ -5,10 +5,11 @@ import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
 
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getSongsWithTitle } from "../../src/fetchSongs";
+import { getSongsWithTitle } from "../../src/fetchContent";
 import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
 import ButtonGroup from "./ButtonGroup";
+import { AllAlbums } from "./AllAlbums";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")
@@ -17,11 +18,12 @@ export function Search({
                          navigation,
                          setSong,
                          currentUserId,
-                         _token,
+                         token,
                        }) {
 
-  const [songs, setSongs] = useState([]);
-  const [profiles, setProfiles] = useState([]);
+  const [songs, setSongs] = useState(null);
+  const [profiles, setProfiles] = useState(null);
+  const [albums, setAlbums] = useState(null);
   const [searchBy, setSearchBy] = useState(undefined);
   const [tierFilter, setTierFilter] = useState(null);
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
@@ -32,15 +34,16 @@ export function Search({
 
   useEffect(() => {
     async function fetchContent() {
-      if (searchBy !== undefined){
+      if (searchBy !== undefined) {
         const fetchedContent = await searchFunction(searchBy, tierFilter);
-        contentFunction(fetchedContent.data)
+        contentFunction(fetchedContent.data);
       }
     }
 
     if (startSearch) {
-      setSongs([]);
-      setProfiles([]);
+      setSongs(null);
+      setProfiles(null);
+      setAlbums(null);
       fetchContent().then(() => {
         setStartSearch(false);
       });
@@ -84,7 +87,8 @@ export function Search({
           setSearchFunction={setSearchFunction}
           setContentFunction={setContentFunction}
           setSongs={setSongs}
-          setProfiles={setProfiles}/>
+          setProfiles={setProfiles}
+          setAlbums={setAlbums} />
       </View>
       <AllSongs setSong={setSong} songs={songs} />
       <AllProfiles
@@ -92,6 +96,11 @@ export function Search({
         currentUserId={currentUserId}
         navigation={navigation}
       />
+      <AllAlbums
+        albums={albums}
+        currentUserId={currentUserId}
+        navigation={navigation}
+        token={token} />
     </View>
   );
 }
@@ -140,7 +149,5 @@ const styles = StyleSheet.create({
   filterButtons: {
     width: "100%",
     height: hp(15),
-    // display: "flex",
-    // flexDirection: "row",
   },
 });

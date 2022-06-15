@@ -1,38 +1,36 @@
-import { StyleSheet, Text, View } from "react-native";
 import UiButton from "../ui/UiButton";
+import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 
-//TODO: mostrar todos los profiles (si son muchos, poder scrollear para abajo)
-
-function ListedProfile({ profile, onPress }) {
+function ListedAlbum({ album, onPress }) {
   return (
     <UiButton
       pressableStyle={styles.button}
-      title={profile.name}
+      title={album.title}
       onPress={() => {
-        onPress(profile.uid);
+        onPress(album);
       }}
     />
   );
 }
 
-export function AllProfiles({
-                              profiles,
-                              navigation,
-                              currentUserId,
-                            }) {
-  if (profiles){
-    if (profiles.length > 0) {
+export function AllAlbums({ albums,
+                            navigation,
+                            currentUserId,
+                            token }) {
+  if (albums){
+    if (albums.length > 0) {
       return (
         <View style={styles.view}>
-          {profiles.map((profile) => (
-            <ListedProfile
-              key={profile.uid}
-              profile={profile}
-              onPress={(uid) => {
-                navigation.navigate("ExternProfile", {
-                  userUId: uid,
+          {albums.map((album) => (
+            <ListedAlbum
+              key={album._id}
+              album={album}
+              onPress={(album) => {
+                navigation.navigate("AlbumView", {
+                  album: album,
                   currentUserUId: currentUserId,
+                  token: token,
                 });
               }}
             />
@@ -47,6 +45,7 @@ export function AllProfiles({
   } else {
     return null;
   }
+
 }
 
 const styles = StyleSheet.create({

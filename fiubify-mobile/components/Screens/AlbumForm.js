@@ -7,7 +7,6 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { getUser } from "../../src/GetUser";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
 
@@ -93,11 +92,10 @@ export function AlbumForm({ navigation, route }) {
     let url =
       "https://fiubify-middleware-staging.herokuapp.com/contents/albums";
 
-    const userData = await getUser(userUId);
     const body = {
       token,
       title,
-      artistId: userData._id,
+      artistId: userUId,
       tier,
       genre,
     };
