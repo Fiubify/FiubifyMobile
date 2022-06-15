@@ -6,7 +6,7 @@ import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
 
 export function AlbumView({ navigation, route }) {
-  const { album, currenUserUId } = route.params;
+  const { album, currentUserUId } = route.params;
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
 
@@ -14,7 +14,6 @@ export function AlbumView({ navigation, route }) {
     getUser(album.artistId).then((user) => {
       setArtist(user);
       setLoading(false);
-      console.log(user);
     });
   }, []);
 
@@ -25,7 +24,7 @@ export function AlbumView({ navigation, route }) {
           style={styles.link}
           onPress={() =>
             navigation.navigate("Home", {
-              uid: currenUserUId,
+              uid: currentUserUId,
             })
           }
         >

@@ -11,7 +11,7 @@ import { getUser } from "../../src/GetUser";
 export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const { userUId, currenUserUId } = route.params;
+  const { userUId, currentUserUId } = route.params;
 
   useEffect(() => {
     getUser(userUId).then((user) => {
@@ -27,7 +27,7 @@ export default function ExternProfile({ navigation, route }) {
           style={styles.link}
           onPress={() =>
             navigation.navigate("Home", {
-              uid: currenUserUId,
+              uid: currentUserUId,
             })
           }
         >
