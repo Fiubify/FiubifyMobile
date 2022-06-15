@@ -6,7 +6,7 @@ import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
 
-function stopAndSetSong(song, setSong) {
+export function stopAndSetSong(song, setSong) {
   return (newSong) => {
     if (song) {
       song.sound.pauseAsync().then(() => {
@@ -20,10 +20,9 @@ function stopAndSetSong(song, setSong) {
   };
 }
 
-function ScreenController({ navigation, route }) {
+export default function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
   const { uid, token } = route.params;
-  //const [otherUid, setOtheruid] = useState(uid);
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 
@@ -83,5 +82,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-export default ScreenController;

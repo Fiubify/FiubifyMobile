@@ -45,7 +45,7 @@ export function SongForm({ navigation, route }) {
     async function aux() {
       const user = await getUser(userUId);
       const albumsData = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`,
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user.uid}`,
       );
       setAlbums(albumsData.data.data);
       setLoading(false);

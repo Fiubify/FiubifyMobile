@@ -18,23 +18,25 @@ function ListedSong({ song, onPress }) {
 
 export function AllSongs({ setSong, songs }) {
   if (songs) {
-    return (
-      <View style={styles.view}>
-        {songs.map((song) => (
-          <ListedSong
-            key={song.title + song.artistId + song.url}
-            song={song}
-            onPress={setSong}
-          />
-        ))}
-      </View>
-    );
+    if (songs.length > 0) {
+      return (
+        <View style={styles.view}>
+          {songs.map((song) => (
+            <ListedSong
+              key={song.title + song.artistId + song.url}
+              song={song}
+              onPress={setSong}
+            />
+          ))}
+        </View>
+      );
+    } else {
+      return (
+        <Text>No Content available</Text>
+      );
+    }
   } else {
-    return (
-      <View style={styles.view}>
-        <Text style={styles.loading}>Loading...</Text>
-      </View>
-    );
+    return null;
   }
 }
 const styles = StyleSheet.create({
