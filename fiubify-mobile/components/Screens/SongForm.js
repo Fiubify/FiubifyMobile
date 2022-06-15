@@ -42,16 +42,14 @@ export function SongForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
 
   useEffect(() => {
-    async function aux() {
-      const user = await getUser(userUId);
-      const albumsData = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${user._id}`,
-      );
+    axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${userUId}`,
+    ).then((albumsData) => {
       setAlbums(albumsData.data.data);
       setLoading(false);
-    }
-
-    aux().then();
+    }).catch((e) => {
+      console.error(e)
+    })
   }, []);
 
     if(loading)

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Home from "./Home";
 import Header from "./Header";
 import Footer from "./Footer";
-import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
 
@@ -38,10 +37,6 @@ function ScreenController({ navigation, route }) {
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
                            setSong={stopAndSetSong(song, setSong)} />);
-    } else if (currentScreen === "LOAD-SONG") {
-      setComponent(
-        <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
-      );
     } else {
       setComponent(null);
     }
