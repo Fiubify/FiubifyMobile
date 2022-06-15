@@ -86,7 +86,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#CAE3EA",
     alignItems: "center",
     justifyContent: "space-between",
-    marginTop: "5%",
   },
   viewBody: {
     width: "100%",
