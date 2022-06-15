@@ -69,6 +69,7 @@ export default function ButtonGroup({ setSearchFunction,
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 10,
   },
   btnGroup: {
     flexDirection: 'row',
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     flex: 1,
+    borderTopWidth: 0.25,
     borderRightWidth: 0.25,
     borderLeftWidth: 0.25,
     borderColor: '#6B7280'
