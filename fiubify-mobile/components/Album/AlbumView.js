@@ -3,47 +3,65 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Info from "../profile/Info";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
+import { useEffect, useState } from "react";
 
-export async function AlbumView({ navigation, route }) {
+export function AlbumView({ navigation, route }) {
   const { album, currenUserUId } = route.params;
+  const [loading, setLoading] = useState(true);
+  const [artist, setArtist] = useState(null);
 
-  const artist = (await getUser(album.artistId)).data;
+  useEffect(() => {
+    getUser(album.artistId).then((user) => {
+      setArtist(user);
+      setLoading(false);
+      console.log(user);
+    });
+  }, []);
 
-  return (
-    <View style={styles.view}>
-      <Text
-        style={styles.link}
-        onPress={() =>
-          navigation.navigate("Home", {
-            uid: currenUserUId,
-          })
-        }
-      >
-        <MaterialIcons name="arrow-back-ios" />
-        Back
-      </Text>
-      <View style={styles.title}>
-        <Text style={styles.title_text}>
-          {album.title}
+  if (!loading){
+    return (
+      <View style={styles.view}>
+        <Text
+          style={styles.link}
+          onPress={() =>
+            navigation.navigate("Home", {
+              uid: currenUserUId,
+            })
+          }
+        >
+          <MaterialIcons name="arrow-back-ios" />
+          Back
         </Text>
+        <View style={styles.title}>
+          <Text style={styles.title_text}>
+            {album.title}
+          </Text>
+        </View>
+        <Info
+          title="Artist"
+          contain={artist.name + " " + artist.surname}
+          icon="microphone-variant"
+        />
+        <Info
+          title="Plan"
+          contain={album.tier}
+          icon={album.tier === "Free" ? "cash-remove" : "diamond-stone"}
+        />
+        <Info
+          title="Genre"
+          contain={album.genre}
+          icon="music-circle-outline"
+        />
       </View>
-      <Info
-        title="Artist"
-        contain={artist.name + artist.surname}
-        icon="microphone-variant"
-      />
-      <Info
-        title="Plan"
-        contain={album.tier}
-        icon={album.tier === "Free" ? "cash-remove" : "diamond-stone"}
-      />
-      <Info
-        title="Genre"
-        contain={album.genre}
-        icon="music-circle-outline"
-      />
-    </View>
-  );
+    );
+  } else {
+    return (
+      <View style={styles.view}>
+        <Text style={styles.loading}>Loading...</Text>
+      </View>
+    );
+  }
+
 }
 
 const styles = StyleSheet.create({

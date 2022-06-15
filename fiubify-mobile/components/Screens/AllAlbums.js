@@ -8,7 +8,7 @@ function ListedAlbum({ album, onPress }) {
       pressableStyle={styles.button}
       title={album.title}
       onPress={() => {
-        onPress(album._id);
+        onPress(album);
       }}
     />
   );
@@ -25,12 +25,11 @@ export function AllAlbums({ albums,
             <ListedAlbum
               key={album._id}
               album={album}
-              onPress={(_id) => {
-                // navigation.navigate("ExternProfile", {
-                //   userUId: _id,
-                //   currentUserUId: currentUserId,
-                // });//"Album"
-                console.log("album id: ", _id);
+              onPress={(album) => {
+                navigation.navigate("AlbumView", {
+                  album: album,
+                  currentUserUId: currentUserId,
+                });
               }}
             />
           ))}
