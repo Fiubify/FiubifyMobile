@@ -23,7 +23,6 @@ export function stopAndSetSong(song, setSong) {
 export default function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
   const { uid, token } = route.params;
-  //const [otherUid, setOtheruid] = useState(uid);
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
 

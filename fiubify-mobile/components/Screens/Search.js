@@ -152,7 +152,5 @@ const styles = StyleSheet.create({
   filterButtons: {
     width: "100%",
     height: hp(15),
-    // display: "flex",
-    // flexDirection: "row",
   },
 });
