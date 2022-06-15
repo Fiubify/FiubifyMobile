@@ -16,9 +16,9 @@ function Footer({ currentScreen, setCurrentScreen }) {
         title="Search"
       />
       <FooterButton
-        changeCurrent={() => setCurrentScreen("LIBRARY")}
+        changeCurrent={() => setCurrentScreen("MY-LIBRARY")}
         icon={
-          currentScreen === "LIBRARY"
+          currentScreen === "MY-LIBRARY"
             ? "bookmark-multiple"
             : "bookmark-multiple-outline"
         }

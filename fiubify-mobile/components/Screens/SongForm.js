@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Text } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
-import { getUser } from "../../src/GetUser";
-import { uploadSong } from "../../src/reproducirCanciones";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import axios from "axios";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -148,17 +146,16 @@ export function SongForm({ navigation, route }) {
     genre,
     navigation,
   ) {
-    let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
+    let url = `https://fiubify-middleware-staging.herokuapp.com/contents/albums/${albumId}/add-song`;
 
     const songUrl = `${userUId}/${albumId}/${title}`;
 
-    const userData = await getUser(userUId);
-    await uploadSong(songUrl);
+    // await uploadSong(songUrl);
     // title, artistId, albumId, duration, url, tier, genre, description
     const body = {
       title,
       token,
-      artistId: userData._id,
+      artistId: userUId,
       albumId,
       duration: parseInt(duration),
       url: songUrl,
@@ -184,6 +181,7 @@ export function SongForm({ navigation, route }) {
         token: token,
       });
     } else {
+      console.error(response)
       alert(response.statusText);
     }
   }

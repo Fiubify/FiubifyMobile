@@ -4,6 +4,7 @@ import Header from "./Header";
 import Footer from "./Footer";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
+import { MyLibrary } from "./MyLibrary";
 
 function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -37,6 +38,8 @@ function ScreenController({ navigation, route }) {
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
                            setSong={stopAndSetSong(song, setSong)} />);
+    } else if (currentScreen === "MY-LIBRARY") {
+      setComponent(<MyLibrary token={token} currentUserId={uid} navigation={navigation} setSong={stopAndSetSong(song, setSong)}/>)
     } else {
       setComponent(null);
     }
