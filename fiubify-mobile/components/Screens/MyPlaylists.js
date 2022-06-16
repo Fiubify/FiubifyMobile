@@ -10,7 +10,6 @@ export function MyPlaylists({ currentUserId, onSelect }) {
 
   useEffect(() => {
     axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists?owners.id=${currentUserId}`).then((data) => {
-        console.log(data);
         setPlaylists(data.data.data);
         setLoading(false)
       },

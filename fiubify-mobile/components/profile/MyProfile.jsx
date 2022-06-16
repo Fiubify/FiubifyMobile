@@ -65,17 +65,6 @@ export default function MyProfile({ navigation, route }) {
           contain={user.plan}
           icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
         />
-        <UiButton
-          title="New Playlist"
-          pressableStyle={styles.loadSong}
-          textStyle={styles.textStyle}
-          onPress={() =>
-            navigation.navigate("PlaylistForm", {
-              userUId: userUId,
-              token: token,
-            })
-          }
-        />
         {user.role === "Artist" ? (
           <View style={styles.artist}>
             <View style={styles.artistCreate}>
