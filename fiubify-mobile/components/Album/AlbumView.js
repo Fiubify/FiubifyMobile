@@ -1,19 +1,17 @@
 import { StyleSheet, Text, View } from "react-native";
-import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Info from "../profile/Info";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
 import { AllSongs } from "../Screens/AllSongs";
-import Header from "../Screens/Header";
 import React from "react";
-import {stopAndSetSong} from "../Screens/ScreenController";
 
-export function AlbumView({ navigation, route }) {
-  const { album, currentUserUId, token } = route.params;
+export function AlbumView({
+                            data:{album},
+                            setSong,
+                          }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
-  const [song, setSong] = useState();
 
   useEffect(() => {
     getUser(album.artistId).then((user) => {
@@ -22,48 +20,36 @@ export function AlbumView({ navigation, route }) {
     });
   }, []);
 
-  if (!loading){
+  if (!loading) {
     return (
       <View style={styles.view}>
-        <Header song={song} token={token} navigation={navigation} userUId={currentUserUId} />
         <View style={styles.viewBody}>
-        <Text
-          style={styles.link}
-          onPress={() =>
-            navigation.navigate("Home", {
-              uid: currentUserUId,
-            })
-          }
-        >
-          <MaterialIcons name="arrow-back-ios" />
-          Back
-        </Text>
-        <View style={styles.title}>
-          <Text style={styles.title_text}>
-            {album.title}
-          </Text>
-        </View>
-        <Info
-          title="Artist"
-          contain={artist.name + " " + artist.surname}
-          icon="microphone-variant"
-        />
-        <Info
-          title="Plan"
-          contain={album.tier}
-          icon={album.tier === "Free" ? "cash-remove" : "diamond-stone"}
-        />
-        <Info
-          title="Genre"
-          contain={album.genre}
-          icon="music-circle-outline"
-        />
-        <Info
-          title="Tracks"
-          contain=""
-          icon="playlist-music"
-        />
-        <AllSongs songs={album.tracks} setSong={stopAndSetSong(song, setSong)} />
+          <View style={styles.title}>
+            <Text style={styles.title_text}>
+              {album.title}
+            </Text>
+          </View>
+          <Info
+            title="Artist"
+            contain={artist.name + " " + artist.surname}
+            icon="microphone-variant"
+          />
+          <Info
+            title="Plan"
+            contain={album.tier}
+            icon={album.tier === "Free" ? "cash-remove" : "diamond-stone"}
+          />
+          <Info
+            title="Genre"
+            contain={album.genre}
+            icon="music-circle-outline"
+          />
+          <Info
+            title="Tracks"
+            contain=""
+            icon="playlist-music"
+          />
+          <AllSongs songs={album.tracks} setSong={setSong} />
         </View>
       </View>
     );

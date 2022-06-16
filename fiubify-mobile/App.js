@@ -14,7 +14,6 @@ import { AlbumForm } from "./components/Screens/AlbumForm.js";
 import MyProfile from "./components/profile/MyProfile";
 import { PlaylistForm } from "./components/Screens/PlaylistForm";
 import ExternProfile from "./components/profile/ExternProfile";
-import { AlbumView } from "./components/Album/AlbumView";
 
 LogBox.ignoreAllLogs(true);
 
@@ -43,7 +42,6 @@ function App() {
           <Stack.Screen name="SongForm" component={SongForm} />
           <Stack.Screen name="AlbumForm" component={AlbumForm} />
           <Stack.Screen name="PlaylistForm" component={PlaylistForm} />
-          <Stack.Screen name="AlbumView" component={AlbumView} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
