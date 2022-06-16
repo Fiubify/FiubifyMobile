@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, ScrollView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -37,71 +37,94 @@ export default function MyProfile({ navigation, route }) {
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>
-        <View style={styles.imageSection}>
-          <Image
-            style={styles.perfilImage}
-            source={require("./../../assets/avatar.png")}
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.scrollContent}
+        >
+          <View style={styles.imageSection}>
+            <Image
+              style={styles.perfilImage}
+              source={require("./../../assets/avatar.png")}
+            />
+          </View>
+          <View style={styles.title}>
+            <Text style={styles.title_text}>
+              {user.name} {user.surname}
+            </Text>
+          </View>
+          <Info title="Email" contain={user.email} icon="email-outline" />
+          <Info
+            title="Role"
+            contain={user.role}
+            icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
           />
-        </View>
-        <View style={styles.title}>
-          <Text style={styles.title_text}>
-            {user.name} {user.surname}
-          </Text>
-        </View>
-        <Info title="Email" contain={user.email} icon="email-outline" />
-        <Info
-          title="Role"
-          contain={user.role}
-          icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
-        />
-        <Info
-          title="Birthdate"
-          contain={user.birthdate}
-          icon="calendar-heart"
-        />
+          <Info
+            title="Birthdate"
+            contain={user.birthdate}
+            icon="calendar-heart"
+          />
 
-        <Info
-          title="Plan"
-          contain={user.plan}
-          icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
-        />
-        <UiButton
-          title="New Playlist"
-          pressableStyle={styles.loadSong}
-          textStyle={styles.textStyle}
-          onPress={() =>
-            navigation.navigate("PlaylistForm", {
-              userUId: userUId,
-              token: token,
-            })
-          }
-        />
-        {user.role === "Artist" ? (
-          <View style={styles.artist}>
-            <View style={styles.artistCreate}>
+          <Info
+            title="Plan"
+            contain={user.plan}
+            icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
+          />
+          <UiButton
+            title="New Playlist"
+            pressableStyle={styles.loadSong}
+            textStyle={styles.textStyle}
+            onPress={() =>
+              navigation.navigate("PlaylistForm", {
+                userUId: userUId,
+                token: token,
+              })
+            }
+          />
+          {user.role === "Artist" ? (
+            <View style={styles.artist}>
+              <View style={styles.artistCreate}>
+                <UiButton
+                  title="Load Song"
+                  pressableStyle={styles.loadSong}
+                  textStyle={styles.textStyle}
+                  onPress={() =>
+                    navigation.navigate("SongForm", {
+                      userUId: userUId,
+                      token: token,
+                    })
+                  }
+                />
+                <UiButton
+                  title="New Album"
+                  pressableStyle={styles.loadSong}
+                  textStyle={styles.textStyle}
+                  onPress={() =>
+                    navigation.navigate("AlbumForm", {
+                      userUId: userUId,
+                      token: token,
+                    })
+                  }
+                />
+              </View>
               <UiButton
-                title="Load Song"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("SongForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
-              />
-              <UiButton
-                title="New Album"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("AlbumForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
+                title="Log Out"
+                pressableStyle={styles.buttonListener}
+                onPress={() => {
+                  signOut(auth)
+                    .then(() => {
+                      navigation.navigate("Entry", {
+                        uid: "",
+                      });
+                    })
+                    .catch((_error) => {
+                      navigation.navigate("Entry", {
+                        uid: "",
+                      });
+                    });
+                }}
               />
             </View>
+          ) : (
             <UiButton
               title="Log Out"
               pressableStyle={styles.buttonListener}
@@ -117,29 +140,11 @@ export default function MyProfile({ navigation, route }) {
                       uid: "",
                     });
                   });
-              }}
-            />
-          </View>
-        ) : (
-          <UiButton
-            title="Log Out"
-            pressableStyle={styles.buttonListener}
-            onPress={() => {
-              signOut(auth)
-                .then(() => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                })
-                .catch((_error) => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                });
               }
-          }
-        />
-        )}
+              }
+            />
+          )}
+        </ScrollView>
       </View>
     );
   else
@@ -169,12 +174,14 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    marginTop: 20,
   },
   imageSection: {
     height: hp(20),
-    marginBottom: hp(5),
+    marginBottom: hp(7),
     justifyContent: "center",
     alignItems: "center",
+    marginTop: hp(7),
   },
   perfilImage: {
     width: wp(50),
@@ -221,6 +228,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#006E95",
     borderColor: "#006E95",
     borderWidth: 2,
+    marginBottom: hp(2),
   },
   loadSong: {
     width: wp(44),
@@ -234,5 +242,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: 20,
     color: "#006E95",
+  },
+  scroll: {
+    width: "100%",
+    display: "flex",
+  },
+  scrollContent: {
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
