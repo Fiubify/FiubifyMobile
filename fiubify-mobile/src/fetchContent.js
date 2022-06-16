@@ -55,6 +55,18 @@ export async function getSongsWithGenre(genre, tierFilter) {
   }
 }
 
+export async function getAlbumById(id){
+  try {
+    let response = await axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/albums/${id}`,
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (e) {
+    throw e;
+  }
+}
+
 export async function getAlbumsWithTitle(title, tierFilter) {
   try {
     let response;

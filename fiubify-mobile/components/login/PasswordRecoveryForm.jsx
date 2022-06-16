@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import UiTextInput from "../ui/UiTextInput.jsx";
@@ -11,6 +11,8 @@ import {
 import { auth } from "../../firebase.js";
 import { sendPasswordResetEmail } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { postUserEvent } from "../../src/fetchMetrics";
+import { passwordAction, resetTypeAction } from "../../constantes";
 
 export default function PasswordRecoveryForm({ navigation }) {
   const [sent, setSent] = useState(false);
@@ -53,6 +55,7 @@ export default function PasswordRecoveryForm({ navigation }) {
     sendPasswordResetEmail(auth, email)
       .then((response) => {
         setSent(true);
+        postUserEvent(passwordAction, resetTypeAction);
       })
       .catch((error) => {
         alert(error.message);

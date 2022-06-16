@@ -6,10 +6,14 @@ import { useEffect, useState } from "react";
 import { AllSongs } from "../Screens/AllSongs";
 import React from "react";
 import { downloadSong } from "../../src/reproducirCanciones";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { listenedAction } from "../../constantes";
+import { getAlbumById } from "../../src/fetchContent";
 
 export function AlbumView({
                             data:{album},
                             setSong,
+                            currentUserUId
                           }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
@@ -50,9 +54,11 @@ export function AlbumView({
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={album.tracks} setSong={async (song) => {
+          <AllSongs  songs={album.tracks} currentUserUId={currentUserUId} setSong={async (song) => {
             const songSound = await downloadSong(song.url);
             setSong({ sound: songSound, data: song });
+            const album = await getAlbumById(song.albumId);
+            await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
           }} />
         </View>
       </View>

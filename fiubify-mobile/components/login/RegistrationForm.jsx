@@ -12,6 +12,8 @@ import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 import Selector from "../ui/UiSelect.jsx";
+import { postUserEvent } from "../../src/fetchMetrics";
+import { emailTypeAction, signupAction } from "../../constantes";
 
 export default function RegistrationForm({ navigation }) {
   const [name, setName] = useState("");
@@ -37,7 +39,7 @@ export default function RegistrationForm({ navigation }) {
         title="Sign up with Facebook"
         pressableStyle={styles.facebookButton}
       />
-
+      {/* Si se registra con fb, postear metrica (Signup, Federated)*/}
       <View style={styles.middle}>
         <View style={styles.line} />
         <Text style={styles.text}>or</Text>
@@ -197,6 +199,7 @@ export default function RegistrationForm({ navigation }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
+      await postUserEvent(signupAction, emailTypeAction);
       navigation.navigate("Home", {
         uid: body.uid,
       });

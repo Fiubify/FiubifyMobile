@@ -2,10 +2,12 @@ import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { AllSongs} from "./AllSongs";
 import { useEffect, useState } from "react";
-import { getSongs } from "../../src/fetchContent";
+import { getAlbumById, getSongs } from "../../src/fetchContent";
 import { downloadSong } from "../../src/reproducirCanciones";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { listenedAction } from "../../constantes";
 
-function Home({ setSong }) {
+function Home({ setSong, currentUserUId }) {
   const [songs, setSongs] = useState(null);
 
   useEffect(() => {
@@ -18,9 +20,11 @@ function Home({ setSong }) {
   }, []);
   return (
     <View style={styles.view}>
-      <AllSongs setSong={async (song) => {
+      <AllSongs currentUserUId={currentUserUId} setSong={async (song) => {
         const songSound = await downloadSong(song.url);
         setSong({ sound: songSound, data: song });
+        const album = await getAlbumById(song.albumId);
+        await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
       }} songs={songs}/>
     </View>
   );

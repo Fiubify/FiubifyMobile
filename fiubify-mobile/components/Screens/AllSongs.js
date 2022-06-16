@@ -1,7 +1,10 @@
 import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { listenedAction } from "../../constantes";
+import { getAlbumById } from "../../src/fetchContent";
 
-function ListedSong({ song, onPress }) {
+function ListedSong({ song, onPress, userUId }) {
   return (
     <UiButton
       pressableStyle={styles.songs}
@@ -12,7 +15,7 @@ function ListedSong({ song, onPress }) {
   );
 }
 
-export function AllSongs({ setSong, songs }) {
+export function AllSongs({ setSong, songs, currentUserUId }) {
   if (songs) {
     if (songs.length > 0) {
       return (
@@ -22,6 +25,7 @@ export function AllSongs({ setSong, songs }) {
               key={song.title + song.artistId + song.url}
               song={song}
               onPress={setSong}
+              userUId={currentUserUId}
             />
           ))}
         </View>

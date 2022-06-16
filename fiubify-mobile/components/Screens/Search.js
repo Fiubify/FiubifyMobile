@@ -5,12 +5,14 @@ import UiButton from "../ui/UiButton";
 import { AllSongs } from "./AllSongs";
 
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getSongsWithTitle } from "../../src/fetchContent";
+import { getAlbumById, getSongsWithTitle } from "../../src/fetchContent";
 import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
 import ButtonGroup from "./ButtonGroup";
 import { AllAlbums } from "./AllAlbums";
 import { downloadSong } from "../../src/reproducirCanciones";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { listenedAction } from "../../constantes";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")
@@ -92,9 +94,11 @@ export function Search({
           setProfiles={setProfiles}
           setAlbums={setAlbums} />
       </View>
-      <AllSongs setSong={async (song) => {
+      <AllSongs currentUserUId={currentUserId} setSong={async (song) => {
         const songSound = await downloadSong(song.url);
         setSong({ sound: songSound, data: song });
+        const album = await getAlbumById(song.albumId);
+        await postSongEvent(listenedAction, song.genre, song.tier, currentUserId, song.title , album.data.title);
       }} songs={songs} />
       <AllProfiles
         profiles={profiles}
