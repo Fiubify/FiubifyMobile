@@ -3,6 +3,7 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { AllSongs} from "./AllSongs";
 import { useEffect, useState } from "react";
 import { getSongs } from "../../src/fetchContent";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 function Home({ setSong }) {
   const [songs, setSongs] = useState(null);
@@ -17,7 +18,10 @@ function Home({ setSong }) {
   }, []);
   return (
     <View style={styles.view}>
-      <AllSongs setSong={setSong} songs={songs}/>
+      <AllSongs setSong={async (song) => {
+        const songSound = await downloadSong(song.url);
+        setSong({ sound: songSound, data: song });
+      }} songs={songs}/>
     </View>
   );
 }

@@ -4,8 +4,10 @@ import { AllSongs } from "../Screens/AllSongs";
 import React, { useEffect, useState } from "react";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import axios from "axios";
+import UiButton from "../ui/UiButton";
+import { downloadSong } from "../../src/reproducirCanciones";
 
-export function PlaylistView({ data, setSong }) {
+export function PlaylistView({ data, setSong, setData, setCurrentScreen }) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +34,15 @@ export function PlaylistView({ data, setSong }) {
             <Text style={styles.title_text}>
               {playlist.title}
             </Text>
+            <UiButton
+              title="New song"
+              pressableStyle={styles.loadSong}
+              textStyle={styles.textStyle}
+              onPress={() => {
+                setData({ playlist: playlist });
+                setCurrentScreen("ADD-SONG-PLAYLIST")
+              }}
+            />
           </View>
           <Info
             title="Owners"
@@ -48,7 +59,10 @@ export function PlaylistView({ data, setSong }) {
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={tracks} setSong={setSong} />
+          <AllSongs songs={tracks} setSong={async (song) => {
+            const songSound = await downloadSong(song.url);
+            setSong({ sound: songSound, data: song });
+          }} />
         </View>
       </View>
     );
@@ -99,6 +113,19 @@ const styles = StyleSheet.create({
   },
   loading: {
     fontSize: 30,
+    color: "#006E95",
+  },
+  loadSong: {
+    width: wp(44),
+    marginTop: hp(2),
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    paddingHorizontal: 0,
+  },
+  textStyle: {
+    fontWeight: "bold",
+    fontSize: 20,
     color: "#006E95",
   },
 });

@@ -1,5 +1,4 @@
 import UiButton from "../ui/UiButton";
-import { downloadSong } from "../../src/reproducirCanciones";
 import { StyleSheet, Text, View } from "react-native";
 
 function ListedSong({ song, onPress }) {
@@ -8,10 +7,7 @@ function ListedSong({ song, onPress }) {
       pressableStyle={styles.songs}
       textStyle={styles.songsText}
       title={song.title}
-      onPress={async () => {
-        const songSound = await downloadSong(song.url);
-        onPress({ sound: songSound, data: song });
-      }}
+      onPress={() => onPress(song)}
     ></UiButton>
   );
 }
