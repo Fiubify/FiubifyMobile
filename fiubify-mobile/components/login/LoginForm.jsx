@@ -15,6 +15,8 @@ import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { postUserEvent } from "../../src/fetchMetrics";
+import { emailTypeAction, loginAction } from "../../constantes";
 
 function LoginForm({ navigation, openRegistration, backFunction }) {
   const [email, setEmail] = useState("");
@@ -31,10 +33,12 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
           title="Log in with Facebook"
           pressableStyle={styles.facebookButton}
         />
+        {/* Si se loggea con fb, postear metrica (Login, Federated)*/}
         <UiButton
           title="Log in with Google"
           pressableStyle={styles.googleButton}
         />
+        {/* Si se loggea con google, postear metrica (Login, Federated)*/}
       </View>
       <View style={styles.middle}>
         <View style={styles.line} />
@@ -87,6 +91,7 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
       .then(async (userCredentials) => {
         const user = userCredentials.user;
         const token = await user.getIdToken()
+        await postUserEvent(loginAction, emailTypeAction);
         navigation.navigate("Home", {
           uid: user.uid,
           token: token
