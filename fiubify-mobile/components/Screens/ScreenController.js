@@ -7,7 +7,6 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
 import { MyLibrary } from "./MyLibrary";
 import { AlbumView } from "../Album/AlbumView";
-import SongForm from "./SongForm";
 import { PlaylistView } from "../Playlist/PlaylistView";
 import { AddSongPlaylist } from "./AddSongPlaylist";
 
@@ -60,7 +59,7 @@ export default function ScreenController({ navigation, route }) {
         break;
       case "PLAYLIST-VIEW":
         setComponent(
-          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen} />,
+          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen} currentUserUId={uid} />,
         );
         break;
       case "MY-LIBRARY":

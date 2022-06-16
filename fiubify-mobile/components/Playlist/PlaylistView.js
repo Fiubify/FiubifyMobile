@@ -6,8 +6,11 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import axios from "axios";
 import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { getAlbumById } from "../../src/fetchContent";
+import { listenedAction } from "../../constantes";
 
-export function PlaylistView({ data, setSong, setData, setCurrentScreen }) {
+export function PlaylistView({ data, setSong, setData, setCurrentScreen, currentUserUId }) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -62,6 +65,8 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen }) {
           <AllSongs songs={tracks} setSong={async (song) => {
             const songSound = await downloadSong(song.url);
             setSong({ sound: songSound, data: song });
+            const album = await getAlbumById(song.albumId);
+            await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
           }} />
         </View>
       </View>
