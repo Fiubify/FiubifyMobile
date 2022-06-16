@@ -4,12 +4,16 @@ import { MyPlaylists } from "./MyPlaylists";
 
 export function MyLibrary({
                             navigation,
-                            setSong,
                             currentUserId,
                             token,
+                            setCurrentScreen,
+                            setData,
                           }) {
   return <View style={styles.view}>
-    <MyPlaylists token={token} navigation={navigation} currentUserId={currentUserId}/>
+    <MyPlaylists token={token} navigation={navigation} currentUserId={currentUserId} onSelect={(playlist) => {
+      setData({playlist})
+      setCurrentScreen("PLAYLIST-VIEW");
+    }} />
   </View>;
 }
 

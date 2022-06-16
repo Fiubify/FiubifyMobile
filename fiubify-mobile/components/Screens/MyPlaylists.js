@@ -4,7 +4,7 @@ import { ListedPlaylist } from "./ListedPlaylist";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export function MyPlaylists({ token, navigation, currentUserId }) {
+export function MyPlaylists({ currentUserId, onSelect }) {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true)
 
@@ -25,13 +25,7 @@ export function MyPlaylists({ token, navigation, currentUserId }) {
         <ListedPlaylist
           key={playlist._id}
           playlist={playlist}
-          onPress={(uid) => {
-            navigation.navigate("Playlist", {
-              userUId: uid,
-              currentUserUId: currentUserId,
-              token,
-            });
-          }}
+          onPress={onSelect}
         />
       ))}
     </View>;

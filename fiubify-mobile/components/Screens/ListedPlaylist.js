@@ -2,13 +2,12 @@ import UiButton from "../ui/UiButton";
 import { StyleSheet } from "react-native";
 
 export function ListedPlaylist({ playlist, onPress }) {
-  console.log(playlist)
   return <UiButton
     pressableStyle={styles.songs}
     textStyle={styles.songsText}
     title={playlist.title}
-    onPress={async () => {
-      alert("ONPRESS UIBUTTON LISTEDPLAYLIST")
+    onPress={() => {
+      onPress(playlist)
     }}
   ></UiButton>;
 }
