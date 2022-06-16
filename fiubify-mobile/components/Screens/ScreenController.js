@@ -5,6 +5,7 @@ import Footer from "./Footer";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
 import { MyLibrary } from "./MyLibrary";
+import { AlbumView } from "../Album/AlbumView";
 
 export function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -25,6 +26,7 @@ export default function ScreenController({ navigation, route }) {
   const { uid, token } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     if (currentScreen === "HOME") {
@@ -36,7 +38,15 @@ export default function ScreenController({ navigation, route }) {
       );
     } else if (currentScreen === "SEARCH") {
       setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
-                           setSong={stopAndSetSong(song, setSong)} />);
+                           setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen}/>);
+    } else if (currentScreen === "LOAD-SONG") {
+      setComponent(
+        <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
+      );
+    } else if (currentScreen === "ALBUM-VIEW") {
+      setComponent(
+        <AlbumView data={data} setSong={stopAndSetSong(song, setSong)} />,
+      );
     } else if (currentScreen === "MY-LIBRARY") {
       setComponent(<MyLibrary token={token} currentUserId={uid} navigation={navigation} setSong={stopAndSetSong(song, setSong)}/>)
     } else {

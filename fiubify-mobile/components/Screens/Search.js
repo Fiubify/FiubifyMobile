@@ -18,7 +18,8 @@ export function Search({
                          navigation,
                          setSong,
                          currentUserId,
-                         token,
+                         setData,
+                         setCurrentScreen,
                        }) {
 
   const [songs, setSongs] = useState(null);
@@ -98,9 +99,10 @@ export function Search({
       />
       <AllAlbums
         albums={albums}
-        currentUserId={currentUserId}
-        navigation={navigation}
-        token={token} />
+        setAlbum={(album) => {
+          setData({album: album});
+          setCurrentScreen("ALBUM-VIEW");
+        }}/>
     </View>
   );
 }
