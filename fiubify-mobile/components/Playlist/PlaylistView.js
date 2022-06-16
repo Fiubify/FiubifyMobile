@@ -4,6 +4,7 @@ import { AllSongs } from "../Screens/AllSongs";
 import React, { useEffect, useState } from "react";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import axios from "axios";
+import UiButton from "../ui/UiButton";
 
 export function PlaylistView({ data, setSong }) {
   const { playlist } = data;
@@ -32,6 +33,14 @@ export function PlaylistView({ data, setSong }) {
             <Text style={styles.title_text}>
               {playlist.title}
             </Text>
+            <UiButton
+              title="New song"
+              pressableStyle={styles.loadSong}
+              textStyle={styles.textStyle}
+              onPress={() =>
+                alert("NEW SONG IN PLAYLIST POST")
+              }
+            />
           </View>
           <Info
             title="Owners"
@@ -99,6 +108,19 @@ const styles = StyleSheet.create({
   },
   loading: {
     fontSize: 30,
+    color: "#006E95",
+  },
+  loadSong: {
+    width: wp(44),
+    marginTop: hp(2),
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    paddingHorizontal: 0,
+  },
+  textStyle: {
+    fontWeight: "bold",
+    fontSize: 20,
     color: "#006E95",
   },
 });
