@@ -32,6 +32,19 @@ export function Search({
   const [tierFilter, setTierFilter] = useState(null);
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
   const [contentFunction, setContentFunction] = useState(() => setSongs);
+
+  const fetchGenres = ({songs: songs, albums: albums}) => {
+    if (songs.length === 0 && albums.length === 0){
+      setSongs(songs);
+    } else {
+      if (songs.length > 0) {
+        setSongs(songs);
+      }
+      if (albums.length > 0) {
+        setAlbums(albums);
+      }
+    }
+  }
   const [startSearch, setStartSearch] = useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = useState(false);
@@ -92,7 +105,8 @@ export function Search({
           setContentFunction={setContentFunction}
           setSongs={setSongs}
           setProfiles={setProfiles}
-          setAlbums={setAlbums} />
+          setAlbums={setAlbums}
+          setGenre={fetchGenres} />
       </View>
       <AllSongs currentUserUId={currentUserId} setSong={async (song) => {
         const songSound = await downloadSong(song.url);
