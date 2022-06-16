@@ -10,7 +10,7 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { getAlbumById } from "../../src/fetchContent";
 import { listenedAction } from "../../constantes";
 
-export function PlaylistView({ data, setSong, setData, setCurrentScreen, currentUserUId }) {
+export function PlaylistView({ data, setSong, setData, setCurrentScreen, currentUserUId, navigation, token }) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -38,7 +38,7 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
               {playlist.title}
             </Text>
             <UiButton
-              title="New song"
+              title="+"
               pressableStyle={styles.loadSong}
               textStyle={styles.textStyle}
               onPress={() => {
@@ -46,11 +46,28 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
                 setCurrentScreen("ADD-SONG-PLAYLIST")
               }}
             />
+            <UiButton
+              title="*"
+              pressableStyle={styles.loadSong}
+              textStyle={styles.textStyle}
+              onPress={() => {
+                navigation.navigate("PlaylistEdit", {
+                  uid: currentUserUId,
+                  token,
+                  playlist
+                })
+              }}
+            />
           </View>
           <Info
             title="Owners"
             contain={playlist.owners.map((owner) => owner.name).join(",")}
             icon="microphone-variant"
+          />
+          <Info
+          title="Description"
+          contain={playlist.description}
+          icon="card-text-outline"
           />
           <Info
             title=""
@@ -121,12 +138,13 @@ const styles = StyleSheet.create({
     color: "#006E95",
   },
   loadSong: {
-    width: wp(44),
+    width: wp(15),
     marginTop: hp(2),
     backgroundColor: "white",
     borderColor: "#006E95",
     borderWidth: 2,
     paddingHorizontal: 0,
+    marginLeft: "10%"
   },
   textStyle: {
     fontWeight: "bold",
