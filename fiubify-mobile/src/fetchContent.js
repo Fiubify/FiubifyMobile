@@ -33,76 +33,46 @@ export async function getSongsWithTitle(title, tierFilter) {
   }
 }
 
-export async function getSongsWithGenre(genre, tierFilter) {
-  try {
-    let response;
-    if (tierFilter) {
-      response = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}&tier=${tierFilter}`,
-      );
-    } else {
-      response = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}`,
-      );
-    }
-    return response.data;
-  } catch (e) {
-    if (e.response.status !== 404) {
-      throw e
-    } else {
-      return { data: [] }
-    }
-  }
-}
-
 export async function getContentByGenre(genre, tierFilter) {
   let songs = [];
   let albums = [];
   let responseSongs;
   let responseAlbums;
-  if (tierFilter) {
-    try {
+
+  try {
+    if (tierFilter) {
       responseSongs = await axios.get(
         `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}&tier=${tierFilter}`,
       );
-      songs = responseSongs.data.data;
-    } catch (e) {
-      if (e.response.status !== 404) {
-        throw e
-      }
-    }
-    try {
-      responseAlbums = await axios.get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?genre=${genre}&tier=${tierFilter}`,
-      );
-      albums = responseAlbums.data.data;
-    } catch (e) {
-      if (e.response.status !== 404) {
-        throw e
-      }
-    }
-  } else {
-    try {
+    } else {
       responseSongs = await axios.get(
         `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}`,
       );
-      songs = responseSongs.data.data;
-    } catch (e) {
-      if (e.response.status !== 404) {
-        throw e
-      }
     }
-    try {
+    songs = responseSongs.data.data;
+  } catch (e) {
+    if (e.response.status !== 404) {
+      throw e
+    }
+  }
+
+  try {
+    if (tierFilter) {
+      responseAlbums = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?genre=${genre}&tier=${tierFilter}`,
+      );
+    } else {
       responseAlbums = await axios.get(
         `https://fiubify-middleware-staging.herokuapp.com/contents/albums?genre=${genre}`,
       );
-      albums = responseAlbums.data.data;
-    } catch (e) {
-      if (e.response.status !== 404) {
-        throw e
-      }
+    }
+    albums = responseAlbums.data.data;
+  } catch (e) {
+    if (e.response.status !== 404) {
+      throw e
     }
   }
+
   return {data: {songs: songs, albums: albums}};
 }
 
