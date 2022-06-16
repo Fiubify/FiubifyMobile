@@ -26,9 +26,9 @@ export async function getSongsWithTitle(title, tierFilter) {
     return response.data;
   } catch (e) {
     if (e.response.status !== 404) {
-      throw e
+      throw e;
     } else {
-      return { data: [] }
+      return { data: [] };
     }
   }
 }
@@ -52,7 +52,7 @@ export async function getContentByGenre(genre, tierFilter) {
     songs = responseSongs.data.data;
   } catch (e) {
     if (e.response.status !== 404) {
-      throw e
+      throw e;
     }
   }
 
@@ -69,14 +69,14 @@ export async function getContentByGenre(genre, tierFilter) {
     albums = responseAlbums.data.data;
   } catch (e) {
     if (e.response.status !== 404) {
-      throw e
+      throw e;
     }
   }
 
-  return {data: {songs: songs, albums: albums}};
+  return { data: { songs: songs, albums: albums } };
 }
 
-export async function getAlbumById(id){
+export async function getAlbumById(id) {
   try {
     let response = await axios.get(
       `https://fiubify-middleware-staging.herokuapp.com/contents/albums/${id}`,
@@ -102,9 +102,24 @@ export async function getAlbumsWithTitle(title, tierFilter) {
     return response.data;
   } catch (e) {
     if (e.response.status !== 404) {
-      throw e
+      throw e;
     } else {
-      return { data: [] }
+      return { data: [] };
+    }
+  }
+}
+
+export async function getAlbumsByArtist(uid) {
+  try {
+    let response;
+    response = await axios.get(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${uid}`);
+    return response.data;
+  } catch (e) {
+    if (e.response.status !== 404) {
+      throw e;
+    } else {
+      return { data: [] };
     }
   }
 }
