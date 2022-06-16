@@ -55,6 +55,35 @@ export async function getSongsWithGenre(genre, tierFilter) {
   }
 }
 
+export async function getContentByGenre(genre, tierFilter) {
+  try {
+    let responseSongs;
+    let responseAlbums;
+    if (tierFilter) {
+      responseSongs = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}&tier=${tierFilter}`,
+      );
+      responseAlbums = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?genre=${genre}&tier=${tierFilter}`,
+      );
+    } else {
+      responseSongs = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/songs?genre=${genre}`,
+      );
+      responseAlbums = await axios.get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/albums?genre=${genre}&tier=${tierFilter}`,
+      );
+    }
+    return {songs: responseSongs.data, albums: responseAlbums.data};
+  } catch (e) {
+    if (e.response.status !== 404) {
+      throw e
+    } else {
+      return { data: [] }
+    }
+  }
+}
+
 export async function getAlbumById(id){
   try {
     let response = await axios.get(
