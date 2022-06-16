@@ -19,6 +19,7 @@ export function AllAlbums({
                             setAlbum,
                           }) {
   if (albums) {
+    console.log(albums)
     if (albums.length > 0) {
       return (
         <View style={styles.view}>

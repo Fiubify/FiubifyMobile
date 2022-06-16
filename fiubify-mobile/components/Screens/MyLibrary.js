@@ -2,14 +2,15 @@ import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
 import { MyPlaylists } from "./MyPlaylists";
 import UiButton from "../ui/UiButton";
+import { MyAlbums } from "../Album/MyAlbums";
 
 export function MyLibrary({
-                            navigation,
-                            currentUserId,
-                            token,
-                            setCurrentScreen,
-                            setData,
-                          }) {
+                                  navigation,
+                                  currentUserId,
+                                  token,
+                                  setCurrentScreen,
+                                  setData,
+                                }) {
   return <View style={styles.view}>
     <UiButton
       title="New Playlist"
@@ -23,9 +24,10 @@ export function MyLibrary({
       }
     />
     <MyPlaylists token={token} navigation={navigation} currentUserId={currentUserId} onSelect={(playlist) => {
-      setData({playlist})
+      setData({ playlist })
       setCurrentScreen("PLAYLIST-VIEW");
     }} />
+    <MyAlbums userUid={currentUserId} setData={setData} setCurrentScreen={setCurrentScreen} />
   </View>;
 }
 
