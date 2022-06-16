@@ -1,71 +1,72 @@
 import { StyleSheet, Text, View } from "react-native";
 import Info from "../profile/Info";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
-import { getUser } from "../../src/GetUser";
-import { useEffect, useState } from "react";
 import { AllSongs } from "../Screens/AllSongs";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import axios from "axios";
+import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
 
-export function AlbumView({
-                            data:{album},
-                            setSong,
-                            currentUserUId
-                          }) {
+export function PlaylistView({ data, setSong, setData, setCurrentScreen }) {
+  const { playlist } = data;
+  const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [artist, setArtist] = useState(null);
+
+  if (playlist === undefined) {
+    alert("No se designo la playlist");
+    return <Text>NO HAY PLAYLIST</Text>;
+  }
 
   useEffect(() => {
-    getUser(album.artistId).then((user) => {
-      setArtist(user);
-      setLoading(false);
+    axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlist._id}`).then(({ data }) => {
+      setTracks(data.data.tracks);
+      setLoading(false)
     });
   }, []);
 
-  if (!loading) {
+  if (loading) {
+    return <Text>LOADING...</Text>;
+  } else {
     return (
       <View style={styles.view}>
         <View style={styles.viewBody}>
           <View style={styles.title}>
             <Text style={styles.title_text}>
-              {album.title}
+              {playlist.title}
             </Text>
+            <UiButton
+              title="New song"
+              pressableStyle={styles.loadSong}
+              textStyle={styles.textStyle}
+              onPress={() => {
+                setData({ playlist: playlist });
+                setCurrentScreen("ADD-SONG-PLAYLIST")
+              }}
+            />
           </View>
           <Info
-            title="Artist"
-            contain={artist.name + " " + artist.surname}
+            title="Owners"
+            contain={playlist.owners.map((owner) => owner.name).join(",")}
             icon="microphone-variant"
           />
           <Info
-            title="Plan"
-            contain={album.tier}
-            icon={album.tier === "Free" ? "cash-remove" : "diamond-stone"}
-          />
-          <Info
-            title="Genre"
-            contain={album.genre}
-            icon="music-circle-outline"
+            title=""
+            contain={playlist.collaborative ? "Collaborative" : "Non collaborative"}
+            icon="human-male-female"
           />
           <Info
             title="Tracks"
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={album.tracks} currentUserUId={currentUserUId} setSong={async (song) => {
+          <AllSongs songs={tracks} setSong={async (song) => {
             const songSound = await downloadSong(song.url);
             setSong({ sound: songSound, data: song });
           }} />
         </View>
       </View>
     );
-  } else {
-    return (
-      <View style={styles.viewBody}>
-        <Text style={styles.loading}>Loading...</Text>
-      </View>
-    );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -112,6 +113,19 @@ const styles = StyleSheet.create({
   },
   loading: {
     fontSize: 30,
+    color: "#006E95",
+  },
+  loadSong: {
+    width: wp(44),
+    marginTop: hp(2),
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    paddingHorizontal: 0,
+  },
+  textStyle: {
+    fontWeight: "bold",
+    fontSize: 20,
     color: "#006E95",
   },
 });

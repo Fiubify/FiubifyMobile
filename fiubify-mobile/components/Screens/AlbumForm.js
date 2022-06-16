@@ -101,7 +101,6 @@ export function AlbumForm({ navigation, route }) {
       tier,
       genre,
     };
-    console.log(body);
     let request = {
       method: "POST",
       headers: {
@@ -121,7 +120,7 @@ export function AlbumForm({ navigation, route }) {
         token: token,
       });
     } else {
-      console.log(await response.json());
+      console.error(await response.json());
       alert(response.statusText);
     }
   }

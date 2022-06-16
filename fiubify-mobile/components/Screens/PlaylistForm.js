@@ -19,7 +19,7 @@ async function createPlaylist(title, description, collaborative, userUId, whenDo
     collaborative,
     owners: [{
       name: userData.name,
-      id: userData._id
+      id: userUId
     }]
   }
   try {

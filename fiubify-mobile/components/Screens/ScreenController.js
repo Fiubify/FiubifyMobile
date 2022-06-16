@@ -5,7 +5,11 @@ import Footer from "./Footer";
 import SongForm from "./SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Search } from "./Search";
+import { MyLibrary } from "./MyLibrary";
 import { AlbumView } from "../Album/AlbumView";
+import SongForm from "./SongForm";
+import { PlaylistView } from "../Playlist/PlaylistView";
+import { AddSongPlaylist } from "./AddSongPlaylist";
 
 export function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -29,27 +33,47 @@ export default function ScreenController({ navigation, route }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
-    if (currentScreen === "HOME") {
-      setComponent(
-        <Home
-          setCurrentScreen={setCurrentScreen}
-          setSong={stopAndSetSong(song, setSong)}
-          currentUserUId={uid}
-        />,
-      );
-    } else if (currentScreen === "SEARCH") {
-      setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
-                           setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen}/>);
-    } else if (currentScreen === "LOAD-SONG") {
-      setComponent(
-        <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
-      );
-    } else if (currentScreen === "ALBUM-VIEW") {
-      setComponent(
-        <AlbumView data={data} setSong={stopAndSetSong(song, setSong)} currentUserUId={uid}/>,
-      );
-    } else {
-      setComponent(null);
+    switch (currentScreen) {
+      case "HOME":
+        setComponent(
+          <Home
+            setCurrentScreen={setCurrentScreen}
+            setSong={stopAndSetSong(song, setSong)}
+            currentUserUId={uid}
+          />,
+        );
+        break;
+      case "SEARCH":
+        setComponent(<Search token={token} currentUserId={uid} navigation={navigation}
+                             setSong={stopAndSetSong(song, setSong)} setData={setData}
+                             setCurrentScreen={setCurrentScreen} />);
+        break;
+      case "LOAD_SONG":
+        setComponent(
+          <SongForm userUId={uid} token={token} setCurrentScreen={setCurrentScreen} />,
+        );
+        break;
+      case "ALBUM-VIEW":
+        setComponent(
+          <AlbumView data={data} setSong={stopAndSetSong(song, setSong)} currentUserUId={uid}/>,
+        );
+        break;
+      case "PLAYLIST-VIEW":
+        setComponent(
+          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen} />,
+        );
+        break;
+      case "MY-LIBRARY":
+        setComponent(<MyLibrary token={token} currentUserId={uid} navigation={navigation} setData={setData}
+                                setCurrentScreen={setCurrentScreen} />);
+        break;
+      case "ADD-SONG-PLAYLIST":
+        setComponent(<AddSongPlaylist token={token} currentUserId={uid} data={data} setData={setData}
+                                      setCurrentScreen={setCurrentScreen} />)
+        break;
+      default:
+        alert("SCREEN NOT FOUND")
+        setComponent(null)
     }
   }, [currentScreen, song]);
 

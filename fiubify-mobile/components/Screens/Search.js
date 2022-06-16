@@ -10,6 +10,7 @@ import { AllProfiles } from "./AllProfiles";
 import CheckBox from "expo-checkbox";
 import ButtonGroup from "./ButtonGroup";
 import { AllAlbums } from "./AllAlbums";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")
@@ -91,7 +92,10 @@ export function Search({
           setProfiles={setProfiles}
           setAlbums={setAlbums} />
       </View>
-      <AllSongs setSong={setSong} songs={songs} currentUserUId={currentUserId} />
+      <AllSongs currentUserUId={currentUserId} setSong={async (song) => {
+        const songSound = await downloadSong(song.url);
+        setSong({ sound: songSound, data: song });
+      }} songs={songs} />
       <AllProfiles
         profiles={profiles}
         currentUserId={currentUserId}
