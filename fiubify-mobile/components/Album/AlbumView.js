@@ -9,6 +9,7 @@ import React from "react";
 export function AlbumView({
                             data:{album},
                             setSong,
+                            currentUserUId
                           }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
@@ -49,7 +50,7 @@ export function AlbumView({
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={album.tracks} setSong={setSong} />
+          <AllSongs songs={album.tracks} setSong={setSong} currentUserUId={currentUserUId}/>
         </View>
       </View>
     );

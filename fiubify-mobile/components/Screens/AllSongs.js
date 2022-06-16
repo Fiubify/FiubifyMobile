@@ -1,8 +1,11 @@
 import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { StyleSheet, Text, View } from "react-native";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { listenedAction } from "../../constantes";
+import { getAlbumById } from "../../src/fetchContent";
 
-function ListedSong({ song, onPress }) {
+function ListedSong({ song, onPress, userUId }) {
   return (
     <UiButton
       pressableStyle={styles.songs}
@@ -10,13 +13,15 @@ function ListedSong({ song, onPress }) {
       title={song.title}
       onPress={async () => {
         const songSound = await downloadSong(song.url);
+        const album = await getAlbumById(song.albumId);
+        await postSongEvent(listenedAction, song.genre, song.tier, userUId, song.title , album.data.title);
         onPress({ sound: songSound, data: song });
       }}
     ></UiButton>
   );
 }
 
-export function AllSongs({ setSong, songs }) {
+export function AllSongs({ setSong, songs, currentUserUId }) {
   if (songs) {
     if (songs.length > 0) {
       return (
@@ -26,6 +31,7 @@ export function AllSongs({ setSong, songs }) {
               key={song.title + song.artistId + song.url}
               song={song}
               onPress={setSong}
+              userUId={currentUserUId}
             />
           ))}
         </View>

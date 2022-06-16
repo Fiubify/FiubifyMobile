@@ -8,17 +8,19 @@ import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-nat
 import axios from "axios";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
+import { postSongEvent } from "../../src/fetchMetrics";
+import { creationAction } from "../../constantes";
 
 
 export function SongForm({ navigation, route }) {
   const { userUId, token } = route.params;
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState();
   const [albums, setAlbums] = useState([]);
-  const [albumId, setAlbumId] = useState("");
-  const [duration, setDuration] = useState("");
-  const [tier, setTier] = useState("");
+  const [albumSelected, setAlbumSelected] = useState(null);
+  const [duration, setDuration] = useState();
+  const [tier, setTier] = useState();
   const [description, setDescription] = useState("");
-  const [genre, setGenre] = useState("");
+  const [genre, setGenre] = useState();
   const [_newGenre, setNewGenre] = useState("");
   const [genres, _setGenres] = useState([
     "Clásica",
@@ -87,7 +89,7 @@ export function SongForm({ navigation, route }) {
           data={albums}
           placeholder="Album"
           setValue={(album) => {
-            return setAlbumId(album._id);
+            return setAlbumSelected(album);
           }}
           valueStyle={styles.value}
           labelContainerStyle={styles.labelContainerStyle}
@@ -127,7 +129,7 @@ export function SongForm({ navigation, route }) {
               token,
               title,
               userUId,
-              albumId,
+              albumSelected,
               duration,
               tier,
               description,
@@ -143,7 +145,7 @@ export function SongForm({ navigation, route }) {
     token,
     title,
     userUId,
-    albumId,
+    album,
     duration,
     tier,
     description,
@@ -152,7 +154,32 @@ export function SongForm({ navigation, route }) {
   ) {
     let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
 
-    const songUrl = `${userUId}/${albumId}/${title}`;
+    if (!title) {
+      alert("No title was supplied");
+      return;
+    }
+
+    if (!album) {
+      alert("No album selected");
+      return;
+    }
+
+    if (!duration) {
+      alert("No duration was supplied");
+      return;
+    }
+
+    if (!tier) {
+      alert("No tier selected");
+      return;
+    }
+
+    if (!genre) {
+      alert("No genre selected");
+      return;
+    }
+
+    const songUrl = `${userUId}/${album._id}/${title}`;
 
     const userData = await getUser(userUId);
     await uploadSong(songUrl);
@@ -161,7 +188,7 @@ export function SongForm({ navigation, route }) {
       title,
       token,
       artistId: userData._id,
-      albumId,
+      albumId: album._id,
       duration: parseInt(duration),
       url: songUrl,
       tier,
@@ -181,6 +208,7 @@ export function SongForm({ navigation, route }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
+      await postSongEvent(creationAction, genre, tier, userUId, title, album.title)
       navigation.navigate("Home", {
         uid: userUId,
         token: token,

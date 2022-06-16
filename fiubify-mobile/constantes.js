@@ -7,5 +7,5 @@ export const emailTypeAction = "Email";
 export const resetTypeAction = "Reset";
 
 export const contentMetricsUrl = "https://fiubify-middleware-staging.herokuapp.com/metrics/contents/events";
-
-
+export const creationAction = "Creation";
+export const listenedAction = "Listened";

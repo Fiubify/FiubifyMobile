@@ -34,6 +34,7 @@ export default function ScreenController({ navigation, route }) {
         <Home
           setCurrentScreen={setCurrentScreen}
           setSong={stopAndSetSong(song, setSong)}
+          currentUserUId={uid}
         />,
       );
     } else if (currentScreen === "SEARCH") {
@@ -45,7 +46,7 @@ export default function ScreenController({ navigation, route }) {
       );
     } else if (currentScreen === "ALBUM-VIEW") {
       setComponent(
-        <AlbumView data={data} setSong={stopAndSetSong(song, setSong)} />,
+        <AlbumView data={data} setSong={stopAndSetSong(song, setSong)} currentUserUId={uid}/>,
       );
     } else {
       setComponent(null);

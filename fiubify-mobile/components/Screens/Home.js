@@ -4,7 +4,7 @@ import { AllSongs} from "./AllSongs";
 import { useEffect, useState } from "react";
 import { getSongs } from "../../src/fetchContent";
 
-function Home({ setSong }) {
+function Home({ setSong, currentUserUId }) {
   const [songs, setSongs] = useState(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function Home({ setSong }) {
   }, []);
   return (
     <View style={styles.view}>
-      <AllSongs setSong={setSong} songs={songs}/>
+      <AllSongs setSong={setSong} songs={songs} currentUserUId={currentUserUId}/>
     </View>
   );
 }

@@ -91,7 +91,7 @@ export function Search({
           setProfiles={setProfiles}
           setAlbums={setAlbums} />
       </View>
-      <AllSongs setSong={setSong} songs={songs} />
+      <AllSongs setSong={setSong} songs={songs} currentUserUId={currentUserId} />
       <AllProfiles
         profiles={profiles}
         currentUserId={currentUserId}
