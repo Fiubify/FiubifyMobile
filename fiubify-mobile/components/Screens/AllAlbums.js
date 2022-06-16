@@ -14,11 +14,11 @@ function ListedAlbum({ album, onPress }) {
   );
 }
 
-export function AllAlbums({ albums,
-                            navigation,
-                            currentUserId,
-                            token }) {
-  if (albums){
+export function AllAlbums({
+                            albums,
+                            setAlbum,
+                          }) {
+  if (albums) {
     if (albums.length > 0) {
       return (
         <View style={styles.view}>
@@ -27,11 +27,7 @@ export function AllAlbums({ albums,
               key={album._id}
               album={album}
               onPress={(album) => {
-                navigation.navigate("AlbumView", {
-                  album: album,
-                  currentUserUId: currentUserId,
-                  token: token,
-                });
+                setAlbum(album)
               }}
             />
           ))}
@@ -71,6 +67,6 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#006E95",
-    margin: 10
+    margin: 10,
   },
 });
