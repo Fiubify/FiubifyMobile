@@ -5,6 +5,7 @@ import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
 import { AllSongs } from "../Screens/AllSongs";
 import React from "react";
+import { downloadSong } from "../../src/reproducirCanciones";
 
 export function AlbumView({
                             data:{album},
@@ -49,7 +50,10 @@ export function AlbumView({
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={album.tracks} setSong={setSong} />
+          <AllSongs songs={album.tracks} setSong={async (song) => {
+            const songSound = await downloadSong(song.url);
+            setSong({ sound: songSound, data: song });
+          }} />
         </View>
       </View>
     );

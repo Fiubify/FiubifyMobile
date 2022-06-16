@@ -8,6 +8,7 @@ import { MyLibrary } from "./MyLibrary";
 import { AlbumView } from "../Album/AlbumView";
 import SongForm from "./SongForm";
 import { PlaylistView } from "../Playlist/PlaylistView";
+import { AddSongPlaylist } from "./AddSongPlaylist";
 
 export function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -57,12 +58,16 @@ export default function ScreenController({ navigation, route }) {
         break;
       case "PLAYLIST-VIEW":
         setComponent(
-          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} />,
+          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen} />,
         );
         break;
       case "MY-LIBRARY":
         setComponent(<MyLibrary token={token} currentUserId={uid} navigation={navigation} setData={setData}
                                 setCurrentScreen={setCurrentScreen} />);
+        break;
+      case "ADD-SONG-PLAYLIST":
+        setComponent(<AddSongPlaylist token={token} currentUserId={uid} data={data} setData={setData}
+                                      setCurrentScreen={setCurrentScreen} />)
         break;
       default:
         alert("SCREEN NOT FOUND")
