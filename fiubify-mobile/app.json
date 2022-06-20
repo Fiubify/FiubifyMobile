@@ -29,6 +29,9 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "BASE_URL": "https://fiubify-middleware-staging.herokuapp.com"
     }
   }
 }

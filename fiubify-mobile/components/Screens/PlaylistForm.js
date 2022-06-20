@@ -7,9 +7,9 @@ import { Checkbox } from "react-native-paper";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import axios from "axios";
+import { BASE_URL } from "../../constantes";
 
 async function createPlaylist(title, description, collaborative, userUId, whenDone) {
-  // https://fiubify-middleware-staging.herokuapp.com/contents/playlists/
 
   const userData = await getUser(userUId);
 
@@ -23,7 +23,7 @@ async function createPlaylist(title, description, collaborative, userUId, whenDo
     }]
   }
   try {
-    const response = await axios.post("https://fiubify-middleware-staging.herokuapp.com/contents/playlists/", body);
+    const response = await axios.post(`${BASE_URL}/contents/playlists/`, body);
     whenDone();
   } catch (e) {
     console.error(e)

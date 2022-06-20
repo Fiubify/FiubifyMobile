@@ -10,7 +10,7 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
 import { postAlbumEvent } from "../../src/fetchMetrics";
-import { creationAction } from "../../constantes";
+import { BASE_URL, creationAction } from "../../constantes";
 
 export function AlbumForm({ navigation, route }) {
   const [title, setTitle] = useState("");
@@ -92,7 +92,7 @@ export function AlbumForm({ navigation, route }) {
 
   async function send(token, title, userUId, tier, genre, navigation) {
     let url =
-      "https://fiubify-middleware-staging.herokuapp.com/contents/albums";
+      `${BASE_URL}/contents/albums`;
 
     const body = {
       token,
