@@ -33,7 +33,6 @@ export function MyPlaylists({ currentUserId, onSelect }) {
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: hp(100),
     display: "flex",
     backgroundColor: "#CAE3EA",
     flexDirection: "column",
