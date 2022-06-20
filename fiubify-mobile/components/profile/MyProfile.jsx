@@ -64,37 +64,66 @@ export default function MyProfile({ navigation, route }) {
             icon="calendar-heart"
           />
 
-        <Info
-          title="Plan"
-          contain={user.plan}
-          icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
-        />
-        {user.role === "Artist" ? (
-          <View style={styles.artist}>
-            <View style={styles.artistCreate}>
+          <View style={styles.plan}>
+            <Info
+              title="Plan"
+              contain={user.plan}
+              icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
+            />
+            <UiButton pressableStyle={styles.planEdit} onPress={() => {
+              navigation.navigate("SubsciptionForm", {
+                userUId,
+                token,
+                tier: user.plan
+              })
+            }}/>
+          </View>
+
+          {user.role === "Artist" ? (
+            <View style={styles.artist}>
+              <View style={styles.artistCreate}>
+                <UiButton
+                  title="Load Song"
+                  pressableStyle={styles.loadSong}
+                  textStyle={styles.textStyle}
+                  onPress={() =>
+                    navigation.navigate("SongForm", {
+                      userUId: userUId,
+                      token: token,
+                    })
+                  }
+                />
+                <UiButton
+                  title="New Album"
+                  pressableStyle={styles.loadSong}
+                  textStyle={styles.textStyle}
+                  onPress={() =>
+                    navigation.navigate("AlbumForm", {
+                      userUId: userUId,
+                      token: token,
+                    })
+                  }
+                />
+              </View>
               <UiButton
-                title="Load Song"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("SongForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
-              />
-              <UiButton
-                title="New Album"
-                pressableStyle={styles.loadSong}
-                textStyle={styles.textStyle}
-                onPress={() =>
-                  navigation.navigate("AlbumForm", {
-                    userUId: userUId,
-                    token: token,
-                  })
-                }
+                title="Log Out"
+                pressableStyle={styles.buttonListener}
+                onPress={() => {
+                  signOut(auth)
+                    .then(() => {
+                      navigation.navigate("Entry", {
+                        uid: "",
+                      });
+                    })
+                    .catch((_error) => {
+                      navigation.navigate("Entry", {
+                        uid: "",
+                      });
+                    });
+                }}
               />
             </View>
+          ) : (
             <UiButton
               title="Log Out"
               pressableStyle={styles.buttonListener}
@@ -110,25 +139,6 @@ export default function MyProfile({ navigation, route }) {
                       uid: "",
                     });
                   });
-              }}
-            />
-          </View>
-        ) : (
-          <UiButton
-            title="Log Out"
-            pressableStyle={styles.buttonListener}
-            onPress={() => {
-              signOut(auth)
-                .then(() => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                })
-                .catch((_error) => {
-                  navigation.navigate("Entry", {
-                    uid: "",
-                  });
-                });
               }
               }
             />
@@ -154,6 +164,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  planEdit: {
+    width: 10,
+    height: 10,
+    backgroundColor: "#006E95",
+
+  }
+  ,
   link: {
     width: wp(90),
     fontWeight: "bold",
@@ -164,6 +181,10 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginTop: 20,
+  },
+  plan: {
+    display: "flex",
+    flexDirection: "row"
   },
   imageSection: {
     height: hp(20),
