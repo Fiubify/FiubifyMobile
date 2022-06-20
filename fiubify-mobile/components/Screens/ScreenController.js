@@ -59,7 +59,7 @@ export default function ScreenController({ navigation, route }) {
         break;
       case "PLAYLIST-VIEW":
         setComponent(
-          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} setCurrentScreen={setCurrentScreen} currentUserUId={uid} />,
+          <PlaylistView data={data} setSong={stopAndSetSong(song, setSong)} setData={setData} token={token} navigation={navigation} setCurrentScreen={setCurrentScreen} currentUserUId={uid} />,
         );
         break;
       case "MY-LIBRARY":
