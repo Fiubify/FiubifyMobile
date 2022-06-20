@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "437257657611",
+    "project_id": "fiubify",
+    "storage_bucket": "fiubify.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:437257657611:android:246deeb1cfd7e0e2a5560e",
+        "android_client_info": {
+          "package_name": "com.fiuba.fiubify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "437257657611-5j4la8i9bso6d9pvtbjj4tihgsq5057v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBV9mUbr8wlpxwi1LlNg3JD_ouwQVJLS5g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "437257657611-5j4la8i9bso6d9pvtbjj4tihgsq5057v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
