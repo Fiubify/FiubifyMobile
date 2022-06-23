@@ -7,7 +7,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 function Info(props) {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.containerStyles]}>
       <MaterialCommunityIcons
         style={styles.icon}
         name={props.icon}

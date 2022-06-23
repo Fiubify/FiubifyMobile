@@ -2,7 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import Info from "../profile/Info";
 import { AllSongs } from "../Screens/AllSongs";
 import React, { useEffect, useState } from "react";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import axios from "axios";
 import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
@@ -10,7 +13,15 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { getAlbumById } from "../../src/fetchContent";
 import { listenedAction } from "../../constantes";
 
-export function PlaylistView({ data, setSong, setData, setCurrentScreen, currentUserUId, navigation, token }) {
+export function PlaylistView({
+  data,
+  setSong,
+  setData,
+  setCurrentScreen,
+  currentUserUId,
+  navigation,
+  token,
+}) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,10 +32,14 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
   }
 
   useEffect(() => {
-    axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlist._id}`).then(({ data }) => {
-      setTracks(data.data.tracks);
-      setLoading(false)
-    });
+    axios
+      .get(
+        `https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlist._id}`
+      )
+      .then(({ data }) => {
+        setTracks(data.data.tracks);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -33,29 +48,25 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
     return (
       <View style={styles.view}>
         <View style={styles.viewBody}>
+          <Text style={styles.title_text}>{playlist.title}</Text>
           <View style={styles.title}>
-            <Text style={styles.title_text}>
-              {playlist.title}
-            </Text>
             <UiButton
-              title="+"
+              title="Add Song"
               pressableStyle={styles.loadSong}
-              textStyle={styles.textStyle}
               onPress={() => {
                 setData({ playlist: playlist });
-                setCurrentScreen("ADD-SONG-PLAYLIST")
+                setCurrentScreen("ADD-SONG-PLAYLIST");
               }}
             />
             <UiButton
-              title="*"
+              title="Edit Playlist"
               pressableStyle={styles.loadSong}
-              textStyle={styles.textStyle}
               onPress={() => {
                 navigation.navigate("PlaylistEdit", {
                   uid: currentUserUId,
                   token,
-                  playlist
-                })
+                  playlist,
+                });
               }}
             />
           </View>
@@ -65,26 +76,37 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
             icon="microphone-variant"
           />
           <Info
-          title="Description"
-          contain={playlist.description}
-          icon="card-text-outline"
+            title="Description"
+            contain={playlist.description}
+            icon="card-text-outline"
           />
           <Info
-            title=""
-            contain={playlist.collaborative ? "Collaborative" : "Non collaborative"}
+            title="Collaborative"
+            contain={playlist.collaborative ? "Active" : "Non Active"}
             icon="human-male-female"
           />
           <Info
+            containerStyles={styles.tracks}
             title="Tracks"
             contain=""
             icon="playlist-music"
           />
-          <AllSongs songs={tracks} setSong={async (song) => {
-            const songSound = await downloadSong(song.url);
-            setSong({ sound: songSound, data: song });
-            const album = await getAlbumById(song.albumId);
-            await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
-          }} />
+          <AllSongs
+            songs={tracks}
+            setSong={async (song) => {
+              const songSound = await downloadSong(song.url);
+              setSong({ sound: songSound, data: song });
+              const album = await getAlbumById(song.albumId);
+              await postSongEvent(
+                listenedAction,
+                song.genre,
+                song.tier,
+                currentUserUId,
+                song.title,
+                album.data.title
+              );
+            }}
+          />
         </View>
       </View>
     );
@@ -94,7 +116,7 @@ export function PlaylistView({ data, setSong, setData, setCurrentScreen, current
 const styles = StyleSheet.create({
   view: {
     width: "100%",
-    height: "100%",
+    height: hp(100),
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#CAE3EA",
@@ -125,7 +147,8 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    marginBottom: "2%",
   },
   title_text: {
     fontSize: 30,
@@ -138,17 +161,12 @@ const styles = StyleSheet.create({
     color: "#006E95",
   },
   loadSong: {
-    width: wp(15),
+    width: wp(40),
     marginTop: hp(2),
-    backgroundColor: "white",
-    borderColor: "#006E95",
-    borderWidth: 2,
+    backgroundColor: "#006E95",
     paddingHorizontal: 0,
-    marginLeft: "10%"
   },
-  textStyle: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#006E95",
+  tracks: {
+    borderBottomWidth: 0,
   },
 });
