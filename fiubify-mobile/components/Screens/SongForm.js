@@ -8,7 +8,7 @@ import axios from "axios";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
 import { postSongEvent } from "../../src/fetchMetrics";
-import { creationAction } from "../../constantes";
+import { BASE_URL, creationAction } from "../../constantes";
 
 
 export function SongForm({ navigation, route }) {
@@ -44,7 +44,7 @@ export function SongForm({ navigation, route }) {
 
   useEffect(() => {
     axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/contents/albums?artistId=${userUId}`,
+      `${BASE_URL}/contents/albums?artistId=${userUId}`,
     ).then((albumsData) => {
       setAlbums(albumsData.data.data);
       setLoading(false);
@@ -149,7 +149,7 @@ export function SongForm({ navigation, route }) {
     genre,
     navigation,
   ) {
-    let url = "https://fiubify-middleware-staging.herokuapp.com/contents/songs";
+    let url = `${BASE_URL}/contents/songs`;
 
     if (!title) {
       alert("No title was supplied");

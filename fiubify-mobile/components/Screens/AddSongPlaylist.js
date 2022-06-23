@@ -7,9 +7,10 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { useEffect } from "react";
 import { getSongsWithTitle } from "../../src/fetchContent";
 import axios from "axios";
+import { BASE_URL } from "../../constantes";
 
 function addSongToPlaylist(trackId, token, playlist, setCurrentScreen, setData) {
-  axios.post(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlist._id}/add-track`, {trackId, token}).then(({data}) => {
+  axios.post(`${BASE_URL}/contents/playlists/${playlist._id}/add-track`, {trackId, token}).then(({data}) => {
     setData({playlist})
     setCurrentScreen("PLAYLIST-VIEW")
   }).catch((e) => {

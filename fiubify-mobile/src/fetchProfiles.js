@@ -1,9 +1,10 @@
 import axios from "axios";
+import { BASE_URL } from "../constantes";
 
 export async function getProfilesWith(name, _tierFilter) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user?name=${name}`,
+      `${BASE_URL}/user?name=${name}`,
     );
     return response.data;
   } catch (e) {
@@ -17,7 +18,7 @@ export async function getProfilesWith(name, _tierFilter) {
 export async function getArtistsWith(name, _tierFilter) {
   try {
     let response = await axios.get(
-      `https://fiubify-middleware-staging.herokuapp.com/user?name=${name}&role=Artist`,
+      `${BASE_URL}/user?name=${name}&role=Artist`,
     );
     return response.data;
   } catch (e) {

@@ -3,17 +3,14 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { ListedPlaylist } from "./ListedPlaylist";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../constantes";
 
 export function MyPlaylists({ currentUserId, onSelect }) {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios
-      .get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/playlists?owners.id=${currentUserId}`
-      )
-      .then((data) => {
+    axios.get(`${BASE_URL}/contents/playlists?owners.id=${currentUserId}`).then((data) => {
         setPlaylists(data.data.data);
         setLoading(false);
       });

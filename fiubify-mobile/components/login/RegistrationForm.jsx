@@ -13,7 +13,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 import Selector from "../ui/UiSelect.jsx";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { emailTypeAction, signupAction } from "../../constantes";
+import { BASE_URL, emailTypeAction, signupAction } from "../../constantes";
 
 export default function RegistrationForm({ navigation }) {
   const [name, setName] = useState("");
@@ -161,7 +161,7 @@ export default function RegistrationForm({ navigation }) {
     navigation
   ) {
     let url =
-      "https://fiubify-middleware-staging.herokuapp.com/auth/register-email";
+      `${BASE_URL}/auth/register-email`;
 
     if (password != passwordRepeat) {
       alert("Password does not match confirmation!");

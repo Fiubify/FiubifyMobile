@@ -11,7 +11,7 @@ import UiButton from "../ui/UiButton";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { getAlbumById } from "../../src/fetchContent";
-import { listenedAction } from "../../constantes";
+import { BASE_URL, listenedAction } from "../../constantes";
 
 export function PlaylistView({
   data,
@@ -32,14 +32,10 @@ export function PlaylistView({
   }
 
   useEffect(() => {
-    axios
-      .get(
-        `https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlist._id}`
-      )
-      .then(({ data }) => {
-        setTracks(data.data.tracks);
-        setLoading(false);
-      });
+    axios.get(`${BASE_URL}/contents/playlists/${playlist._id}`).then(({ data }) => {
+      setTracks(data.data.tracks);
+      setLoading(false)
+    });
   }, []);
 
   if (loading) {

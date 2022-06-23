@@ -1,43 +1,18 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
-import React from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
-import { postAlbumEvent } from "../../src/fetchMetrics";
-import { BASE_URL, creationAction } from "../../constantes";
+import { BASE_URL } from "../../constantes";
 
-export function AlbumForm({ navigation, route }) {
-  const [title, setTitle] = useState("");
-  const [tier, setTier] = useState("");
+export function SubscriptionForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
-  const [genre, setGenre] = useState("");
-  const [_newGenre, setNewGenre] = useState("");
-  const [genres, _setGenres] = useState([
-    "Clásica",
-    "Country",
-    "Cumbia",
-    "Electrónica",
-    "Electro Pop",
-    "Hard Rock",
-    "Heavy Metal",
-    "Hip Hop",
-    "Jazz",
-    "Pop",
-    "Rap",
-    "Reggae",
-    "Rock",
-    "Tango",
-    "Trap",
-    "Other",
-  ]);
-
-  const { userUId, token } = route.params;
+  const { userUId, token, tier } = route.params;
+  const [tierToChange, setTierToChange] = useState(tier)
 
   return (
     <View style={styles.view}>
@@ -53,59 +28,35 @@ export function AlbumForm({ navigation, route }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <Text style={styles.title}>Create your album</Text>
-      <UiTextInput
-        style={styles.text_input}
-        onChange={setTitle}
-        placeholder="Title"
-      />
+      <Text style={styles.title}>Change subscription</Text>
       <Selector
         data={tiers}
-        placeholder="Tier"
-        setValue={setTier}
+        setValue={setTierToChange}
+        defaultValue={tierToChange}
         valueStyle={styles.value}
         labelContainerStyle={styles.labelContainerStyle}
       />
-      <Selector
-        data={genres}
-        placeholder="Genre"
-        setValue={setGenre}
-        valueStyle={styles.value}
-        labelContainerStyle={styles.labelContainerStyle}
-      />
-      {genre === "Other" && (
-        <UiTextInput
-          style={styles.text_input}
-          onChange={setNewGenre}
-          placeholder="Insert New Genre"
-        />
-      )}
       <UiButton
-        title="Upload"
+        title="Change"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(token, title, userUId, tier, genre, navigation);
+          send(token, tierToChange, navigation);
         }}
       />
     </View>
   );
 
-  async function send(token, title, userUId, tier, genre, navigation) {
+  async function send(token, tier, navigation) {
     let url =
-      `${BASE_URL}/contents/albums`;
-
+      `${BASE_URL}/user/${userUId}/change-subscription`;
     const body = {
       token,
-      title,
-      artistId: userUId,
-      tier,
-      genre,
+      plan: tier,
     };
     let request = {
-      method: "POST",
+      method: "PATCH",
       headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json; charset=UTF-8",
       },
       body: JSON.stringify(body),
     };
@@ -113,8 +64,6 @@ export function AlbumForm({ navigation, route }) {
     let response = await fetch(url, request);
 
     if (response.ok) {
-      const body = (await response.json()).data;
-      await postAlbumEvent(creationAction, genre, tier, userUId, title);
       navigation.navigate("Home", {
         uid: userUId,
         token: token,

@@ -9,11 +9,13 @@ function Selector({
   setValue,
   valueStyle,
   labelContainerStyle,
+  defaultValue = undefined,
   itemSelection = (item) => item,
 }) {
   return (
     <SelectDropdown
       data={data}
+      defaultValue={defaultValue}
       statusBarTranslucent={true}
       defaultButtonText={placeholder}
       buttonTextAfterSelection={(selectedItem, _index) => {
