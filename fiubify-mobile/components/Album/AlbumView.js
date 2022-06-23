@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import Info from "../profile/Info";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
 import { AllSongs } from "../Screens/AllSongs";
@@ -10,11 +13,7 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 import { getAlbumById } from "../../src/fetchContent";
 
-export function AlbumView({
-                            data:{album},
-                            setSong,
-                            currentUserUId
-                          }) {
+export function AlbumView({ data: { album }, setSong, currentUserUId }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
 
@@ -30,9 +29,7 @@ export function AlbumView({
       <View style={styles.view}>
         <View style={styles.viewBody}>
           <View style={styles.title}>
-            <Text style={styles.title_text}>
-              {album.title}
-            </Text>
+            <Text style={styles.title_text}>{album.title}</Text>
           </View>
           <Info
             title="Artist"
@@ -50,16 +47,28 @@ export function AlbumView({
             icon="music-circle-outline"
           />
           <Info
+            containerStyles={styles.tracks}
             title="Tracks"
             contain=""
             icon="playlist-music"
           />
-          <AllSongs  songs={album.tracks} currentUserUId={currentUserUId} setSong={async (song) => {
-            const songSound = await downloadSong(song.url);
-            setSong({ sound: songSound, data: song });
-            const album = await getAlbumById(song.albumId);
-            await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
-          }} />
+          <AllSongs
+            songs={album.tracks}
+            currentUserUId={currentUserUId}
+            setSong={async (song) => {
+              const songSound = await downloadSong(song.url);
+              setSong({ sound: songSound, data: song });
+              const album = await getAlbumById(song.albumId);
+              await postSongEvent(
+                listenedAction,
+                song.genre,
+                song.tier,
+                currentUserUId,
+                song.title,
+                album.data.title
+              );
+            }}
+          />
         </View>
       </View>
     );
@@ -70,7 +79,6 @@ export function AlbumView({
       </View>
     );
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -118,5 +126,8 @@ const styles = StyleSheet.create({
   loading: {
     fontSize: 30,
     color: "#006E95",
+  },
+  tracks: {
+    borderBottomWidth: 0,
   },
 });
