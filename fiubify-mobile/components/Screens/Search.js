@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     width: "90%",
     flexDirection: "row",
-    marginVertical: "2%",
+    marginTop: "2%",
   },
   checkbox: {
     alignSelf: "center",
