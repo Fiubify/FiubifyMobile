@@ -1,25 +1,32 @@
 import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 function ListedAlbum({ album, onPress }) {
   return (
-    <UiButton
-      pressableStyle={styles.button}
-      title={album.title}
-      onPress={() => {
-        onPress(album);
-      }}
-    />
+    <View style={styles.albumContainer}>
+      <MaterialCommunityIcons
+        style={styles.albumIcon}
+        name="album"
+        size={20}
+        color="white"
+      />
+      <UiButton
+        pressableStyle={styles.albums}
+        textStyle={styles.albumsText}
+        title={album.title}
+        onPress={() => {
+          onPress(album);
+        }}
+      />
+    </View>
   );
 }
 
-export function AllAlbums({
-                            albums,
-                            setAlbum,
-                          }) {
+export function AllAlbums({ albums, setAlbum }) {
   if (albums) {
-    console.log(albums)
+    console.log(albums);
     if (albums.length > 0) {
       return (
         <View style={styles.view}>
@@ -28,21 +35,18 @@ export function AllAlbums({
               key={album._id}
               album={album}
               onPress={(album) => {
-                setAlbum(album)
+                setAlbum(album);
               }}
             />
           ))}
         </View>
       );
     } else {
-      return (
-        <Text>No Content available</Text>
-      );
+      return <Text>No Content available</Text>;
     }
   } else {
     return null;
   }
-
 }
 
 const styles = StyleSheet.create({
@@ -55,6 +59,34 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
   },
+  albumContainer: {
+    width: "90%",
+    marginTop: 20,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+    borderRadius: 25,
+  },
+  albumIcon: {
+    backgroundColor: "#006E95",
+    borderRadius: 25,
+    padding: "3%",
+    display: "flex",
+    textAlign: "center",
+    textAlignVertical: "center",
+  },
+  albums: {
+    width: "85%",
+    backgroundColor: "white",
+    elevation: 0,
+  },
+  albumsText: {
+    color: "#006E95",
+  },
   searchBar: {
     width: "100%",
     marginTop: hp(2),
@@ -65,9 +97,5 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginBottom: hp(2),
-  },
-  button: {
-    backgroundColor: "#006E95",
-    margin: 10,
   },
 });
