@@ -18,13 +18,12 @@ import { listenedAction } from "../../constantes";
 // mostrar un "Oops, try something else")
 
 export function Search({
-                         navigation,
-                         setSong,
-                         currentUserId,
-                         setData,
-                         setCurrentScreen,
-                       }) {
-
+  navigation,
+  setSong,
+  currentUserId,
+  setData,
+  setCurrentScreen,
+}) {
   const [songs, setSongs] = useState(null);
   const [profiles, setProfiles] = useState(null);
   const [albums, setAlbums] = useState(null);
@@ -33,8 +32,8 @@ export function Search({
   const [searchFunction, setSearchFunction] = useState(() => getSongsWithTitle);
   const [contentFunction, setContentFunction] = useState(() => setSongs);
 
-  const fetchGenres = ({songs: songs, albums: albums}) => {
-    if (songs.length === 0 && albums.length === 0){
+  const fetchGenres = ({ songs: songs, albums: albums }) => {
+    if (songs.length === 0 && albums.length === 0) {
       setSongs(songs);
     } else {
       if (songs.length > 0) {
@@ -44,7 +43,7 @@ export function Search({
         setAlbums(albums);
       }
     }
-  }
+  };
   const [startSearch, setStartSearch] = useState(false);
 
   const [checkboxSelected, setCheckboxSelected] = useState(false);
@@ -75,6 +74,22 @@ export function Search({
           placeholder="Search by artist, song, etc"
           onChange={(text) => setSearchBy(text)}
         ></UiTextInput>
+        <View style={styles.filterButtons}>
+          <ButtonGroup
+            setStartSearch={setStartSearch}
+            setSearchFunction={setSearchFunction}
+            setContentFunction={setContentFunction}
+            setSongs={setSongs}
+            setProfiles={setProfiles}
+            setAlbums={setAlbums}
+            setGenre={fetchGenres}
+          />
+        </View>
+        <UiButton
+          pressableStyle={styles.button}
+          title={<Text>Search</Text>}
+          onPress={() => setStartSearch(true)}
+        ></UiButton>
         <View style={styles.checkboxContainer}>
           <CheckBox
             value={checkboxSelected}
@@ -91,29 +106,24 @@ export function Search({
           />
           <Text style={styles.label}>Free content only</Text>
         </View>
-
-        <UiButton
-          pressableStyle={styles.button}
-          title={<Text>Search</Text>}
-          onPress={() => setStartSearch(true)}
-        ></UiButton>
       </View>
-      <View style={styles.filterButtons}>
-        <ButtonGroup
-          setStartSearch={setStartSearch}
-          setSearchFunction={setSearchFunction}
-          setContentFunction={setContentFunction}
-          setSongs={setSongs}
-          setProfiles={setProfiles}
-          setAlbums={setAlbums}
-          setGenre={fetchGenres} />
-      </View>
-      <AllSongs currentUserUId={currentUserId} setSong={async (song) => {
-        const songSound = await downloadSong(song.url);
-        setSong({ sound: songSound, data: song });
-        const album = await getAlbumById(song.albumId);
-        await postSongEvent(listenedAction, song.genre, song.tier, currentUserId, song.title , album.data.title);
-      }} songs={songs} />
+      <AllSongs
+        currentUserUId={currentUserId}
+        setSong={async (song) => {
+          const songSound = await downloadSong(song.url);
+          setSong({ sound: songSound, data: song });
+          const album = await getAlbumById(song.albumId);
+          await postSongEvent(
+            listenedAction,
+            song.genre,
+            song.tier,
+            currentUserId,
+            song.title,
+            album.data.title
+          );
+        }}
+        songs={songs}
+      />
       <AllProfiles
         profiles={profiles}
         currentUserId={currentUserId}
@@ -122,16 +132,17 @@ export function Search({
       <AllAlbums
         albums={albums}
         setAlbum={(album) => {
-          setData({album: album});
+          setData({ album: album });
           setCurrentScreen("ALBUM-VIEW");
-        }}/>
+        }}
+      />
     </View>
   );
 }
 
-Array.prototype.extend = function(other_array) {
+Array.prototype.extend = function (other_array) {
   /* You should include a test to check whether other_array really is an array */
-  other_array.forEach(function(v) {
+  other_array.forEach(function (v) {
     this.push(v);
   }, this);
 };
@@ -154,24 +165,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  textInput: {
-    marginBottom: hp(2),
-  },
+  textInput: {},
   button: {
     backgroundColor: "#006E95",
   },
   checkboxContainer: {
+    width: "90%",
     flexDirection: "row",
-    marginBottom: 20,
+    marginTop: "2%",
   },
   checkbox: {
     alignSelf: "center",
+    borderRadius: 50,
+    margin: 0,
+    borderColor: "#006E95",
   },
   label: {
-    margin: 8,
+    marginHorizontal: 8,
+    color: "#006E95",
+    fontWeight: "bold",
+    fontSize: 18,
   },
   filterButtons: {
-    width: "100%",
-    height: hp(15),
+    width: "95%",
+    height: hp(8),
   },
 });
