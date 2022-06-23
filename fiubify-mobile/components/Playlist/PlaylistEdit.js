@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import UiTextInput from "./components/ui/UiTextInput";
+import UiTextInput from "../ui/UiTextInput";
 import { Switch } from "react-native-paper";
-import UiButton from "./components/ui/UiButton";
+import UiButton from "../ui/UiButton";
 import React, { useState } from "react";
 import {
   heightPercentageToDP as hp,
@@ -86,10 +86,7 @@ export function PlaylistEdit({ route, navigation }) {
             playlist._id,
             token,
             () => {
-              navigation.navigate("Home", {
-                uid,
-                token,
-              });
+              navigation.navigate("Home", { uid, token });
             }
           ).then();
         }}

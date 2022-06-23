@@ -54,7 +54,7 @@ export function PlaylistForm({ navigation, route }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigation.navigate("MyProfile", { userUId, token })}
+        onPress={() => navigation.navigate("Home", { userUId, token })}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back

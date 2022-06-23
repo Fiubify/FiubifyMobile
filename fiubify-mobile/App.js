@@ -14,7 +14,7 @@ import { AlbumForm } from "./components/Screens/AlbumForm.js";
 import MyProfile from "./components/profile/MyProfile";
 import { PlaylistForm } from "./components/Screens/PlaylistForm";
 import ExternProfile from "./components/profile/ExternProfile";
-import { PlaylistEdit } from "./PlaylistEdit";
+import { PlaylistEdit } from "./components/Playlist/PlaylistEdit";
 
 LogBox.ignoreAllLogs(true);
 
