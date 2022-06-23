@@ -40,7 +40,7 @@ export function AllSongs({ setSong, songs, currentUserUId }) {
         </View>
       );
     } else {
-      return <Text>No Content available</Text>;
+      return <Text style={styles.loading}>No Content available</Text>;
     }
   } else {
     return null;

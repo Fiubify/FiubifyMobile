@@ -43,7 +43,7 @@ export function PlaylistView({
   }, []);
 
   if (loading) {
-    return <Text>LOADING...</Text>;
+    return <Text style={styles.loading}>Loading..</Text>;
   } else {
     return (
       <View style={styles.view}>

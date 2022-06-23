@@ -42,7 +42,7 @@ export function AllAlbums({ albums, setAlbum }) {
         </View>
       );
     } else {
-      return <Text>No Content available</Text>;
+      return <Text style={styles.loading}>No Content available</Text>;
     }
   } else {
     return null;
@@ -97,5 +97,9 @@ const styles = StyleSheet.create({
   },
   textInput: {
     marginBottom: hp(2),
+  },
+  loading: {
+    fontSize: 30,
+    color: "#006E95",
   },
 });

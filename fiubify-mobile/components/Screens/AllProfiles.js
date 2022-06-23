@@ -46,7 +46,7 @@ export function AllProfiles({ profiles, navigation, currentUserId }) {
         </View>
       );
     } else {
-      return <Text>No Content available</Text>;
+      return <Text style={styles.loading}>No Content available</Text>;
     }
   } else {
     return null;
@@ -98,5 +98,9 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+  },
+  loading: {
+    fontSize: 30,
+    color: "#006E95",
   },
 });
