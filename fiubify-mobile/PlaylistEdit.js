@@ -1,26 +1,38 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import UiTextInput from "./components/ui/UiTextInput";
-import { Checkbox } from "react-native-paper";
+import { Switch } from "react-native-paper";
 import UiButton from "./components/ui/UiButton";
 import React, { useState } from "react";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import axios from "axios";
 
-async function editPlaylist(title, description, collaborative, playlistId, token, whenDone) {
+async function editPlaylist(
+  title,
+  description,
+  collaborative,
+  playlistId,
+  token,
+  whenDone
+) {
   const body = {
     title,
     token,
     description,
     collaborative,
-  }
+  };
   try {
-    const response = await axios.post(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlistId}/edit`, body);
+    const response = await axios.post(
+      `https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlistId}/edit`,
+      body
+    );
     whenDone();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
-
 }
 
 export function PlaylistEdit({ route, navigation }) {
@@ -29,50 +41,61 @@ export function PlaylistEdit({ route, navigation }) {
   const [description, setDescription] = useState(playlist.description);
   const [collaborative, setCollaborative] = useState(playlist.collaborative);
 
-  return <View style={styles.view}>
-    <Text style={styles.link} onPress={() => navigation.navigate("Home", { uid, token })}>
-      <MaterialIcons name="arrow-back-ios" />
-      Back
-    </Text>
-    <Text style={styles.title}>Create your playlist</Text>
-    <UiTextInput
-      style={styles.text_input}
-      onChange={setTitle}
-      value
-      defaultValue={title}
-      placeholder="Title"
-    />
-    <UiTextInput
-      style={styles.text_input}
-      onChange={setDescription}
-      defaultValue={description}
-      placeholder="Description"
-    />
-    <View style={{
-      flexDirection: "row",
-    }}>
-      <Text style={{ padding: 7 }}>Collaborative</Text>
-      <Checkbox
-        status={collaborative ? "checked" : "unchecked"}
+  return (
+    <View style={styles.view}>
+      <Text
+        style={styles.link}
+        onPress={() => navigation.navigate("Home", { uid, token })}
+      >
+        <MaterialIcons name="arrow-back-ios" />
+        Back
+      </Text>
+      <Text style={styles.title}>Create your playlist</Text>
+      <UiTextInput
+        style={styles.text_input}
+        onChange={setTitle}
+        value
+        defaultValue={title}
+        placeholder="Title"
+      />
+      <UiTextInput
+        style={styles.text_input}
+        onChange={setDescription}
+        defaultValue={description}
+        placeholder="Description"
+      />
+      <View style={styles.collaborativeSection}>
+        <Text style={styles.collaborative}>Collaborative</Text>
+        <Switch
+          value={collaborative ? true : false}
+          onValueChange={() => {
+            setCollaborative(!collaborative);
+          }}
+          color="#006E95"
+          style={styles.switch}
+        />
+      </View>
+      <UiButton
+        title="Update"
+        pressableStyle={styles.upload}
         onPress={() => {
-          setCollaborative(!collaborative);
+          editPlaylist(
+            title,
+            description,
+            collaborative,
+            playlist._id,
+            token,
+            () => {
+              navigation.navigate("Home", {
+                uid,
+                token,
+              });
+            }
+          ).then();
         }}
-        color="#006E95"
       />
     </View>
-    <UiButton
-      title="Update"
-      pressableStyle={styles.upload}
-      onPress={() => {
-        editPlaylist(title, description, collaborative, playlist._id, token, () => {
-          navigation.navigate("Home", {
-            uid,
-            token,
-          });
-        }).then();
-      }}
-    />
-  </View>;
+  );
 }
 
 const styles = StyleSheet.create({
@@ -174,5 +197,18 @@ const styles = StyleSheet.create({
   text_input: {
     marginBottom: 10,
   },
+  collaborativeSection: {
+    width: "90%",
+    marginBottom: "2%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  collaborative: {
+    color: "#006E95",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  switch: {},
 });
-
