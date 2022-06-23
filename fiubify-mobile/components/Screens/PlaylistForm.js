@@ -1,14 +1,23 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import React, { useState } from "react";
-import { heightPercentageToDP as hp, widthPercentageToDP as wp } from "react-native-responsive-screen";
+import {
+  heightPercentageToDP as hp,
+  widthPercentageToDP as wp,
+} from "react-native-responsive-screen";
 import UiTextInput from "../ui/UiTextInput";
-import { Checkbox } from "react-native-paper";
+import { Switch } from "react-native-paper";
 import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import axios from "axios";
 
-async function createPlaylist(title, description, collaborative, userUId, whenDone) {
+async function createPlaylist(
+  title,
+  description,
+  collaborative,
+  userUId,
+  whenDone
+) {
   // https://fiubify-middleware-staging.herokuapp.com/contents/playlists/
 
   const userData = await getUser(userUId);
@@ -17,16 +26,21 @@ async function createPlaylist(title, description, collaborative, userUId, whenDo
     title,
     description,
     collaborative,
-    owners: [{
-      name: userData.name,
-      id: userUId
-    }]
-  }
+    owners: [
+      {
+        name: userData.name,
+        id: userUId,
+      },
+    ],
+  };
   try {
-    const response = await axios.post("https://fiubify-middleware-staging.herokuapp.com/contents/playlists/", body);
+    const response = await axios.post(
+      "https://fiubify-middleware-staging.herokuapp.com/contents/playlists/",
+      body
+    );
     whenDone();
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
 }
 
@@ -38,7 +52,10 @@ export function PlaylistForm({ navigation, route }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={() => navigation.navigate("MyProfile", { userUId, token })}>
+      <Text
+        style={styles.link}
+        onPress={() => navigation.navigate("MyProfile", { userUId, token })}
+      >
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -53,16 +70,15 @@ export function PlaylistForm({ navigation, route }) {
         onChange={setDescription}
         placeholder="Description"
       />
-      <View style={{
-        flexDirection: "row"
-      }}>
-        <Text style={{ padding: 7}}>Collaborative</Text>
-        <Checkbox
-          status={collaborative ? "checked" : "unchecked"}
-          onPress={() => {
+      <View style={styles.collaborativeSection}>
+        <Text style={styles.collaborative}>Collaborative</Text>
+        <Switch
+          value={collaborative ? true : false}
+          onValueChange={() => {
             setCollaborative(!collaborative);
           }}
           color="#006E95"
+          style={styles.switch}
         />
       </View>
       <UiButton
@@ -73,13 +89,12 @@ export function PlaylistForm({ navigation, route }) {
             navigation.navigate("Home", {
               uid: userUId,
               token: token,
-            })
-          }).then()
+            });
+          }).then();
         }}
       />
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
@@ -181,4 +196,18 @@ const styles = StyleSheet.create({
   text_input: {
     marginBottom: 10,
   },
+  collaborativeSection: {
+    width: "90%",
+    marginBottom: "2%",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  collaborative: {
+    color: "#006E95",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  switch: {},
 });
