@@ -9,6 +9,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import axios from "axios";
+import { BASE_URL } from "../../constantes";
 
 async function editPlaylist(
   title,
@@ -25,8 +26,8 @@ async function editPlaylist(
     collaborative,
   };
   try {
-    const response = await axios.post(
-      `https://fiubify-middleware-staging.herokuapp.com/contents/playlists/${playlistId}/edit`,
+    await axios.post(
+      `${BASE_URL}/contents/playlists/${playlistId}/edit`,
       body
     );
     whenDone();
@@ -67,7 +68,7 @@ export function PlaylistEdit({ route, navigation }) {
       <View style={styles.collaborativeSection}>
         <Text style={styles.collaborative}>Collaborative</Text>
         <Switch
-          value={collaborative ? true : false}
+          value={!!collaborative}
           onValueChange={() => {
             setCollaborative(!collaborative);
           }}

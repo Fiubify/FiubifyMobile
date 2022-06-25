@@ -16,7 +16,7 @@ import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { emailTypeAction, loginAction } from "../../constantes";
+import { BASE_URL, emailTypeAction, loginAction } from "../../constantes";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { getUser } from "../../src/GetUser";
@@ -155,7 +155,7 @@ async function sendRegistration(
 ) {
   const [name, surname] = displayName.split(' ')
   let url =
-    "https://fiubify-middleware-staging.herokuapp.com/auth/register-provider";
+    `${BASE_URL}/auth/register-provider`;
 
   let request = {
     method: "POST",
