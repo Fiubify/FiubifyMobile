@@ -7,11 +7,12 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 import { getUser } from "../../src/GetUser";
+import { navigateToHome } from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
-  const { userUId, currentUserUId } = route.params;
+  const { userUId, currentUserUId, token } = route.params;
 
   useEffect(() => {
     getUser(userUId).then((user) => {
@@ -26,9 +27,7 @@ export default function ExternProfile({ navigation, route }) {
         <Text
           style={styles.link}
           onPress={() =>
-            navigation.navigate("Home", {
-              uid: currentUserUId,
-            })
+            navigateToHome(currentUserUId, token, navigation)
           }
         >
           <MaterialIcons name="arrow-back-ios" />

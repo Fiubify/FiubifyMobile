@@ -1,22 +1,23 @@
 import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import FooterButton from "./FooterButton";
+import { goToScreenHome, goToScreenMyLibrary, goToScreenSearch } from "../../src/navigates";
 
 function Footer({ currentScreen, setCurrentScreen }) {
   return (
     <View style={styles.view}>
       <FooterButton
-        changeCurrent={() => setCurrentScreen("HOME")}
+        changeCurrent={() => goToScreenHome(setCurrentScreen)}
         icon={currentScreen === "HOME" ? "home" : "home-outline"}
         title="Home"
       />
       <FooterButton
-        changeCurrent={() => setCurrentScreen("SEARCH")}
+        changeCurrent={() => goToScreenSearch(setCurrentScreen)}
         icon={currentScreen === "SEARCH" ? "magnify-scan" : "magnify"}
         title="Search"
       />
       <FooterButton
-        changeCurrent={() => setCurrentScreen("MY-LIBRARY")}
+        changeCurrent={() => goToScreenMyLibrary(setCurrentScreen)}
         icon={
           currentScreen === "MY-LIBRARY"
             ? "bookmark-multiple"

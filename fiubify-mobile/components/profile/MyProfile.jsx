@@ -10,6 +10,12 @@ import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import {
+  navigateToAlbumForm, navigateToEntry,
+  navigateToHome,
+  navigateToSongForm,
+  navigateToSubscriptionForm,
+} from "../../src/navigates";
 
 export default function MyProfile({ navigation, route }) {
   const [user, setUser] = useState();
@@ -29,9 +35,7 @@ export default function MyProfile({ navigation, route }) {
         <Text
           style={styles.link}
           onPress={() =>
-            navigation.navigate("Home", {
-              uid: userUId,
-            })
+            navigateToHome(userUId, token, navigation)
           }
         >
           <MaterialIcons name="arrow-back-ios" />
@@ -76,11 +80,7 @@ export default function MyProfile({ navigation, route }) {
               color="#006E95"
               size={20}
               onPress={() => {
-                navigation.navigate("SubsciptionForm", {
-                  userUId,
-                  token,
-                  tier: user.plan,
-                });
+                navigateToSubscriptionForm(userUId, token, user.plan, navigation);
               }}
             />
           </View>
@@ -93,10 +93,7 @@ export default function MyProfile({ navigation, route }) {
                   pressableStyle={styles.loadSong}
                   textStyle={styles.textStyle}
                   onPress={() =>
-                    navigation.navigate("SongForm", {
-                      userUId: userUId,
-                      token: token,
-                    })
+                    navigateToSongForm(userUId, token)
                   }
                 />
                 <UiButton
@@ -104,10 +101,7 @@ export default function MyProfile({ navigation, route }) {
                   pressableStyle={styles.loadSong}
                   textStyle={styles.textStyle}
                   onPress={() =>
-                    navigation.navigate("AlbumForm", {
-                      userUId: userUId,
-                      token: token,
-                    })
+                    navigateToAlbumForm(userUId, token, navigation)
                   }
                 />
               </View>
@@ -117,14 +111,10 @@ export default function MyProfile({ navigation, route }) {
                 onPress={() => {
                   signOut(auth)
                     .then(() => {
-                      navigation.navigate("Entry", {
-                        uid: "",
-                      });
+                      navigateToEntry(navigation)
                     })
                     .catch((_error) => {
-                      navigation.navigate("Entry", {
-                        uid: "",
-                      });
+                      navigateToEntry(navigation)
                     });
                 }}
               />
@@ -136,14 +126,10 @@ export default function MyProfile({ navigation, route }) {
               onPress={() => {
                 signOut(auth)
                   .then(() => {
-                    navigation.navigate("Entry", {
-                      uid: "",
-                    });
+                    navigateToEntry(navigation)
                   })
                   .catch((_error) => {
-                    navigation.navigate("Entry", {
-                      uid: "",
-                    });
+                    navigateToEntry(navigation)
                   });
               }}
             />
