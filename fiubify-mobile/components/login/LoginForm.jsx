@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text } from "react-native";
 
 import {
@@ -13,14 +13,48 @@ import { logIn } from "../../state/actions/login.js";
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
 import { emailTypeAction, loginAction } from "../../constantes";
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+import { getUser } from "../../src/GetUser";
 
-function LoginForm({ navigation, openRegistration, backFunction }) {
+WebBrowser.maybeCompleteAuthSession();
+
+function LoginForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [_request, response, promptAsync] = Google.useIdTokenAuthRequest(
+    {
+      clientId: '437257657611-5j4la8i9bso6d9pvtbjj4tihgsq5057v.apps.googleusercontent.com',
+    },
+  );
+
+  useEffect(() => {
+    if (response?.type === 'success') {
+
+      const { id_token } = response.params;
+      const credential = GoogleAuthProvider.credential(id_token)
+      signInWithCredential(auth, credential).then(async (userCredentials) => {
+        const user = userCredentials.user;
+
+        try {
+          await getUser(user.uid)
+        } catch {
+          await sendRegistration(user.email, user.uid, user.displayName)
+        }
+
+        const token = await user.getIdToken()
+        await postUserEvent(loginAction, emailTypeAction);
+        navigation.navigate("Home", {
+          uid: user.uid,
+          token: token
+        });
+      });
+    }
+  })
 
   return (
     <View style={styles.view}>
@@ -37,6 +71,9 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
         <UiButton
           title="Log in with Google"
           pressableStyle={styles.googleButton}
+          onPress={() => {
+            promptAsync().then();
+          }}
         />
         {/* Si se loggea con google, postear metrica (Login, Federated)*/}
       </View>
@@ -110,6 +147,40 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return { actions: bindActionCreators({ logIn }, dispatch) };
 };
+
+async function sendRegistration(
+  email,
+  uid,
+  displayName
+) {
+  const [name, surname] = displayName.split(' ')
+  let url =
+    "https://fiubify-middleware-staging.herokuapp.com/auth/register-provider";
+
+  let request = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      role: "Listener",
+      name,
+      surname,
+      plan: "Free",
+      uid
+    }),
+  };
+
+  let response = await fetch(url, request);
+
+  if (response.ok) {
+    return true;
+  } else {
+    alert(response.statusText);
+  }
+}
 
 const styles = StyleSheet.create({
   view: {

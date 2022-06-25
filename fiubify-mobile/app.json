@@ -30,6 +30,7 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "scheme": "mycoolredirect",
     "extra": {
       "BASE_URL": "https://fiubify-middleware-staging.herokuapp.com"
     }
