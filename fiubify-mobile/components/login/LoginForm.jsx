@@ -19,10 +19,11 @@ import { postUserEvent } from "../../src/fetchMetrics";
 import { emailTypeAction, loginAction } from "../../constantes";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
+import { getUser } from "../../src/GetUser";
 
 WebBrowser.maybeCompleteAuthSession();
 
-function LoginForm({ navigation, openRegistration, backFunction }) {
+function LoginForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [_request, response, promptAsync] = Google.useIdTokenAuthRequest(
@@ -38,6 +39,13 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
       const credential = GoogleAuthProvider.credential(id_token)
       signInWithCredential(auth, credential).then(async (userCredentials) => {
         const user = userCredentials.user;
+
+        try {
+          await getUser(user.uid)
+        } catch {
+          await sendRegistration(user.email, user.uid, user.displayName)
+        }
+
         const token = await user.getIdToken()
         await postUserEvent(loginAction, emailTypeAction);
         navigation.navigate("Home", {
@@ -139,6 +147,40 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return { actions: bindActionCreators({ logIn }, dispatch) };
 };
+
+async function sendRegistration(
+  email,
+  uid,
+  displayName
+) {
+  const [name, surname] = displayName.split(' ')
+  let url =
+    "https://fiubify-middleware-staging.herokuapp.com/auth/register-provider";
+
+  let request = {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: email,
+      role: "Listener",
+      name,
+      surname,
+      plan: "Free",
+      uid
+    }),
+  };
+
+  let response = await fetch(url, request);
+
+  if (response.ok) {
+    return true;
+  } else {
+    alert(response.statusText);
+  }
+}
 
 const styles = StyleSheet.create({
   view: {
