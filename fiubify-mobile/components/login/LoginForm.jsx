@@ -36,7 +36,6 @@ function LoginForm({ navigation, openRegistration, backFunction }) {
 
       const { id_token } = response.params;
       const credential = GoogleAuthProvider.credential(id_token)
-      console.log(credential)
       signInWithCredential(auth, credential).then(async (userCredentials) => {
         const user = userCredentials.user;
         const token = await user.getIdToken()
