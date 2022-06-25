@@ -7,6 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
+import { BASE_URL } from "../../constantes";
 
 export function SubscriptionForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
@@ -47,7 +48,7 @@ export function SubscriptionForm({ navigation, route }) {
 
   async function send(token, tier, navigation) {
     let url =
-      `https://fiubify-middleware-staging.herokuapp.com/user/${userUId}/change-subscription`;
+      `${BASE_URL}/user/${userUId}/change-subscription`;
     const body = {
       token,
       plan: tier,

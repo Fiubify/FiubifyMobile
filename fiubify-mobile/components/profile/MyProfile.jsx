@@ -66,17 +66,23 @@ export default function MyProfile({ navigation, route }) {
 
           <View style={styles.plan}>
             <Info
+              containerStyles={styles.containerStyle}
               title="Plan"
               contain={user.plan}
               icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
             />
-            <UiButton pressableStyle={styles.planEdit} onPress={() => {
-              navigation.navigate("SubsciptionForm", {
-                userUId,
-                token,
-                tier: user.plan
-              })
-            }}/>
+            <MaterialIcons
+              name="edit"
+              color="#006E95"
+              size={20}
+              onPress={() => {
+                navigation.navigate("SubsciptionForm", {
+                  userUId,
+                  token,
+                  tier: user.plan,
+                });
+              }}
+            />
           </View>
 
           {user.role === "Artist" ? (
@@ -139,8 +145,7 @@ export default function MyProfile({ navigation, route }) {
                       uid: "",
                     });
                   });
-              }
-              }
+              }}
             />
           )}
         </ScrollView>
@@ -164,13 +169,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  planEdit: {
-    width: 10,
-    height: 10,
-    backgroundColor: "#006E95",
-
-  }
-  ,
   link: {
     width: wp(90),
     fontWeight: "bold",
@@ -183,8 +181,17 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   plan: {
+    width: "90%",
     display: "flex",
-    flexDirection: "row"
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderColor: "#006E95",
+    borderBottomWidth: 2,
+  },
+  containerStyle: {
+    width: "70%",
+    borderBottomWidth: 0,
   },
   imageSection: {
     height: hp(20),

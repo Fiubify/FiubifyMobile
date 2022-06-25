@@ -3,31 +3,32 @@ import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { ListedPlaylist } from "./ListedPlaylist";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../../constantes";
 
 export function MyPlaylists({ currentUserId, onSelect }) {
   const [playlists, setPlaylists] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`https://fiubify-middleware-staging.herokuapp.com/contents/playlists?owners.id=${currentUserId}`).then((data) => {
+    axios.get(`${BASE_URL}/contents/playlists?owners.id=${currentUserId}`).then((data) => {
         setPlaylists(data.data.data);
-        setLoading(false)
-      },
-    );
+        setLoading(false);
+      });
   }, []);
 
-  if (loading)
-    return <Text>LOADING...</Text>;
+  if (loading) return <Text style={styles.loading}>Loading...</Text>;
   else
-    return <View style={styles.view}>
-      {playlists.map((playlist) => (
-        <ListedPlaylist
-          key={playlist._id}
-          playlist={playlist}
-          onPress={onSelect}
-        />
-      ))}
-    </View>;
+    return (
+      <View style={styles.view}>
+        {playlists.map((playlist) => (
+          <ListedPlaylist
+            key={playlist._id}
+            playlist={playlist}
+            onPress={onSelect}
+          />
+        ))}
+      </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -68,5 +69,9 @@ const styles = StyleSheet.create({
     height: hp(15),
     // display: "flex",
     // flexDirection: "row",
+  },
+  loading: {
+    fontSize: 30,
+    color: "#006E95",
   },
 });
