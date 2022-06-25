@@ -8,6 +8,7 @@ import {
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
 import { BASE_URL } from "../../constantes";
+import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 
 export function SubscriptionForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
@@ -19,10 +20,7 @@ export function SubscriptionForm({ navigation, route }) {
       <Text
         style={styles.link}
         onPress={() =>
-          navigation.navigate("MyProfile", {
-            userUId: userUId,
-            token
-          })
+          navigateToMyProfile(userUId, token, navigation)
         }
       >
         <MaterialIcons name="arrow-back-ios" />
@@ -64,10 +62,7 @@ export function SubscriptionForm({ navigation, route }) {
     let response = await fetch(url, request);
 
     if (response.ok) {
-      navigation.navigate("Home", {
-        uid: userUId,
-        token: token,
-      });
+      navigateToHome(userUId, token, navigation);
     } else {
       console.error(await response.json());
       alert(response.statusText);

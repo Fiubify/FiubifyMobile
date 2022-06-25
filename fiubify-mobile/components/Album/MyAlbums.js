@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUser } from "../../src/GetUser";
 import { getAlbumsByArtist } from "../../src/fetchContent";
 import { AllAlbums } from "../Screens/AllAlbums";
+import { goToScreenAlbumView } from "../../src/navigates";
 
 export function MyAlbums({ userUid, setData, setCurrentScreen }) {
   const [albums, setAlbums] = useState([]);
@@ -19,8 +20,7 @@ export function MyAlbums({ userUid, setData, setCurrentScreen }) {
   if (user.role === "Artist" && albums.length > 0) {
     return (
       <AllAlbums albums={albums} setAlbum={(album) => {
-        setData({ album: album });
-        setCurrentScreen("ALBUM-VIEW");
+        goToScreenAlbumView(setData, setCurrentScreen, album)
       }} />
     );
   }

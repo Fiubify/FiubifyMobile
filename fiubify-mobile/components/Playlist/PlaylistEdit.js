@@ -10,6 +10,7 @@ import {
 } from "react-native-responsive-screen";
 import axios from "axios";
 import { BASE_URL } from "../../constantes";
+import { navigateToHome } from "../../src/navigates";
 
 async function editPlaylist(
   title,
@@ -46,7 +47,7 @@ export function PlaylistEdit({ route, navigation }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigation.navigate("Home", { uid, token })}
+        onPress={() => navigateToHome(uid, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back
@@ -87,7 +88,7 @@ export function PlaylistEdit({ route, navigation }) {
             playlist._id,
             token,
             () => {
-              navigation.navigate("Home", { uid, token });
+              navigateToHome(uid, token, navigation);
             }
           ).then();
         }}

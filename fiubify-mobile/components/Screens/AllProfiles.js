@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import UiButton from "../ui/UiButton";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import Ionicons from "react-native-vector-icons/Ionicons";
+import { navigateToExternProfile } from "../../src/navigates";
 
 //TODO: mostrar todos los profiles (si son muchos, poder scrollear para abajo)
 
@@ -26,7 +27,7 @@ function ListedProfile({ profile, onPress }) {
   );
 }
 
-export function AllProfiles({ profiles, navigation, currentUserId }) {
+export function AllProfiles({ profiles, navigation, currentUserId, token }) {
   if (profiles) {
     if (profiles.length > 0) {
       return (
@@ -36,10 +37,7 @@ export function AllProfiles({ profiles, navigation, currentUserId }) {
               key={profile.uid}
               profile={profile}
               onPress={(uid) => {
-                navigation.navigate("ExternProfile", {
-                  userUId: uid,
-                  currentUserUId: currentUserId,
-                });
+                navigateToExternProfile(uid, currentUserId, token, navigation);
               }}
             />
           ))}
