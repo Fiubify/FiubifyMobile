@@ -124,3 +124,48 @@ export async function getAlbumsByArtist(uid) {
     }
   }
 }
+
+export async function getFavouriteSongs(uid, token) {
+  try {
+    let response;
+    response = await axios.get(
+      `${BASE_URL}/contents/favourites/${uid}`,
+      {
+        params: {
+          token: token,
+        },
+      });
+    return response.data;
+  } catch (e) {
+    console.log(e)
+    throw e;
+  }
+}
+
+export async function deleteFavouriteSong(uid, songId) {
+  try {
+    await axios.delete(
+      `${BASE_URL}/contents/favourites/${uid}/remove-song`,
+      {
+        data: {
+          songId: songId,
+        },
+      });
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function addFavouriteSong(uid, songId, token) {
+  try {
+    await axios.post(
+      `${BASE_URL}/contents/favourites/${uid}/add-song`,
+      {
+        songId: songId,
+        token: token,
+      },
+    );
+  } catch (e) {
+    throw e;
+  }
+}
