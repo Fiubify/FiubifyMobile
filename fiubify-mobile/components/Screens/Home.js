@@ -7,7 +7,7 @@ import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 
-function Home({ setSong, currentUserUId }) {
+function Home({ setSong, currentUserUId, token }) {
   const [songs, setSongs] = useState(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function Home({ setSong, currentUserUId }) {
   }, []);
   return (
     <View style={styles.view}>
-      <AllSongs currentUserUId={currentUserUId} setSong={async (song) => {
+      <AllSongs token={token} currentUserUId={currentUserUId} setSong={async (song) => {
         const songSound = await downloadSong(song.url);
         setSong({ sound: songSound, data: song });
         const album = await getAlbumById(song.albumId);
