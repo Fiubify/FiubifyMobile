@@ -1,8 +1,5 @@
 import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
-import { postSongEvent } from "../../src/fetchMetrics";
-import { listenedAction } from "../../constantes";
-import { getAlbumById } from "../../src/fetchContent";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 function ListedSong({ song, onPress, userUId }) {

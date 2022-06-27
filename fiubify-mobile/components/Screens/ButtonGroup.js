@@ -111,24 +111,24 @@ export default function ButtonGroup({
             Genres
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.btn,
-            selection === 5 ? { backgroundColor: "#006E95" } : null,
-          ]}
-          onPress={() => {
-            setSelection(5);
-          }}
-        >
-          <Text
-            style={[
-              styles.btnText,
-              selection === 5 ? { color: "white" } : { color: "black" },
-            ]}
-          >
-            Playlists
-          </Text>
-        </TouchableOpacity>
+        {/*<TouchableOpacity*/}
+        {/*  style={[*/}
+        {/*    styles.btn,*/}
+        {/*    selection === 5 ? { backgroundColor: "#006E95" } : null,*/}
+        {/*  ]}*/}
+        {/*  onPress={() => {*/}
+        {/*    setSelection(5);*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Text*/}
+        {/*    style={[*/}
+        {/*      styles.btnText,*/}
+        {/*      selection === 5 ? { color: "white" } : { color: "black" },*/}
+        {/*    ]}*/}
+        {/*  >*/}
+        {/*    Playlists*/}
+        {/*  </Text>*/}
+        {/*</TouchableOpacity>*/}
         <TouchableOpacity
           style={[
             styles.btn,

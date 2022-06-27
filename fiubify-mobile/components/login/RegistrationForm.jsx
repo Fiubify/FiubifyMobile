@@ -39,17 +39,6 @@ export default function RegistrationForm({ navigation }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <UiButton
-        title="Sign up with Facebook"
-        pressableStyle={styles.facebookButton}
-      />
-      {/* Si se registra con fb, postear metrica (Signup, Federated)*/}
-      <View style={styles.middle}>
-        <View style={styles.line} />
-        <Text style={styles.text}>or</Text>
-        <View style={styles.line} />
-      </View>
-
       <UiTextInput
         onChange={setName}
         style={styles.text_input}
@@ -167,7 +156,7 @@ export default function RegistrationForm({ navigation }) {
     let url =
       `${BASE_URL}/auth/register-email`;
 
-    if (password != passwordRepeat) {
+    if (password !== passwordRepeat) {
       alert("Password does not match confirmation!");
       return;
     }
@@ -202,12 +191,13 @@ export default function RegistrationForm({ navigation }) {
     let response = await fetch(url, request);
 
     if (response.ok) {
-      await postUserEvent(signupAction, emailTypeAction);
+      const body = (await response.json()).data;
+      await postUserEvent(signupAction, emailTypeAction, body.uid);
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredentials) => {
           const user = userCredentials.user;
           const token = await user.getIdToken()
-          await postUserEvent(loginAction, emailTypeAction);
+          await postUserEvent(loginAction, emailTypeAction, user.uid);
           navigateToHome(user.uid, token, navigation);
         })
         .catch((error) => {

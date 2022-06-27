@@ -9,8 +9,7 @@ import {
 } from "react-native-responsive-screen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
-import { postAlbumEvent } from "../../src/fetchMetrics";
-import { BASE_URL, creationAction } from "../../constantes";
+import { BASE_URL } from "../../constantes";
 import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 
 export function AlbumForm({ navigation, route }) {
@@ -112,7 +111,6 @@ export function AlbumForm({ navigation, route }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      await postAlbumEvent(creationAction, genre, tier, userUId, title);
       navigateToHome(userUId, token, navigation)
     } else {
       console.error(await response.json());
