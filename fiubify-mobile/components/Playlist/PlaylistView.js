@@ -98,7 +98,9 @@ export function PlaylistView({
                 song.genre,
                 song.tier,
                 currentUserUId,
+                song._id,
                 song.title,
+                song.albumId,
                 album.data.title
               );
             }}

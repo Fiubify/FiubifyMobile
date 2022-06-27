@@ -15,7 +15,7 @@ export async function postUserEvent(action, type, uid) {
   } catch (e) {throw e}
 }
 
-export async function postSongEvent(action, genre, tier, user, song, album) {
+export async function postSongEvent(action, genre, tier, userUId, songId, songName, albumId, albumName) {
   try {
     await axios.post(
       contentMetricsUrl,
@@ -23,9 +23,11 @@ export async function postSongEvent(action, genre, tier, user, song, album) {
         action: action,
         genre: genre,
         tier: tier,
-        user: user,
-        song: song,
-        album: album,
+        userUId: userUId,
+        songId: songId,
+        songName: songName,
+        albumId: albumId,
+        albumName: albumName
       }
     );
   } catch (e) {throw e}

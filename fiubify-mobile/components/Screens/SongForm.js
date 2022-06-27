@@ -9,6 +9,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import Selector from "../ui/UiSelect";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { BASE_URL, creationAction } from "../../constantes";
+import { createSong } from "../../src/fetchContent";
 
 
 export function SongForm({ navigation, route }) {
@@ -149,8 +150,6 @@ export function SongForm({ navigation, route }) {
     genre,
     navigation,
   ) {
-    let url = `${BASE_URL}/contents/songs`;
-
     if (!title) {
       alert("No title was supplied");
       return;
@@ -177,41 +176,51 @@ export function SongForm({ navigation, route }) {
     }
 
     const songUrl = `${userUId}/${album._id}/${title}`;
-
     await uploadSong(songUrl);
-    // title, artistId, albumId, duration, url, tier, genre, description
-    const body = {
-      title,
-      token,
-      artistId: userUId,
-      albumId: album._id,
-      duration: parseInt(duration),
-      url: songUrl,
-      tier,
-      genre,
-      description,
-    };
-    let request = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(body),
-    };
 
-    let response = await fetch(url, request);
-
-    if (response.ok) {
-      const body = (await response.json()).data;
-      await postSongEvent(creationAction, genre, tier, userUId, title, album.title)
+    try {
+      const songCreated = await createSong(title, token, userUId, album._id, duration, songUrl, tier, genre, description);
+      await postSongEvent(creationAction, genre, tier, userUId, songCreated._id, title, album._id, album.title);
       navigation.navigate("Home", {
         uid: userUId,
         token: token,
       });
-    } else {
-      alert(response.statusText);
+    } catch (e) {
+      alert(e.response.message);
     }
+
+    // let url = `${BASE_URL}/contents/songs`;
+    // title, artistId, albumId, duration, url, tier, genre, description
+    // const body = {
+    //   title,
+    //   token,
+    //   artistId: userUId,
+    //   albumId: album._id,
+    //   duration: parseInt(duration),
+    //   url: songUrl,
+    //   tier,
+    //   genre,
+    //   description,
+    // };
+    // let request = {
+    //   method: "POST",
+    //   headers: {
+    //     Accept: "application/json",
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(body),
+    // };
+    //let response = await fetch(url, request);
+    // if (response.ok) {
+    //   const body = (await response.json()).data;
+    //   await postSongEvent(creationAction, genre, tier, userUId, songId, title, album._id, album.title)
+    //   navigation.navigate("Home", {
+    //     uid: userUId,
+    //     token: token,
+    //   });
+    // } else {
+    //   alert(response.statusText);
+    // }
   }
 }
 
