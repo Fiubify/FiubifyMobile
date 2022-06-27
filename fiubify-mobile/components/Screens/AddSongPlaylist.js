@@ -53,7 +53,7 @@ export function AddSongPlaylist({ setData, data, token, currentUserId, setCurren
     </View>
     <AllSongs setSong={(song) => {
       addSongToPlaylist(song._id, token, playlist, setCurrentScreen, setData)
-    }} songs={songs} />
+    }} songs={songs} currentUserUId={currentUserId} token={token}/>
   </View>;
 }
 

@@ -88,6 +88,8 @@ export function PlaylistView({
             icon="playlist-music"
           />
           <AllSongs
+            currentUserUId={currentUserUId}
+            token={token}
             songs={tracks}
             setSong={async (song) => {
               const songSound = await downloadSong(song.url);

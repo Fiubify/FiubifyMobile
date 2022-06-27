@@ -69,6 +69,7 @@ export default function ScreenController({ navigation, route }) {
             data={data}
             setSong={stopAndSetSong(song, setSong)}
             currentUserUId={uid}
+            token={token}
           />
         );
         break;

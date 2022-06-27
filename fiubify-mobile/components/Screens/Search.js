@@ -23,6 +23,7 @@ export function Search({
   currentUserId,
   setData,
   setCurrentScreen,
+  token
 }) {
   const [songs, setSongs] = useState(null);
   const [profiles, setProfiles] = useState(null);
@@ -123,6 +124,7 @@ export function Search({
           );
         }}
         songs={songs}
+        token={token}
       />
       <AllProfiles
         profiles={profiles}

@@ -13,7 +13,7 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 import { getAlbumById } from "../../src/fetchContent";
 
-export function AlbumView({ data: { album }, setSong, currentUserUId }) {
+export function AlbumView({ data: { album }, setSong, currentUserUId, token }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
 
@@ -53,6 +53,7 @@ export function AlbumView({ data: { album }, setSong, currentUserUId }) {
             icon="playlist-music"
           />
           <AllSongs
+            token={token}
             songs={album.tracks}
             currentUserUId={currentUserUId}
             setSong={async (song) => {
