@@ -1,4 +1,4 @@
-import { StyleSheet, View, Image, Text} from "react-native";
+import { StyleSheet, View, Image, Text } from "react-native";
 import Slider from "@react-native-community/slider";
 import {
   heightPercentageToDP as hp,
@@ -8,13 +8,13 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import Songs from "./../../model/data";
 import { useEffect, useState } from "react";
 
-function MusicPlayer({song}) {
+function MusicPlayer({ song }) {
   const [playing, setPlaying] = useState(false);
   const [currentSong, setCurrentSong] = useState(Songs[0]);
 
   useEffect(() => {
-    setPlaying(false)
-  }, [song])
+    setPlaying(false);
+  }, [song]);
 
   return (
     <View style={styles.view}>

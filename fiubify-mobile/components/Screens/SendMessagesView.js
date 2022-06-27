@@ -1,24 +1,26 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import UiTextInput from "../ui/UiTextInput";
+import UiButton from "../ui/UiButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
 import { database } from "../../firebase";
+import { ref, set } from "firebase/database";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { onValue, ref } from "firebase/database";
-import Message from "./Message";
 
-export default function MessagesView({ navigation, route }) {
-  const { userUId, token } = route.params;
-  function getMessages() {
-    const starCountRef = ref(database, "/users/" + userUId);
-    var data;
-    onValue(starCountRef, (snapshot) => {
-      data = snapshot.val();
+export default function SendMessagesView({ navigation, route }) {
+  const { userUId, token, emisorName, receptorName } = route.params;
+  const [message, setMessage] = useState("");
+
+  function writeUserData(userId, emisorName, receptorName, message) {
+    set(ref(database, "users/" + userId), {
+      emisor: emisorName,
+      receptor: receptorName,
+      message: message,
     });
-    return <Message data={data} />;
   }
 
   return (
@@ -30,7 +32,24 @@ export default function MessagesView({ navigation, route }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      {getMessages()}
+      <View style={styles.sendSection}>
+        <UiTextInput
+          style={styles.messageInput}
+          onChange={setMessage}
+          placeholder="Insert your message"
+          defaultValue=""
+        />
+        <MaterialIcons
+          style={styles.sendButton}
+          name="send"
+          color="white"
+          size={20}
+          onPress={() => {
+            writeUserData(userUId, emisorName, receptorName, message);
+            navigateToHome(userUId, token, navigation);
+          }}
+        />
+      </View>
     </View>
   );
 }

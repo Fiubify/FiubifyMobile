@@ -135,7 +135,7 @@ export function navigateToExternProfile(
   });
 }
 
-export function navigateToMessagesView(
+export function navigateToSendMessagesView(
   userUId,
   token,
   emisorName,
@@ -146,10 +146,20 @@ export function navigateToMessagesView(
   if (!userUId || !token || !emisorName || !receptorName)
     throw new Error("No se especifico userUId, token o name");
 
-  navigation.navigate("MessagesView", {
+  navigation.navigate("SendMessagesView", {
     userUId: userUId,
     token,
     emisorName,
     receptorName,
+  });
+}
+
+export function navigateToMessagesView(userUId, token, navigation) {
+  checkNavigation(navigation);
+  if (!userUId || !token) throw new Error("No se especifico userUId o token");
+
+  navigation.navigate("MessagesView", {
+    userUId: userUId,
+    token,
   });
 }

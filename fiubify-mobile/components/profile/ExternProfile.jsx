@@ -7,7 +7,7 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 import { getUser } from "../../src/GetUser";
-import { navigateToHome, navigateToMessagesView } from "../../src/navigates";
+import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
@@ -41,7 +41,7 @@ export default function ExternProfile({ navigation, route }) {
             color="#006E95"
             size={30}
             onPress={() => {
-              navigateToMessagesView(
+              navigateToSendMessagesView(
                 currentUserUId,
                 token,
                 currentUser.name,

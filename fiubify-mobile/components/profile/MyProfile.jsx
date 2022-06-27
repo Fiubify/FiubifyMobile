@@ -34,13 +34,23 @@ export default function MyProfile({ navigation, route }) {
   if (!loading)
     return (
       <View style={styles.view}>
-        <Text
-          style={styles.link}
-          onPress={() => navigateToHome(userUId, token, navigation)}
-        >
-          <MaterialIcons name="arrow-back-ios" />
-          Back
-        </Text>
+        <View style={styles.topSection}>
+          <Text
+            style={styles.link}
+            onPress={() => navigateToHome(userUId, token, navigation)}
+          >
+            <MaterialIcons name="arrow-back-ios" />
+            Back
+          </Text>
+          <MaterialIcons
+            name="message"
+            color="#006E95"
+            size={30}
+            onPress={() => {
+              navigateToMessagesView(userUId, token, navigation);
+            }}
+          />
+        </View>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
@@ -89,13 +99,6 @@ export default function MyProfile({ navigation, route }) {
               }}
             />
           </View>
-          <UiButton
-            title="message"
-            onPress={() => {
-              navigateToMessagesView(userUId, token, user.name, navigation);
-            }}
-          ></UiButton>
-
           {user.role === "Artist" ? (
             <View style={styles.artist}>
               <View style={styles.artistCreate}>
@@ -164,8 +167,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  link: {
+  topSection: {
     width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  link: {
+    width: wp(30),
     fontWeight: "bold",
     fontSize: 16,
     color: "#006E95",
