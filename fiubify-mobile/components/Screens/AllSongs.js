@@ -5,10 +5,13 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import { useEffect, useState } from "react";
 
 function ListedSong({ song, onPress, userUId, favSongs, token }) {
-  const [ isFav, setIsFav ] = useState(false);
-  if(favSongs.map((song) => song._id.toString()).includes(song._id.toString())){
-    setIsFav(true);
-  }
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    if (favSongs.map((song) => song._id.toString()).includes(song._id.toString())) {
+      setIsFav(true);
+    }
+  }, [favSongs]);
 
   return (
     <View style={styles.musicContainer}>
@@ -46,8 +49,7 @@ export function AllSongs({ token, setSong, songs, currentUserUId }) {
 
   useEffect(() => {
     getFavouriteSongs(currentUserUId, token).then((tracks) => setFavSongs(tracks));
-    console.log("after fetched favs songs: ", favSongs);
-  }, [])
+  }, []);
 
   if (songs) {
     if (songs.length > 0) {
@@ -72,6 +74,7 @@ export function AllSongs({ token, setSong, songs, currentUserUId }) {
     return null;
   }
 }
+
 const styles = StyleSheet.create({
   view: {
     width: "100%",
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     color: "#006E95",
   },
   btnNormal: {
-    borderColor: 'blue',
+    borderColor: "blue",
     backgroundColor: "white",
     borderWidth: 1,
     borderRadius: 10,
@@ -120,10 +123,10 @@ const styles = StyleSheet.create({
     width: 35,
   },
   btnPress: {
-    borderColor: 'blue',
+    borderColor: "blue",
     backgroundColor: "blue",
     borderWidth: 1,
     height: 30,
     width: 35,
-  }
+  },
 });
