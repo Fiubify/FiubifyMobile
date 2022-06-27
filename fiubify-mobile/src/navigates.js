@@ -136,18 +136,20 @@ export function navigateToExternProfile(
 }
 
 export function navigateToSendMessagesView(
-  userUId,
+  senderUId,
+  recieverUId,
   token,
   emisorName,
   receptorName,
   navigation
 ) {
   checkNavigation(navigation);
-  if (!userUId || !token || !emisorName || !receptorName)
+  if (!senderUId || !recieverUId || !token || !emisorName || !receptorName)
     throw new Error("No se especifico userUId, token o name");
 
   navigation.navigate("SendMessagesView", {
-    userUId: userUId,
+    senderUId: senderUId,
+    recieverUId: recieverUId,
     token,
     emisorName,
     receptorName,

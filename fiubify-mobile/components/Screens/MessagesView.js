@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React from "react";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
 import { database } from "../../firebase";
@@ -12,13 +12,42 @@ import Message from "./Message";
 
 export default function MessagesView({ navigation, route }) {
   const { userUId, token } = route.params;
-  function getMessages() {
-    const starCountRef = ref(database, "/users/" + userUId);
-    var data;
-    onValue(starCountRef, (snapshot) => {
-      data = snapshot.val();
+
+  function getSendedMessages() {
+    const sendCountRef = ref(database, "/users/sended/" + userUId);
+    var render = [];
+    var sendData;
+    onValue(sendCountRef, (snapshot) => {
+      sendData = snapshot;
     });
-    return <Message data={data} />;
+
+    if (!sendData) {
+      render = <Text>There is not sended data</Text>;
+    } else {
+      sendData.forEach((childSnapshot) => {
+        render.push(<Message data={childSnapshot.val()} />);
+      });
+    }
+    return render;
+  }
+
+  function getRecievedMessages() {
+    const recvCountRef = ref(database, "/users/recieved/" + userUId);
+    var render = [];
+    var recvData;
+    onValue(recvCountRef, (snapshot) => {
+      recvData = snapshot;
+    });
+
+    if (!recvData) {
+      render = <Text>There is not recieved data</Text>;
+    } else {
+      recvData.forEach((childSnapshot) => {
+        render.push(<Message data={childSnapshot.val()} />);
+      });
+    }
+
+    return render;
   }
 
   return (
@@ -30,7 +59,20 @@ export default function MessagesView({ navigation, route }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      {getMessages()}
+
+      <Text style={[styles.link, styles.title]}>Enviados</Text>
+      <View style={styles.scrollView}>
+        <ScrollView style={styles.scroll}>
+          {getSendedMessages().reverse()}
+        </ScrollView>
+      </View>
+
+      <Text style={[styles.link, styles.title]}>Recibidos</Text>
+      <View style={styles.scrollView}>
+        <ScrollView style={styles.scroll}>
+          {getRecievedMessages().reverse()}
+        </ScrollView>
+      </View>
     </View>
   );
 }
@@ -55,6 +97,16 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginTop: 20,
+  },
+  title: {
+    fontSize: 20,
+  },
+  scrollView: {
+    width: wp(90),
+    height: hp(30),
+  },
+  scroll: {
+    width: wp(90),
   },
   sendSection: {
     width: wp(90),

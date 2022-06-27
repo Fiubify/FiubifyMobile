@@ -43,6 +43,7 @@ export default function ExternProfile({ navigation, route }) {
             onPress={() => {
               navigateToSendMessagesView(
                 currentUserUId,
+                userUId,
                 token,
                 currentUser.name,
                 user.name,

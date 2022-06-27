@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     width: wp(90),
     height: hp(10),
     padding: "5%",
+    marginTop: "5%",
     display: "flex",
     alignItems: "flex-start",
     justifyContent: "center",

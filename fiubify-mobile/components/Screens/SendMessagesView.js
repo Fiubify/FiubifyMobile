@@ -5,18 +5,34 @@ import UiButton from "../ui/UiButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
 import { database } from "../../firebase";
-import { ref, set } from "firebase/database";
+import { push, ref, set } from "firebase/database";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 
 export default function SendMessagesView({ navigation, route }) {
-  const { userUId, token, emisorName, receptorName } = route.params;
+  const { senderUId, recieverUId, token, emisorName, receptorName } =
+    route.params;
   const [message, setMessage] = useState("");
 
-  function writeUserData(userId, emisorName, receptorName, message) {
-    set(ref(database, "users/" + userId), {
+  function writeUserData(
+    senderUId,
+    recieverUId,
+    emisorName,
+    receptorName,
+    message
+  ) {
+    const sendListRef = ref(database, "/users/sended/" + senderUId);
+    const recvListRef = ref(database, "/users/recieved/" + recieverUId);
+    const newSendRef = push(sendListRef);
+    const newRecvRef = push(recvListRef);
+    set(newSendRef, {
+      emisor: emisorName,
+      receptor: receptorName,
+      message: message,
+    });
+    set(newRecvRef, {
       emisor: emisorName,
       receptor: receptorName,
       message: message,
@@ -27,7 +43,7 @@ export default function SendMessagesView({ navigation, route }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigateToHome(userUId, token, navigation)}
+        onPress={() => navigateToHome(senderUId, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back
@@ -45,8 +61,14 @@ export default function SendMessagesView({ navigation, route }) {
           color="white"
           size={20}
           onPress={() => {
-            writeUserData(userUId, emisorName, receptorName, message);
-            navigateToHome(userUId, token, navigation);
+            writeUserData(
+              senderUId,
+              recieverUId,
+              emisorName,
+              receptorName,
+              message
+            );
+            navigateToHome(senderUId, token, navigation);
           }}
         />
       </View>
