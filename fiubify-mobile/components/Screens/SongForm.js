@@ -10,6 +10,7 @@ import Selector from "../ui/UiSelect";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { BASE_URL, creationAction } from "../../constantes";
 import { createSong } from "../../src/fetchContent";
+import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 
 
 export function SongForm({ navigation, route }) {
@@ -63,10 +64,7 @@ export function SongForm({ navigation, route }) {
         <Text
           style={styles.link}
           onPress={() =>
-            navigation.navigate("MyProfile", {
-              userUId: userUId,
-              token,
-            })
+            navigateToMyProfile(userUId, token, navigation)
           }
         >
           <MaterialIcons name="arrow-back-ios" />
@@ -181,10 +179,7 @@ export function SongForm({ navigation, route }) {
     try {
       const songCreated = await createSong(title, token, userUId, album._id, duration, songUrl, tier, genre, description);
       await postSongEvent(creationAction, genre, tier, userUId, songCreated._id, title, album._id, album.title);
-      navigation.navigate("Home", {
-        uid: userUId,
-        token: token,
-      });
+      navigateToHome(userUId, token, navigation)
     } catch (e) {
       alert(e.response.message);
     }

@@ -8,11 +8,11 @@ import { useEffect } from "react";
 import { getSongsWithTitle } from "../../src/fetchContent";
 import axios from "axios";
 import { BASE_URL } from "../../constantes";
+import { goToScreenPlaylistView } from "../../src/navigates";
 
 function addSongToPlaylist(trackId, token, playlist, setCurrentScreen, setData) {
   axios.post(`${BASE_URL}/contents/playlists/${playlist._id}/add-track`, {trackId, token}).then(({data}) => {
-    setData({playlist})
-    setCurrentScreen("PLAYLIST-VIEW")
+    goToScreenPlaylistView(setData, setCurrentScreen, playlist)
   }).catch((e) => {
     console.error(e)
     alert("NO SE PUDO AÑADIR LA CANCION")

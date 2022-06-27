@@ -13,7 +13,11 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 import Selector from "../ui/UiSelect.jsx";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { BASE_URL, emailTypeAction, signupAction } from "../../constantes";
+import { BASE_URL, emailTypeAction, loginAction, signupAction } from "../../constantes";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
+import { navigateToEntry, navigateToHome } from "../../src/navigates";
+
 
 export default function RegistrationForm({ navigation }) {
   const [name, setName] = useState("");
@@ -31,7 +35,7 @@ export default function RegistrationForm({ navigation }) {
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
+      <Text style={styles.link} onPress={() => navigateToEntry(navigation)}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -189,9 +193,16 @@ export default function RegistrationForm({ navigation }) {
     if (response.ok) {
       const body = (await response.json()).data;
       await postUserEvent(signupAction, emailTypeAction, body.uid);
-      navigation.navigate("Home", {
-        uid: body.uid,
-      });
+      signInWithEmailAndPassword(auth, email, password)
+        .then(async (userCredentials) => {
+          const user = userCredentials.user;
+          const token = await user.getIdToken()
+          await postUserEvent(loginAction, emailTypeAction, user.uid);
+          navigateToHome(user.uid, token, navigation);
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
     } else {
       alert(response.statusText);
     }

@@ -6,6 +6,7 @@ import {
 import { MyPlaylists } from "./MyPlaylists";
 import UiButton from "../ui/UiButton";
 import { MyAlbums } from "../Album/MyAlbums";
+import { goToScreenPlaylistView, navigateToPlaylistForm } from "../../src/navigates";
 
 export function MyLibrary({
   navigation,
@@ -20,10 +21,7 @@ export function MyLibrary({
         title="New Playlist"
         pressableStyle={styles.loadSong}
         onPress={() =>
-          navigation.navigate("PlaylistForm", {
-            userUId: currentUserId,
-            token: token,
-          })
+          navigateToPlaylistForm(currentUserId, token, navigation)
         }
       />
       <MyPlaylists
@@ -31,8 +29,7 @@ export function MyLibrary({
         navigation={navigation}
         currentUserId={currentUserId}
         onSelect={(playlist) => {
-          setData({ playlist });
-          setCurrentScreen("PLAYLIST-VIEW");
+          goToScreenPlaylistView(setData, setCurrentScreen, playlist)
         }}
       />
       <MyAlbums

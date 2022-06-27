@@ -22,7 +22,7 @@ export default function PasswordRecoveryForm({ navigation }) {
   if (!sent) {
     return (
       <View style={styles.view}>
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.link} onPress={() => navigateToLogin(navigation)}>
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>
@@ -41,7 +41,7 @@ export default function PasswordRecoveryForm({ navigation }) {
   } else {
     return (
       <View style={styles.view}>
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.link} onPress={() => navigateToLogin(navigation)}>
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>

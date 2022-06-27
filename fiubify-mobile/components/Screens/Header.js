@@ -7,6 +7,7 @@ import {
 import MusicPlayer from "../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import UiLogo from "../ui/UiLogo";
+import { navigateToMyProfile } from "../../src/navigates";
 
 function Header({ userUId, token, navigation, song }) {
   return (
@@ -17,10 +18,7 @@ function Header({ userUId, token, navigation, song }) {
       <MusicPlayer song={song} />
       <Ionicons
         onPress={() =>
-          navigation.navigate("MyProfile", {
-            userUId: userUId,
-            token: token,
-          })
+          navigateToMyProfile(userUId, token, navigation)
         }
         name="person-circle-outline"
         color="white"

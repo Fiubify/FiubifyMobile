@@ -11,6 +11,7 @@ import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import axios from "axios";
 import { BASE_URL } from "../../constantes";
+import { navigateToHome } from "../../src/navigates";
 
 async function createPlaylist(title, description, collaborative, userUId, whenDone) {
 
@@ -45,7 +46,7 @@ export function PlaylistForm({ navigation, route }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigation.navigate("Home", { userUId, token })}
+        onPress={() => navigateToHome(userUId, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back
@@ -77,10 +78,7 @@ export function PlaylistForm({ navigation, route }) {
         pressableStyle={styles.upload}
         onPress={() => {
           createPlaylist(title, description, collaborative, userUId, () => {
-            navigation.navigate("Home", {
-              uid: userUId,
-              token: token,
-            });
+            navigateToHome(userUId, token, navigation)
           }).then();
         }}
       />

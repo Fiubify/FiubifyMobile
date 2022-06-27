@@ -16,10 +16,11 @@ import { auth } from "../../firebase.js";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { federatedTypeAction, loginAction, signupAction } from "../../constantes";
+import { BASE_URL, federatedTypeAction, emailTypeAction, loginAction, signupAction } from "../../constantes";
 import * as WebBrowser from 'expo-web-browser';
 import * as Google from 'expo-auth-session/providers/google';
 import { getUser } from "../../src/GetUser";
+import { navigateToEntry, navigateToForgotPassword, navigateToHome, navigateToRegistration } from "../../src/navigates";
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -50,17 +51,14 @@ function LoginForm({ navigation }) {
         }
 
         const token = await user.getIdToken()
-        navigation.navigate("Home", {
-          uid: user.uid,
-          token: token
-        });
+        navigateToHome(user.uid, token, navigation);
       });
     }
   })
 
   return (
     <View style={styles.view}>
-      <Text style={styles.link} onPress={() => navigation.navigate("Entry")}>
+      <Text style={styles.link} onPress={() => navigateToEntry(navigation)}>
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
@@ -107,7 +105,7 @@ function LoginForm({ navigation }) {
       </View>
       <Text
         style={styles.forgot}
-        onPress={() => navigation.navigate("ForgotPassword")}
+        onPress={() => navigateToForgotPassword(navigation)}
       >
         Forgot password?
       </Text>
@@ -120,7 +118,7 @@ function LoginForm({ navigation }) {
         title="SIGN UP"
         pressableStyle={styles.SignUp}
         textStyle={styles.signUpText}
-        onPress={() => navigation.navigate("Registration")}
+        onPress={() => navigateToRegistration()}
       />
     </View>
   );
@@ -131,10 +129,7 @@ function LoginForm({ navigation }) {
         const user = userCredentials.user;
         const token = await user.getIdToken()
         await postUserEvent(loginAction, emailTypeAction, user.uid);
-        navigation.navigate("Home", {
-          uid: user.uid,
-          token: token
-        });
+        navigateToHome(user.uid, token, navigation);
       })
       .catch((error) => {
         alert(error.message);
@@ -157,7 +152,7 @@ async function sendRegistration(
 ) {
   const [name, surname] = displayName.split(' ')
   let url =
-    "https://fiubify-middleware-staging.herokuapp.com/auth/register-provider";
+    `${BASE_URL}/auth/register-provider`;
 
   let request = {
     method: "POST",

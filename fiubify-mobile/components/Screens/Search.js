@@ -13,11 +13,13 @@ import { AllAlbums } from "./AllAlbums";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
+import { goToScreenAlbumView } from "../../src/navigates";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")
 
 export function Search({
+  token,
   navigation,
   setSong,
   currentUserId,
@@ -130,12 +132,12 @@ export function Search({
         profiles={profiles}
         currentUserId={currentUserId}
         navigation={navigation}
+        token={token}
       />
       <AllAlbums
         albums={albums}
         setAlbum={(album) => {
-          setData({ album: album });
-          setCurrentScreen("ALBUM-VIEW");
+          goToScreenAlbumView(setData, setCurrentScreen, album)
         }}
       />
     </View>
