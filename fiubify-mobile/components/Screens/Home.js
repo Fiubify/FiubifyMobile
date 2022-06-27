@@ -16,7 +16,7 @@ function Home({ setSong, currentUserUId, token }) {
       setSongs(fetchedSongs);
     }
     aux().then();
-  }, [songs]);
+  }, []);
   return (
     <View style={styles.view}>
       <View style={styles.title}>
