@@ -2,13 +2,14 @@ import { contentMetricsUrl, userMetricsUrl } from "../constantes";
 import axios from "axios";
 
 
-export async function postUserEvent(action, type) {
+export async function postUserEvent(action, type, uid) {
   try {
     await axios.post(
       userMetricsUrl,
       {
         action: action,
         type: type,
+        userUId: uid,
       }
     );
   } catch (e) {throw e}

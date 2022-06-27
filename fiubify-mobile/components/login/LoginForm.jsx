@@ -47,7 +47,7 @@ function LoginForm({ navigation }) {
         }
 
         const token = await user.getIdToken()
-        await postUserEvent(loginAction, emailTypeAction);
+        await postUserEvent(loginAction, emailTypeAction, user.uid);
         navigation.navigate("Home", {
           uid: user.uid,
           token: token
@@ -128,7 +128,7 @@ function LoginForm({ navigation }) {
       .then(async (userCredentials) => {
         const user = userCredentials.user;
         const token = await user.getIdToken()
-        await postUserEvent(loginAction, emailTypeAction);
+        //await postUserEvent(loginAction, emailTypeAction);
         navigation.navigate("Home", {
           uid: user.uid,
           token: token

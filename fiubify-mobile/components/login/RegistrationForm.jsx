@@ -163,7 +163,7 @@ export default function RegistrationForm({ navigation }) {
     let url =
       `${BASE_URL}/auth/register-email`;
 
-    if (password != passwordRepeat) {
+    if (password !== passwordRepeat) {
       alert("Password does not match confirmation!");
       return;
     }
@@ -199,7 +199,7 @@ export default function RegistrationForm({ navigation }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      await postUserEvent(signupAction, emailTypeAction);
+      await postUserEvent(signupAction, emailTypeAction, body.uid);
       navigation.navigate("Home", {
         uid: body.uid,
       });
