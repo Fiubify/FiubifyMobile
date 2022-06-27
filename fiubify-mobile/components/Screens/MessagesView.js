@@ -22,7 +22,7 @@ export default function MessagesView({ navigation, route }) {
     });
 
     if (!sendData) {
-      render = <Text>There is not sended data</Text>;
+      render.push(<Text>There is not sended data</Text>);
     } else {
       sendData.forEach((childSnapshot) => {
         render.push(<Message data={childSnapshot.val()} />);
@@ -40,7 +40,7 @@ export default function MessagesView({ navigation, route }) {
     });
 
     if (!recvData) {
-      render = <Text>There is not recieved data</Text>;
+      render.push(<Text>There is not recieved data</Text>);
     } else {
       recvData.forEach((childSnapshot) => {
         render.push(<Message data={childSnapshot.val()} />);
