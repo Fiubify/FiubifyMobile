@@ -11,8 +11,10 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
-  navigateToAlbumForm, navigateToEntry,
+  navigateToAlbumForm,
+  navigateToEntry,
   navigateToHome,
+  navigateToMessagesView,
   navigateToSongForm,
   navigateToSubscriptionForm,
 } from "../../src/navigates";
@@ -34,9 +36,7 @@ export default function MyProfile({ navigation, route }) {
       <View style={styles.view}>
         <Text
           style={styles.link}
-          onPress={() =>
-            navigateToHome(userUId, token, navigation)
-          }
+          onPress={() => navigateToHome(userUId, token, navigation)}
         >
           <MaterialIcons name="arrow-back-ios" />
           Back
@@ -80,10 +80,21 @@ export default function MyProfile({ navigation, route }) {
               color="#006E95"
               size={20}
               onPress={() => {
-                navigateToSubscriptionForm(userUId, token, user.plan, navigation);
+                navigateToSubscriptionForm(
+                  userUId,
+                  token,
+                  user.plan,
+                  navigation
+                );
               }}
             />
           </View>
+          <UiButton
+            title="message"
+            onPress={() => {
+              navigateToMessagesView(userUId, token, user.name, navigation);
+            }}
+          ></UiButton>
 
           {user.role === "Artist" ? (
             <View style={styles.artist}>
@@ -92,9 +103,7 @@ export default function MyProfile({ navigation, route }) {
                   title="Load Song"
                   pressableStyle={styles.loadSong}
                   textStyle={styles.textStyle}
-                  onPress={() =>
-                    navigateToSongForm(userUId, token)
-                  }
+                  onPress={() => navigateToSongForm(userUId, token)}
                 />
                 <UiButton
                   title="New Album"
@@ -111,10 +120,10 @@ export default function MyProfile({ navigation, route }) {
                 onPress={() => {
                   signOut(auth)
                     .then(() => {
-                      navigateToEntry(navigation)
+                      navigateToEntry(navigation);
                     })
                     .catch((_error) => {
-                      navigateToEntry(navigation)
+                      navigateToEntry(navigation);
                     });
                 }}
               />
@@ -126,10 +135,10 @@ export default function MyProfile({ navigation, route }) {
               onPress={() => {
                 signOut(auth)
                   .then(() => {
-                    navigateToEntry(navigation)
+                    navigateToEntry(navigation);
                   })
                   .catch((_error) => {
-                    navigateToEntry(navigation)
+                    navigateToEntry(navigation);
                   });
               }}
             />
