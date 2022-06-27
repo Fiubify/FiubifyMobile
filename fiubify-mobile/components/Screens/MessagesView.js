@@ -13,6 +13,7 @@ import Message from "./Message";
 export default function MessagesView({ navigation, route }) {
   const { userUId, token } = route.params;
 
+  //ARREGLAR PRIMERA VEZ QUE ENTRAS
   function getSendedMessages() {
     const sendCountRef = ref(database, "/users/sended/" + userUId);
     var render = [];
@@ -31,6 +32,7 @@ export default function MessagesView({ navigation, route }) {
     return render;
   }
 
+  //ARREGLAR PRIMERA VEZ QUE ENTRAS
   function getRecievedMessages() {
     const recvCountRef = ref(database, "/users/recieved/" + userUId);
     var render = [];
@@ -60,17 +62,16 @@ export default function MessagesView({ navigation, route }) {
         Back
       </Text>
 
-      <Text style={[styles.link, styles.title]}>Enviados</Text>
-      <View style={styles.scrollView}>
-        <ScrollView style={styles.scroll}>
-          {getSendedMessages().reverse()}
-        </ScrollView>
-      </View>
-
       <Text style={[styles.link, styles.title]}>Recibidos</Text>
       <View style={styles.scrollView}>
         <ScrollView style={styles.scroll}>
           {getRecievedMessages().reverse()}
+        </ScrollView>
+      </View>
+      <Text style={[styles.link, styles.title]}>Enviados</Text>
+      <View style={styles.scrollView}>
+        <ScrollView style={styles.scroll}>
+          {getSendedMessages().reverse()}
         </ScrollView>
       </View>
     </View>
