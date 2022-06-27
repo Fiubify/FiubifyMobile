@@ -135,14 +135,21 @@ export function navigateToExternProfile(
   });
 }
 
-export function navigateToMessagesView(userUId, token, name, navigation) {
+export function navigateToMessagesView(
+  userUId,
+  token,
+  emisorName,
+  receptorName,
+  navigation
+) {
   checkNavigation(navigation);
-  if (!userUId || !token || !name)
+  if (!userUId || !token || !emisorName || !receptorName)
     throw new Error("No se especifico userUId, token o name");
 
   navigation.navigate("MessagesView", {
     userUId: userUId,
     token,
-    name,
+    emisorName,
+    receptorName,
   });
 }
