@@ -137,7 +137,7 @@ export function Search({
       <AllAlbums
         albums={albums}
         setAlbum={(album) => {
-          goToScreenAlbumView(setData, setCurrentScreen, album)
+          goToScreenAlbumView(setData, setCurrentScreen, album);
         }}
       />
     </View>

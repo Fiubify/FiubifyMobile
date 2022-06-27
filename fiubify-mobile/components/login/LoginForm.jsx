@@ -13,31 +13,44 @@ import { logIn } from "../../state/actions/login.js";
 import UiTextInput from "../ui/UiTextInput.jsx";
 import UiButton from "../ui/UiButton.jsx";
 import { auth } from "../../firebase.js";
-import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithCredential } from "firebase/auth";
+import {
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  signInWithCredential,
+} from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { BASE_URL, federatedTypeAction, emailTypeAction, loginAction, signupAction } from "../../constantes";
-import * as WebBrowser from 'expo-web-browser';
-import * as Google from 'expo-auth-session/providers/google';
+import {
+  BASE_URL,
+  federatedTypeAction,
+  emailTypeAction,
+  loginAction,
+  signupAction,
+} from "../../constantes";
+import * as WebBrowser from "expo-web-browser";
+import * as Google from "expo-auth-session/providers/google";
 import { getUser } from "../../src/GetUser";
-import { navigateToEntry, navigateToForgotPassword, navigateToHome, navigateToRegistration } from "../../src/navigates";
+import {
+  navigateToEntry,
+  navigateToForgotPassword,
+  navigateToHome,
+  navigateToRegistration,
+} from "../../src/navigates";
 
 WebBrowser.maybeCompleteAuthSession();
 
 function LoginForm({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [_request, response, promptAsync] = Google.useIdTokenAuthRequest(
-    {
-      clientId: '437257657611-5j4la8i9bso6d9pvtbjj4tihgsq5057v.apps.googleusercontent.com',
-    },
-  );
+  const [_request, response, promptAsync] = Google.useIdTokenAuthRequest({
+    clientId:
+      "437257657611-5j4la8i9bso6d9pvtbjj4tihgsq5057v.apps.googleusercontent.com",
+  });
 
   useEffect(() => {
-    if (response?.type === 'success') {
-
+    if (response?.type === "success") {
       const { id_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token)
+      const credential = GoogleAuthProvider.credential(id_token);
       signInWithCredential(auth, credential).then(async (userCredentials) => {
         const user = userCredentials.user;
 
@@ -50,11 +63,11 @@ function LoginForm({ navigation }) {
           await postUserEvent(loginAction, federatedTypeAction, user.uid);
         }
 
-        const token = await user.getIdToken()
+        const token = await user.getIdToken();
         navigateToHome(user.uid, token, navigation);
       });
     }
-  })
+  });
 
   return (
     <View style={styles.view}>
@@ -118,7 +131,7 @@ function LoginForm({ navigation }) {
         title="SIGN UP"
         pressableStyle={styles.SignUp}
         textStyle={styles.signUpText}
-        onPress={() => navigateToRegistration()}
+        onPress={() => navigateToRegistration(navigation)}
       />
     </View>
   );
@@ -127,7 +140,7 @@ function LoginForm({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredentials) => {
         const user = userCredentials.user;
-        const token = await user.getIdToken()
+        const token = await user.getIdToken();
         await postUserEvent(loginAction, emailTypeAction, user.uid);
         navigateToHome(user.uid, token, navigation);
       })
@@ -145,14 +158,9 @@ const mapDispatchToProps = (dispatch) => {
   return { actions: bindActionCreators({ logIn }, dispatch) };
 };
 
-async function sendRegistration(
-  email,
-  uid,
-  displayName
-) {
-  const [name, surname] = displayName.split(' ')
-  let url =
-    `${BASE_URL}/auth/register-provider`;
+async function sendRegistration(email, uid, displayName) {
+  const [name, surname] = displayName.split(" ");
+  let url = `${BASE_URL}/auth/register-provider`;
 
   let request = {
     method: "POST",
@@ -166,7 +174,7 @@ async function sendRegistration(
       name,
       surname,
       plan: "Free",
-      uid
+      uid,
     }),
   };
 

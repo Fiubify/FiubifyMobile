@@ -11,8 +11,10 @@ import { getUser } from "../../src/GetUser";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
-  navigateToAlbumForm, navigateToEntry,
+  navigateToAlbumForm,
+  navigateToEntry,
   navigateToHome,
+  navigateToMessagesView,
   navigateToSongForm,
   navigateToSubscriptionForm,
 } from "../../src/navigates";
@@ -32,15 +34,23 @@ export default function MyProfile({ navigation, route }) {
   if (!loading)
     return (
       <View style={styles.view}>
-        <Text
-          style={styles.link}
-          onPress={() =>
-            navigateToHome(userUId, token, navigation)
-          }
-        >
-          <MaterialIcons name="arrow-back-ios" />
-          Back
-        </Text>
+        <View style={styles.topSection}>
+          <Text
+            style={styles.link}
+            onPress={() => navigateToHome(userUId, token, navigation)}
+          >
+            <MaterialIcons name="arrow-back-ios" />
+            Back
+          </Text>
+          <MaterialIcons
+            name="message"
+            color="#006E95"
+            size={30}
+            onPress={() => {
+              navigateToMessagesView(userUId, token, navigation);
+            }}
+          />
+        </View>
         <ScrollView
           style={styles.scroll}
           contentContainerStyle={styles.scrollContent}
@@ -80,11 +90,15 @@ export default function MyProfile({ navigation, route }) {
               color="#006E95"
               size={20}
               onPress={() => {
-                navigateToSubscriptionForm(userUId, token, user.plan, navigation);
+                navigateToSubscriptionForm(
+                  userUId,
+                  token,
+                  user.plan,
+                  navigation
+                );
               }}
             />
           </View>
-
           {user.role === "Artist" ? (
             <View style={styles.artist}>
               <View style={styles.artistCreate}>
@@ -92,9 +106,7 @@ export default function MyProfile({ navigation, route }) {
                   title="Load Song"
                   pressableStyle={styles.loadSong}
                   textStyle={styles.textStyle}
-                  onPress={() =>
-                    navigateToSongForm(userUId, token)
-                  }
+                  onPress={() => navigateToSongForm(userUId, token)}
                 />
                 <UiButton
                   title="New Album"
@@ -111,10 +123,10 @@ export default function MyProfile({ navigation, route }) {
                 onPress={() => {
                   signOut(auth)
                     .then(() => {
-                      navigateToEntry(navigation)
+                      navigateToEntry(navigation);
                     })
                     .catch((_error) => {
-                      navigateToEntry(navigation)
+                      navigateToEntry(navigation);
                     });
                 }}
               />
@@ -126,10 +138,10 @@ export default function MyProfile({ navigation, route }) {
               onPress={() => {
                 signOut(auth)
                   .then(() => {
-                    navigateToEntry(navigation)
+                    navigateToEntry(navigation);
                   })
                   .catch((_error) => {
-                    navigateToEntry(navigation)
+                    navigateToEntry(navigation);
                   });
               }}
             />
@@ -155,8 +167,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  link: {
+  topSection: {
     width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  link: {
+    width: wp(30),
     fontWeight: "bold",
     fontSize: 16,
     color: "#006E95",
