@@ -135,20 +135,22 @@ export async function getFavouriteSongs(uid, token) {
           token: token,
         },
       });
-    return response.data;
+    return response.data.data;
   } catch (e) {
-    console.log(e)
     throw e;
   }
 }
 
-export async function deleteFavouriteSong(uid, songId) {
+export async function deleteFavouriteSong(uid, songId, token) {
   try {
     await axios.delete(
       `${BASE_URL}/contents/favourites/${uid}/remove-song`,
       {
         data: {
           songId: songId,
+        },
+        params: {
+          token: token,
         },
       });
   } catch (e) {
@@ -162,7 +164,11 @@ export async function addFavouriteSong(uid, songId, token) {
       `${BASE_URL}/contents/favourites/${uid}/add-song`,
       {
         songId: songId,
-        token: token,
+      },
+      {
+        params: {
+          token: token,
+        },
       },
     );
   } catch (e) {
