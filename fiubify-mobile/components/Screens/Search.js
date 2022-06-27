@@ -120,7 +120,9 @@ export function Search({
             song.genre,
             song.tier,
             currentUserId,
+            song._id,
             song.title,
+            album.data._id,
             album.data.title
           );
         }}

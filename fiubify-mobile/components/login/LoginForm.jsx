@@ -20,9 +20,9 @@ import {
 } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { BASE_URL, emailTypeAction, loginAction } from "../../constantes";
-import * as WebBrowser from "expo-web-browser";
-import * as Google from "expo-auth-session/providers/google";
+import { BASE_URL, federatedTypeAction, emailTypeAction, loginAction, signupAction } from "../../constantes";
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
 import { getUser } from "../../src/GetUser";
 import {
   navigateToEntry,
@@ -50,12 +50,14 @@ function LoginForm({ navigation }) {
 
         try {
           await getUser(user.uid);
+          await postUserEvent(loginAction, federatedTypeAction, user.uid);
         } catch {
           await sendRegistration(user.email, user.uid, user.displayName);
+          await postUserEvent(signupAction, federatedTypeAction, user.uid);
+          await postUserEvent(loginAction, federatedTypeAction, user.uid);
         }
 
-        const token = await user.getIdToken();
-        // await postUserEvent(loginAction, emailTypeAction);
+        const token = await user.getIdToken()
         navigateToHome(user.uid, token, navigation);
       });
     }
@@ -132,8 +134,8 @@ function LoginForm({ navigation }) {
     signInWithEmailAndPassword(auth, email, password)
       .then(async (userCredentials) => {
         const user = userCredentials.user;
-        const token = await user.getIdToken();
-        // await postUserEvent(loginAction, emailTypeAction);
+        const token = await user.getIdToken()
+        await postUserEvent(loginAction, emailTypeAction, user.uid);
         navigateToHome(user.uid, token, navigation);
       })
       .catch((error) => {
