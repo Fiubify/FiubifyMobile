@@ -135,7 +135,7 @@ export async function getFavouriteSongs(uid, token) {
           token: token,
         },
       });
-    return response.data.data;
+    return response.data.data;// Devuelve directamente el array con las FavouriteSongs
   } catch (e) {
     throw e;
   }
