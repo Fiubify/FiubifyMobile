@@ -35,17 +35,6 @@ export default function RegistrationForm({ navigation }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <UiButton
-        title="Sign up with Facebook"
-        pressableStyle={styles.facebookButton}
-      />
-      {/* Si se registra con fb, postear metrica (Signup, Federated)*/}
-      <View style={styles.middle}>
-        <View style={styles.line} />
-        <Text style={styles.text}>or</Text>
-        <View style={styles.line} />
-      </View>
-
       <UiTextInput
         onChange={setName}
         style={styles.text_input}
