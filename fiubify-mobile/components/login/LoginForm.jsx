@@ -77,18 +77,12 @@ function LoginForm({ navigation }) {
       </Text>
       <View style={styles.acountsButtonsView}>
         <UiButton
-          title="Log in with Facebook"
-          pressableStyle={styles.facebookButton}
-        />
-        {/* Si se loggea con fb, postear metrica (Login, Federated)*/}
-        <UiButton
           title="Log in with Google"
           pressableStyle={styles.googleButton}
           onPress={() => {
             promptAsync().then();
           }}
         />
-        {/* Si se loggea con google, postear metrica (Login, Federated)*/}
       </View>
       <View style={styles.middle}>
         <View style={styles.line} />
