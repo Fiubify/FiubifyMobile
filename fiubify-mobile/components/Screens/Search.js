@@ -25,7 +25,6 @@ export function Search({
   currentUserId,
   setData,
   setCurrentScreen,
-  token
 }) {
   const [songs, setSongs] = useState(null);
   const [profiles, setProfiles] = useState(null);
