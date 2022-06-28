@@ -5,17 +5,17 @@ import {
 } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-function Info(props) {
+function Info({ contain, containerStyles, icon, title }) {
   return (
-    <View style={[styles.container, props.containerStyles]}>
+    <View style={[styles.container, containerStyles]}>
       <MaterialCommunityIcons
         style={styles.icon}
-        name={props.icon}
+        name={icon}
         color="#006E95"
         size={30}
       />
-      <Text style={styles.title}>{props.title}:</Text>
-      <Text style={styles.description}>{props.contain}</Text>
+      <Text style={styles.title}>{title}:</Text>
+      <Text style={styles.description}>{contain}</Text>
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import {  Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
@@ -7,13 +7,18 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 import { getUser } from "../../src/GetUser";
+import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
-  const { userUId, currentUserUId } = route.params;
+  const { userUId, currentUserUId, token } = route.params;
 
   useEffect(() => {
+    getUser(currentUserUId).then((currentUser) => {
+      setCurrentUser(currentUser);
+    });
     getUser(userUId).then((user) => {
       setUser(user);
       setLoading(false);
@@ -23,17 +28,30 @@ export default function ExternProfile({ navigation, route }) {
   if (!loading)
     return (
       <View style={styles.view}>
-        <Text
-          style={styles.link}
-          onPress={() =>
-            navigation.navigate("Home", {
-              uid: currentUserUId,
-            })
-          }
-        >
-          <MaterialIcons name="arrow-back-ios" />
-          Back
-        </Text>
+        <View style={styles.topSection}>
+          <Text
+            style={styles.link}
+            onPress={() => navigateToHome(userUId, token, navigation)}
+          >
+            <MaterialIcons name="arrow-back-ios" />
+            Back
+          </Text>
+          <MaterialIcons
+            name="message"
+            color="#006E95"
+            size={30}
+            onPress={() => {
+              navigateToSendMessagesView(
+                currentUserUId,
+                userUId,
+                token,
+                currentUser.name,
+                user.name,
+                navigation
+              );
+            }}
+          />
+        </View>
         <View style={styles.imageSection}>
           <Image
             style={styles.perfilImage}
@@ -82,8 +100,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  link: {
+  topSection: {
     width: wp(90),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  link: {
+    width: wp(30),
     fontWeight: "bold",
     fontSize: 16,
     color: "#006E95",

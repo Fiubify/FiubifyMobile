@@ -28,7 +28,7 @@ function Home({ setSong, currentUserUId, token }) {
         const songSound = await downloadSong(song.url);
         setSong({ sound: songSound, data: song });
         const album = await getAlbumById(song.albumId);
-        await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song.title , album.data.title);
+        await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song._id, song.title , song.albumId, album.data.title);
       }} songs={songs}/>
     </View>
   );

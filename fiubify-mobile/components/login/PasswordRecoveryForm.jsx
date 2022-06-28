@@ -13,6 +13,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
 import { passwordAction, resetTypeAction } from "../../constantes";
+import { getUserByEmail } from "../../src/fetchUsers";
 
 export default function PasswordRecoveryForm({ navigation }) {
   const [sent, setSent] = useState(false);
@@ -21,7 +22,7 @@ export default function PasswordRecoveryForm({ navigation }) {
   if (!sent) {
     return (
       <View style={styles.view}>
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.link} onPress={() => navigateToLogin(navigation)}>
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>
@@ -40,7 +41,7 @@ export default function PasswordRecoveryForm({ navigation }) {
   } else {
     return (
       <View style={styles.view}>
-        <Text style={styles.link} onPress={() => navigation.navigate("Login")}>
+        <Text style={styles.link} onPress={() => navigateToLogin(navigation)}>
           <MaterialIcons name="arrow-back-ios" />
           Back
         </Text>
@@ -55,7 +56,7 @@ export default function PasswordRecoveryForm({ navigation }) {
     sendPasswordResetEmail(auth, email)
       .then((response) => {
         setSent(true);
-        postUserEvent(passwordAction, resetTypeAction);
+        getUserByEmail(email).then((user) => postUserEvent(passwordAction, resetTypeAction, user.uid));
       })
       .catch((error) => {
         alert(error.message);

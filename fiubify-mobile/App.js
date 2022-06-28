@@ -16,6 +16,8 @@ import { PlaylistForm } from "./components/Screens/PlaylistForm";
 import ExternProfile from "./components/profile/ExternProfile";
 import { SubscriptionForm } from "./components/Screens/SubscriptionForm";
 import { PlaylistEdit } from "./components/Playlist/PlaylistEdit";
+import SendMessagesView from "./components/Screens/SendMessagesView.js";
+import MessagesView from "./components/Screens/MessagesView.js";
 
 LogBox.ignoreAllLogs(true);
 
@@ -46,6 +48,8 @@ function App() {
           <Stack.Screen name="PlaylistForm" component={PlaylistForm} />
           <Stack.Screen name="PlaylistEdit" component={PlaylistEdit} />
           <Stack.Screen name="SubsciptionForm" component={SubscriptionForm} />
+          <Stack.Screen name="SendMessagesView" component={SendMessagesView} />
+          <Stack.Screen name="MessagesView" component={MessagesView} />
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

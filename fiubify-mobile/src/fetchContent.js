@@ -1,6 +1,26 @@
 import axios from "axios";
 import { BASE_URL } from "../constantes";
 
+export async function createSong(title, token, userUId, albumId, duration, songUrl, tier, genre, description){
+  try {
+    let response = await axios.post(
+      `${BASE_URL}/contents/songs`,
+      {title,
+        token,
+        artistId: userUId,
+        albumId: albumId,
+        duration: parseInt(duration),
+        url: songUrl,
+        tier,
+        genre,
+        description,}
+    );
+    return response.data;
+  } catch (e) {
+    throw e;
+  }
+}
+
 export async function getSongs() {
   try {
     let response = await axios.get(

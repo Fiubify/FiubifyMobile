@@ -12,16 +12,17 @@ import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { getAlbumById } from "../../src/fetchContent";
 import { BASE_URL, listenedAction } from "../../constantes";
+import { navigateToEditPlaylist } from "../../src/navigates";
 
 export function PlaylistView({
-  data,
-  setSong,
-  setData,
-  setCurrentScreen,
-  currentUserUId,
-  navigation,
-  token,
-}) {
+                               data,
+                               setSong,
+                               setData,
+                               setCurrentScreen,
+                               currentUserUId,
+                               navigation,
+                               token,
+                             }) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +35,7 @@ export function PlaylistView({
   useEffect(() => {
     axios.get(`${BASE_URL}/contents/playlists/${playlist._id}`).then(({ data }) => {
       setTracks(data.data.tracks);
-      setLoading(false)
+      setLoading(false);
     });
   }, []);
 
@@ -58,11 +59,11 @@ export function PlaylistView({
               title="Edit Playlist"
               pressableStyle={styles.loadSong}
               onPress={() => {
-                navigation.navigate("PlaylistEdit", {
-                  uid: currentUserUId,
+                navigateToEditPlaylist(
+                  currentUserUId,
                   token,
                   playlist,
-                });
+                  navigation);
               }}
             />
           </View>
@@ -100,7 +101,9 @@ export function PlaylistView({
                 song.genre,
                 song.tier,
                 currentUserUId,
+                song._id,
                 song.title,
+                song.albumId,
                 album.data.title
               );
             }}
