@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { AllSongs} from "./AllSongs";
+import { AllSongs} from "../Song/AllSongs";
 import { useEffect, useState } from "react";
 import { getAlbumById, getFavouriteSongs } from "../../src/fetchContent";
 import { downloadSong } from "../../src/reproducirCanciones";

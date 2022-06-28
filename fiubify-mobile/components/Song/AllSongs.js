@@ -1,6 +1,10 @@
 import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
-import { addFavouriteSong, deleteFavouriteSong, getFavouriteSongs } from "../../src/fetchContent";
+import {
+  addFavouriteSong,
+  deleteFavouriteSong,
+  getFavouriteSongs,
+} from "../../src/fetchContent";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { useEffect, useState } from "react";
 
@@ -8,7 +12,9 @@ function ListedSong({ song, onPress, userUId, favSongs, token }) {
   const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
-    if (favSongs.map((song) => song._id.toString()).includes(song._id.toString())) {
+    if (
+      favSongs.map((song) => song._id.toString()).includes(song._id.toString())
+    ) {
       setIsFav(true);
     }
   }, [favSongs]);
@@ -27,10 +33,10 @@ function ListedSong({ song, onPress, userUId, favSongs, token }) {
         title={song.title}
         onPress={() => onPress(song)}
       ></UiButton>
-      <UiButton
-        pressableStyle={isFav ? styles.btnPress : styles.btnNormal}
-        textStyle={styles.songsText}
-        title={"Add"}
+      <MaterialCommunityIcons
+        name={isFav ? "cards-heart" : "heart-outline"}
+        size={30}
+        color="#006E95"
         onPress={() => {
           if (isFav) {
             deleteFavouriteSong(userUId, song._id, token).then();
@@ -39,7 +45,7 @@ function ListedSong({ song, onPress, userUId, favSongs, token }) {
           }
           setIsFav(!isFav);
         }}
-      ></UiButton>
+      />
     </View>
   );
 }
@@ -48,7 +54,9 @@ export function AllSongs({ token, setSong, songs, currentUserUId }) {
   const [favSongs, setFavSongs] = useState([]);
 
   useEffect(() => {
-    getFavouriteSongs(currentUserUId, token).then((tracks) => setFavSongs(tracks));
+    getFavouriteSongs(currentUserUId, token).then((tracks) =>
+      setFavSongs(tracks)
+    );
   }, []);
 
   if (songs) {
@@ -103,7 +111,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   songs: {
-    width: "85%",
+    width: "75%",
     backgroundColor: "white",
     elevation: 0,
   },
@@ -113,20 +121,5 @@ const styles = StyleSheet.create({
   loading: {
     fontSize: 30,
     color: "#006E95",
-  },
-  btnNormal: {
-    borderColor: "blue",
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderRadius: 10,
-    height: 30,
-    width: 35,
-  },
-  btnPress: {
-    borderColor: "blue",
-    backgroundColor: "blue",
-    borderWidth: 1,
-    height: 30,
-    width: 35,
   },
 });

@@ -106,7 +106,7 @@ export default function MyProfile({ navigation, route }) {
                   title="Load Song"
                   pressableStyle={styles.loadSong}
                   textStyle={styles.textStyle}
-                  onPress={() => navigateToSongForm(userUId, token)}
+                  onPress={() => navigateToSongForm(userUId, token, navigation)}
                 />
                 <UiButton
                   title="New Album"

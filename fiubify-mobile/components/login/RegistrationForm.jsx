@@ -13,11 +13,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { RadioButton } from "react-native-paper";
 import Selector from "../ui/UiSelect.jsx";
 import { postUserEvent } from "../../src/fetchMetrics";
-import { BASE_URL, emailTypeAction, loginAction, signupAction } from "../../constantes";
+import {
+  BASE_URL,
+  emailTypeAction,
+  loginAction,
+  signupAction,
+} from "../../constantes";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
 import { navigateToEntry, navigateToHome } from "../../src/navigates";
-
 
 export default function RegistrationForm({ navigation }) {
   const [name, setName] = useState("");
@@ -83,7 +87,10 @@ export default function RegistrationForm({ navigation }) {
         />
       </View>
       <View style={styles.birthday}>
-        <Text style={styles.birthdayText}>Date of Birth</Text>
+        <Text style={styles.birthdayText}>Date of Birth:</Text>
+        <Text style={styles.birthdateText}>
+          {birthDate?.toLocaleDateString()}
+        </Text>
         <UiButton
           pressableStyle={styles.birthdayButton}
           onPress={() => {
@@ -153,8 +160,7 @@ export default function RegistrationForm({ navigation }) {
     birthDate,
     navigation
   ) {
-    let url =
-      `${BASE_URL}/auth/register-email`;
+    let url = `${BASE_URL}/auth/register-email`;
 
     if (password !== passwordRepeat) {
       alert("Password does not match confirmation!");
@@ -196,7 +202,7 @@ export default function RegistrationForm({ navigation }) {
       signInWithEmailAndPassword(auth, email, password)
         .then(async (userCredentials) => {
           const user = userCredentials.user;
-          const token = await user.getIdToken()
+          const token = await user.getIdToken();
           await postUserEvent(loginAction, emailTypeAction, user.uid);
           navigateToHome(user.uid, token, navigation);
         })
@@ -282,6 +288,10 @@ const styles = StyleSheet.create({
   },
   birthdayText: {
     fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
+  },
+  birthdateText: {
     fontSize: 20,
     color: "#006E95",
   },

@@ -1,7 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import FooterButton from "./FooterButton";
-import { goToScreenHome, goToScreenMyLibrary, goToScreenSearch } from "../../src/navigates";
+import {
+  goToScreenHome,
+  goToScreenMyLibrary,
+  goToScreenSearch,
+} from "../../../../src/navigates";
 
 function Footer({ currentScreen, setCurrentScreen }) {
   return (

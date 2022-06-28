@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { navigateToHome } from "../../src/navigates";
+import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 import { database } from "../../firebase";
 import {
   heightPercentageToDP as hp,
@@ -23,10 +23,12 @@ export default function MessagesView({ navigation, route }) {
     });
 
     if (!sendData) {
-      render.push(<Text>There is not sended data</Text>);
+      render.push(<Text key={0}>There is not sended data</Text>);
     } else {
       sendData.forEach((childSnapshot) => {
-        render.push(<Message data={childSnapshot.val()} />);
+        render.push(
+          <Message key={childSnapshot.key} data={childSnapshot.val()} />
+        );
       });
     }
     return render;
@@ -42,10 +44,12 @@ export default function MessagesView({ navigation, route }) {
     });
 
     if (!recvData) {
-      render.push(<Text>There is not recieved data</Text>);
+      render.push(<Text key={1}>There is not recieved data</Text>);
     } else {
       recvData.forEach((childSnapshot) => {
-        render.push(<Message data={childSnapshot.val()} />);
+        render.push(
+          <Message key={childSnapshot.key} data={childSnapshot.val()} />
+        );
       });
     }
 
@@ -56,7 +60,7 @@ export default function MessagesView({ navigation, route }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigateToHome(userUId, token, navigation)}
+        onPress={() => navigateToMyProfile(userUId, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back

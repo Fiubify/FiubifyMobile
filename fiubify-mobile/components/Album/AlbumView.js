@@ -6,7 +6,7 @@ import {
 } from "react-native-responsive-screen";
 import { getUser } from "../../src/GetUser";
 import { useEffect, useState } from "react";
-import { AllSongs } from "../Screens/AllSongs";
+import { AllSongs } from "../Song/AllSongs";
 import React from "react";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
