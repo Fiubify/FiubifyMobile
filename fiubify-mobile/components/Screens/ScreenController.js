@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Home from "./Home";
-import Header from "./Header";
-import Footer from "./Footer";
-import SongForm from "./SongForm";
+import Header from "./Section/Header";
+import Footer from "./Section/Footer/Footer";
+import SongForm from "../Song/SongForm";
 import { ScrollView, StyleSheet, View } from "react-native";
-import { Search } from "./Search";
+import { Search } from "./Search/Search";
 import { MyLibrary } from "./MyLibrary";
 import { AlbumView } from "../Album/AlbumView";
 import { PlaylistView } from "../Playlist/PlaylistView";
-import { AddSongPlaylist } from "./AddSongPlaylist";
+import { AddSongPlaylist } from "../Song/AddSongPlaylist";
 
 export function stopAndSetSong(song, setSong) {
   return (newSong) => {

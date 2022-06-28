@@ -10,8 +10,8 @@ import {
   getAlbumsWithTitle,
   getContentByGenre,
   getSongsWithTitle,
-} from "../../src/fetchContent";
-import { getArtistsWith, getProfilesWith } from "../../src/fetchProfiles";
+} from "../../../src/fetchContent";
+import { getArtistsWith, getProfilesWith } from "../../../src/fetchProfiles";
 
 export default function ButtonGroup({
   setSearchFunction,

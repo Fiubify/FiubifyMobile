@@ -1,19 +1,19 @@
 import { StyleSheet, Text, View } from "react-native";
 import { useEffect, useState } from "react";
-import UiTextInput from "../ui/UiTextInput";
-import UiButton from "../ui/UiButton";
-import { AllSongs } from "./AllSongs";
+import UiTextInput from "../../ui/UiTextInput";
+import UiButton from "../../ui/UiButton";
+import { AllSongs } from "../../Song/AllSongs";
 
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { getAlbumById, getSongsWithTitle } from "../../src/fetchContent";
-import { AllProfiles } from "./AllProfiles";
+import { getAlbumById, getSongsWithTitle } from "../../../src/fetchContent";
+import { AllProfiles } from "../../profile/AllProfiles";
 import CheckBox from "expo-checkbox";
-import ButtonGroup from "./ButtonGroup";
-import { AllAlbums } from "./AllAlbums";
-import { downloadSong } from "../../src/reproducirCanciones";
-import { postSongEvent } from "../../src/fetchMetrics";
-import { listenedAction } from "../../constantes";
-import { goToScreenAlbumView } from "../../src/navigates";
+import ButtonGroup from "../Search/ButtonGroup";
+import { AllAlbums } from "../../Album/AllAlbums";
+import { downloadSong } from "../../../src/reproducirCanciones";
+import { postSongEvent } from "../../../src/fetchMetrics";
+import { listenedAction } from "../../../constantes";
+import { goToScreenAlbumView } from "../../../src/navigates";
 
 //TODO: manejar el label del "Loading..." (que desaparezca cuando no se encontro contenido,
 // mostrar un "Oops, try something else")

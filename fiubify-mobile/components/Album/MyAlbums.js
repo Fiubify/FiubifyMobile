@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUser } from "../../src/GetUser";
 import { getAlbumsByArtist } from "../../src/fetchContent";
-import { AllAlbums } from "../Screens/AllAlbums";
+import { AllAlbums } from "./AllAlbums";
 import { goToScreenAlbumView } from "../../src/navigates";
 
 export function MyAlbums({ userUid, setData, setCurrentScreen }) {

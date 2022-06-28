@@ -4,10 +4,10 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import MusicPlayer from "../MusicPlayer/MusicPlayer";
+import MusicPlayer from "../../MusicPlayer/MusicPlayer";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import UiLogo from "../ui/UiLogo";
-import { navigateToMyProfile } from "../../src/navigates";
+import UiLogo from "../../ui/UiLogo";
+import { navigateToMyProfile } from "../../../src/navigates";
 
 function Header({ userUId, token, navigation, song }) {
   return (
