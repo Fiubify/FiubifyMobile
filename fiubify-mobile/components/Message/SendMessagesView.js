@@ -4,8 +4,8 @@ import UiTextInput from "../ui/UiTextInput";
 import UiButton from "../ui/UiButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
-import { database } from "../../firebase";
-import { push, ref, set } from "firebase/database";
+import { database, time } from "../../firebase";
+import { push, ref, serverTimestamp, set } from "firebase/database";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
@@ -31,12 +31,21 @@ export default function SendMessagesView({ navigation, route }) {
       emisor: emisorName,
       receptor: receptorName,
       message: message,
+      time: time(),
     });
     set(newRecvRef, {
       emisor: emisorName,
       receptor: receptorName,
       message: message,
+      time: time(),
     });
+  }
+
+  function time() {
+    const today = new Date();
+    const hours = (today.getHours() < 10 ? "0" : "") + (today.getHours() - 3);
+    const minutes = (today.getMinutes() < 10 ? "0" : "") + today.getMinutes();
+    return hours + ":" + minutes;
   }
 
   return (
