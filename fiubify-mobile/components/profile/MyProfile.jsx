@@ -94,6 +94,7 @@ export default function MyProfile({ navigation, route }) {
                   userUId,
                   token,
                   user.plan,
+                  user.walletAddress,
                   navigation
                 );
               }}

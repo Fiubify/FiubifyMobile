@@ -68,14 +68,15 @@ export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   });
 }
 
-export function navigateToSubscriptionForm(userUId, token, tier, navigation) {
-  checkNavigation();
+export function navigateToSubscriptionForm(userUId, token, tier, walletAddress, navigation) {
+  checkNavigation(navigation);
   if (!userUId || !token || !tier)
     throw new Error("No se especifico userUId, token o tier");
   navigation.navigate("SubsciptionForm", {
     userUId,
     token,
     tier,
+    walletAddress,
   });
 }
 
