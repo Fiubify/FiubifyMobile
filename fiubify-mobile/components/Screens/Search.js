@@ -127,6 +127,7 @@ export function Search({
           );
         }}
         songs={songs}
+        token={token}
       />
       <AllProfiles
         profiles={profiles}

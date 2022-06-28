@@ -36,9 +36,9 @@ export default function ScreenController({ navigation, route }) {
       case "HOME":
         setComponent(
           <Home
-            setCurrentScreen={setCurrentScreen}
             setSong={stopAndSetSong(song, setSong)}
             currentUserUId={uid}
+            token={token}
           />
         );
         break;
@@ -69,6 +69,7 @@ export default function ScreenController({ navigation, route }) {
             data={data}
             setSong={stopAndSetSong(song, setSong)}
             currentUserUId={uid}
+            token={token}
           />
         );
         break;

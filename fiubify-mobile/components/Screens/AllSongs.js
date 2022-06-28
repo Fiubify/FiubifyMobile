@@ -1,8 +1,18 @@
 import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
+import { addFavouriteSong, deleteFavouriteSong, getFavouriteSongs } from "../../src/fetchContent";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { useEffect, useState } from "react";
 
-function ListedSong({ song, onPress, userUId }) {
+function ListedSong({ song, onPress, userUId, favSongs, token }) {
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    if (favSongs.map((song) => song._id.toString()).includes(song._id.toString())) {
+      setIsFav(true);
+    }
+  }, [favSongs]);
+
   return (
     <View style={styles.musicContainer}>
       <MaterialCommunityIcons
@@ -17,11 +27,30 @@ function ListedSong({ song, onPress, userUId }) {
         title={song.title}
         onPress={() => onPress(song)}
       ></UiButton>
+      <UiButton
+        pressableStyle={isFav ? styles.btnPress : styles.btnNormal}
+        textStyle={styles.songsText}
+        title={"Add"}
+        onPress={() => {
+          if (isFav) {
+            deleteFavouriteSong(userUId, song._id, token).then();
+          } else {
+            addFavouriteSong(userUId, song._id, token).then();
+          }
+          setIsFav(!isFav);
+        }}
+      ></UiButton>
     </View>
   );
 }
 
-export function AllSongs({ setSong, songs, currentUserUId }) {
+export function AllSongs({ token, setSong, songs, currentUserUId }) {
+  const [favSongs, setFavSongs] = useState([]);
+
+  useEffect(() => {
+    getFavouriteSongs(currentUserUId, token).then((tracks) => setFavSongs(tracks));
+  }, []);
+
   if (songs) {
     if (songs.length > 0) {
       return (
@@ -32,6 +61,8 @@ export function AllSongs({ setSong, songs, currentUserUId }) {
               song={song}
               onPress={setSong}
               userUId={currentUserUId}
+              favSongs={favSongs}
+              token={token}
             />
           ))}
         </View>
@@ -43,6 +74,7 @@ export function AllSongs({ setSong, songs, currentUserUId }) {
     return null;
   }
 }
+
 const styles = StyleSheet.create({
   view: {
     width: "100%",
@@ -81,5 +113,20 @@ const styles = StyleSheet.create({
   loading: {
     fontSize: 30,
     color: "#006E95",
+  },
+  btnNormal: {
+    borderColor: "blue",
+    backgroundColor: "white",
+    borderWidth: 1,
+    borderRadius: 10,
+    height: 30,
+    width: 35,
+  },
+  btnPress: {
+    borderColor: "blue",
+    backgroundColor: "blue",
+    borderWidth: 1,
+    height: 30,
+    width: 35,
   },
 });

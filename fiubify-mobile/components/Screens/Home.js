@@ -1,26 +1,30 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import { AllSongs} from "./AllSongs";
 import { useEffect, useState } from "react";
-import { getAlbumById, getSongs } from "../../src/fetchContent";
+import { getAlbumById, getFavouriteSongs } from "../../src/fetchContent";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 
-function Home({ setSong, currentUserUId }) {
+function Home({ setSong, currentUserUId, token }) {
   const [songs, setSongs] = useState(null);
 
   useEffect(() => {
     async function aux() {
-      const fetchedSongs = await getSongs();
-      setSongs(fetchedSongs.data);
+      const fetchedSongs = await getFavouriteSongs(currentUserUId, token);
+      setSongs(fetchedSongs);
     }
-
     aux().then();
   }, []);
   return (
     <View style={styles.view}>
-      <AllSongs currentUserUId={currentUserUId} setSong={async (song) => {
+      <View style={styles.title}>
+        <Text style={styles.title_text}>
+          My Favourites
+        </Text>
+      </View>
+      <AllSongs token={token} currentUserUId={currentUserUId} setSong={async (song) => {
         const songSound = await downloadSong(song.url);
         setSong({ sound: songSound, data: song });
         const album = await getAlbumById(song.albumId);
@@ -36,6 +40,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     display: "flex",
+  },
+  title: {
+    width: "90%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  title_text: {
+    fontSize: 30,
+    color: "#006E95",
+    fontWeight: "bold",
+    textAlign: "justify",
   },
 });
 
