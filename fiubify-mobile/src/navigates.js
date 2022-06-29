@@ -165,3 +165,14 @@ export function navigateToMessagesView(userUId, token, navigation) {
     token,
   });
 }
+
+export function navigateToEditProfile(uid, token, profile, navigation) {
+  checkNavigation(navigation);
+  if (!uid || !token || !profile)
+    throw new Error("No se especifico uid, token o profile");
+  navigation.navigate("ProfileEdit", {
+    uid,
+    token,
+    profile,
+  });
+}
