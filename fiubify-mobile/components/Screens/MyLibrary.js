@@ -3,10 +3,13 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { MyPlaylists } from "./MyPlaylists";
+import { MyPlaylists } from "../Playlist/MyPlaylists";
 import UiButton from "../ui/UiButton";
 import { MyAlbums } from "../Album/MyAlbums";
-import { goToScreenPlaylistView, navigateToPlaylistForm } from "../../src/navigates";
+import {
+  goToScreenPlaylistView,
+  navigateToPlaylistForm,
+} from "../../src/navigates";
 
 export function MyLibrary({
   navigation,
@@ -20,16 +23,14 @@ export function MyLibrary({
       <UiButton
         title="New Playlist"
         pressableStyle={styles.loadSong}
-        onPress={() =>
-          navigateToPlaylistForm(currentUserId, token, navigation)
-        }
+        onPress={() => navigateToPlaylistForm(currentUserId, token, navigation)}
       />
       <MyPlaylists
         token={token}
         navigation={navigation}
         currentUserId={currentUserId}
         onSelect={(playlist) => {
-          goToScreenPlaylistView(setData, setCurrentScreen, playlist)
+          goToScreenPlaylistView(setData, setCurrentScreen, playlist);
         }}
       />
       <MyAlbums

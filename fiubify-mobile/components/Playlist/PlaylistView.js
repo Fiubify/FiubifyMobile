@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import Info from "../profile/Info";
-import { AllSongs } from "../Screens/AllSongs";
+import { AllSongs } from "../Song/AllSongs";
 import React, { useEffect, useState } from "react";
 import {
   heightPercentageToDP as hp,
@@ -89,6 +89,8 @@ export function PlaylistView({
             icon="playlist-music"
           />
           <AllSongs
+            currentUserUId={currentUserUId}
+            token={token}
             songs={tracks}
             setSong={async (song) => {
               const songSound = await downloadSong(song.url);

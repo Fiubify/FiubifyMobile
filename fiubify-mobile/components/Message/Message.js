@@ -23,7 +23,10 @@ function Message({ data }) {
           />
           <Text style={styles.emisorText}>{data.receptor}</Text>
         </View>
-        <Text style={styles.message}>{data.message}</Text>
+        <View style={styles.messageSection}>
+          <Text style={styles.message}>{data.message}</Text>
+          <Text style={styles.time}>{data.time}</Text>
+        </View>
       </View>
     );
   }
@@ -32,7 +35,7 @@ function Message({ data }) {
 const styles = StyleSheet.create({
   container: {
     width: wp(90),
-    height: hp(10),
+    minHeight: hp(10),
     padding: "5%",
     marginTop: "5%",
     display: "flex",
@@ -56,7 +59,19 @@ const styles = StyleSheet.create({
   arrow: {
     marginTop: -5,
   },
+  messageSection: {
+    width: wp(80),
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
   message: {
+    width: "60%",
+    fontSize: 18,
+    color: "black",
+  },
+  time: {
     fontSize: 18,
     color: "black",
   },

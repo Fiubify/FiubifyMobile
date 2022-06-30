@@ -9,15 +9,15 @@ import LoginForm from "./components/login/LoginForm";
 import PasswordRecoveryForm from "./components/login/PasswordRecoveryForm";
 import ScreenController from "./components/Screens/ScreenController";
 import { LogBox } from "react-native";
-import SongForm from "./components/Screens/SongForm.js";
-import { AlbumForm } from "./components/Screens/AlbumForm.js";
+import SongForm from "./components/Song/SongForm.js";
+import { AlbumForm } from "./components/Album/AlbumForm";
 import MyProfile from "./components/profile/MyProfile";
-import { PlaylistForm } from "./components/Screens/PlaylistForm";
+import { PlaylistForm } from "./components/Playlist/PlaylistForm";
 import ExternProfile from "./components/profile/ExternProfile";
-import { SubscriptionForm } from "./components/Screens/SubscriptionForm";
+import { SubscriptionForm } from "./components/profile/SubscriptionForm";
 import { PlaylistEdit } from "./components/Playlist/PlaylistEdit";
-import SendMessagesView from "./components/Screens/SendMessagesView.js";
-import MessagesView from "./components/Screens/MessagesView.js";
+import SendMessagesView from "./components/Message/SendMessagesView.js";
+import MessagesView from "./components/Message/MessagesView.js";
 
 LogBox.ignoreAllLogs(true);
 
