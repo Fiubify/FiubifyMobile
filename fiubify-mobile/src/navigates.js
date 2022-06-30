@@ -68,7 +68,7 @@ export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   });
 }
 
-export function navigateToSubscriptionForm(userUId, token, tier, navigation) {
+export function navigateToSubscriptionForm(userUId, token, tier, walletAddress, navigation) {
   checkNavigation(navigation);
   if (!userUId || !token || !tier)
     throw new Error("No se especifico userUId, token o tier");
@@ -76,6 +76,7 @@ export function navigateToSubscriptionForm(userUId, token, tier, navigation) {
     userUId,
     token,
     tier,
+    walletAddress,
   });
 }
 
