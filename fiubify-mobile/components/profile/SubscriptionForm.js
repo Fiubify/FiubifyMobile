@@ -38,7 +38,7 @@ export function SubscriptionForm({ navigation, route }) {
       <Text style={styles.title}>Change subscription</Text>
       <Text style={styles.content} onPress={() => Clipboard.setString(walletAddress)}>
         <MaterialIcons name="assignment"/>
-        {walletAddress}
+        {`${walletAddress} (${balance} ETH)`}
       </Text>
       <Selector
         data={tiers}
