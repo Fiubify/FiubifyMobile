@@ -68,7 +68,13 @@ export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   });
 }
 
-export function navigateToSubscriptionForm(userUId, token, tier, walletAddress, navigation) {
+export function navigateToSubscriptionForm(
+  userUId,
+  token,
+  tier,
+  walletAddress,
+  navigation
+) {
   checkNavigation(navigation);
   if (!userUId || !token || !tier)
     throw new Error("No se especifico userUId, token o tier");
@@ -164,5 +170,16 @@ export function navigateToMessagesView(userUId, token, navigation) {
   navigation.navigate("MessagesView", {
     userUId: userUId,
     token,
+  });
+}
+
+export function navigateToSongMessagesView(userUId, token, song, navigation) {
+  checkNavigation(navigation);
+  if (!userUId || !token) throw new Error("No se especifico userUId o token");
+
+  navigation.navigate("SongMessagesView", {
+    userUId: userUId,
+    token: token,
+    song,
   });
 }

@@ -1,13 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
-import { AllSongs} from "../Song/AllSongs";
+import { AllSongs } from "../Song/AllSongs";
 import { useEffect, useState } from "react";
 import { getAlbumById, getFavouriteSongs } from "../../src/fetchContent";
 import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 
-function Home({ setSong, currentUserUId, token }) {
+function Home({ setSong, currentUserUId, token, navigation }) {
   const [songs, setSongs] = useState(null);
 
   useEffect(() => {
@@ -20,16 +20,29 @@ function Home({ setSong, currentUserUId, token }) {
   return (
     <View style={styles.view}>
       <View style={styles.title}>
-        <Text style={styles.title_text}>
-          My Favourites
-        </Text>
+        <Text style={styles.title_text}>My Favourites</Text>
       </View>
-      <AllSongs token={token} currentUserUId={currentUserUId} setSong={async (song) => {
-        const songSound = await downloadSong(song.url);
-        setSong({ sound: songSound, data: song });
-        const album = await getAlbumById(song.albumId);
-        await postSongEvent(listenedAction, song.genre, song.tier, currentUserUId, song._id, song.title , song.albumId, album.data.title);
-      }} songs={songs}/>
+      <AllSongs
+        token={token}
+        currentUserUId={currentUserUId}
+        setSong={async (song) => {
+          const songSound = await downloadSong(song.url);
+          setSong({ sound: songSound, data: song });
+          const album = await getAlbumById(song.albumId);
+          await postSongEvent(
+            listenedAction,
+            song.genre,
+            song.tier,
+            currentUserUId,
+            song._id,
+            song.title,
+            song.albumId,
+            album.data.title
+          );
+        }}
+        songs={songs}
+        navigation={navigation}
+      />
     </View>
   );
 }
