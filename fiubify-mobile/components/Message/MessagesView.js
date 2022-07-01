@@ -22,7 +22,7 @@ export default function MessagesView({ navigation, route }) {
       sendData = snapshot;
     });
 
-    if (!sendData) {
+    if (!sendData?.val()) {
       render.push(<Text key={0}>There is not sended data</Text>);
     } else {
       sendData.forEach((childSnapshot) => {
