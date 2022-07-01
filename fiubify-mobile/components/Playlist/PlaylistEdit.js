@@ -27,10 +27,7 @@ async function editPlaylist(
     collaborative,
   };
   try {
-    await axios.post(
-      `${BASE_URL}/contents/playlists/${playlistId}/edit`,
-      body
-    );
+    await axios.post(`${BASE_URL}/contents/playlists/${playlistId}/edit`, body);
     whenDone();
   } catch (e) {
     console.error(e);
@@ -52,7 +49,7 @@ export function PlaylistEdit({ route, navigation }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <Text style={styles.title}>Create your playlist</Text>
+      <Text style={styles.title}>Edit your playlist</Text>
       <UiTextInput
         style={styles.text_input}
         onChange={setTitle}
@@ -159,6 +156,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
+    width: wp(90),
     fontSize: 40,
     color: "#006E95",
     fontWeight: "bold",
