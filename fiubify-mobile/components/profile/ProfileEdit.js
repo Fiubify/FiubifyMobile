@@ -9,7 +9,7 @@ import {
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import { BASE_URL } from "../../constantes";
-import { navigateToMyProfile } from "../../src/navigates";
+import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 import Selector from "../ui/UiSelect";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
@@ -71,16 +71,19 @@ export function ProfileEdit({ route, navigation }) {
       </Text>
       <Text style={styles.title}>Edit your profile</Text>
       <UiTextInput
+        defaultValue={name}
         onChange={setName}
         style={styles.text_input}
         placeholder="Your name"
       />
       <UiTextInput
+        defaultValue={surname}
         onChange={setSurname}
         style={styles.text_input}
         placeholder="Your surname"
       />
       <UiTextInput
+        defaultValue={email}
         onChange={setEmail}
         style={styles.text_input}
         placeholder="E-mail"
@@ -88,6 +91,7 @@ export function ProfileEdit({ route, navigation }) {
       <Selector
         data={roles}
         placeholder="Role"
+        defaultValue={role}
         setValue={setRole}
         valueStyle={styles.value}
         labelContainerStyle={styles.labelContainerStyle}
@@ -121,7 +125,7 @@ export function ProfileEdit({ route, navigation }) {
         pressableStyle={styles.upload}
         onPress={() => {
           editProfile(name, surname, email, role, uid, token, () => {
-            navigateToMyProfile(uid, token, navigation);
+            navigateToHome(uid, token, navigation);
           }).then();
         }}
       />
