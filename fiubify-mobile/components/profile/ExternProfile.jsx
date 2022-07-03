@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Modal, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Info from "./Info";
+import UiButton from "../ui/UiButton";
 import { getUser } from "../../src/GetUser";
 import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
 
@@ -13,6 +14,7 @@ export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [donationModalVisible, setDonationModalVisible] = useState(false);
   const { userUId, currentUserUId, token } = route.params;
 
   useEffect(() => {
@@ -25,9 +27,36 @@ export default function ExternProfile({ navigation, route }) {
     });
   }, [userUId]);
 
+  const donateButton = () => {
+    if (user.role === "Artist") {
+      return (
+        <UiButton
+          title="Donate"
+          pressableStyle={styles.pressableStyle}
+          textStyle={styles.textStyle}
+          onPress={() => navigateToSongForm(userUId, token, navigation)}
+        />
+      )
+    }
+  }
+
   if (!loading)
     return (
       <View style={styles.view}>
+        <Modal 
+          animationType="slide"
+          transparent={true}
+          visible={donationModalVisible}
+          onRequestClose={() => this.setDonationModalVisible(false)}
+        >
+          <UiButton
+            title="Close"
+            pressableStyle={styles.pressableStyle}
+            textStyle={styles.textStyle}
+            onPress={() => this.setDonationModalVisible(false)}
+            >
+          </UiButton>
+        </Modal>
         <View style={styles.topSection}>
           <Text
             style={styles.link}
@@ -69,6 +98,7 @@ export default function ExternProfile({ navigation, route }) {
           contain={user.role}
           icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
         />
+        {donateButton()}
         <Info
           title="Birthdate"
           contain={user.birthdate}
@@ -169,7 +199,7 @@ const styles = StyleSheet.create({
     borderColor: "#006E95",
     borderWidth: 2,
   },
-  loadSong: {
+  pressableStyle: {
     width: wp(44),
     marginTop: hp(2),
     backgroundColor: "white",
