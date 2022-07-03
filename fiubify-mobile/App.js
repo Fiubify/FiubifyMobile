@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Provider } from "react-redux";
@@ -18,6 +18,7 @@ import { SubscriptionForm } from "./components/profile/SubscriptionForm";
 import { PlaylistEdit } from "./components/Playlist/PlaylistEdit";
 import SendMessagesView from "./components/Message/SendMessagesView.js";
 import MessagesView from "./components/Message/MessagesView.js";
+import * as Linking from "expo-linking";
 
 LogBox.ignoreAllLogs(true);
 
@@ -26,6 +27,24 @@ const store = configureStore();
 const Stack = createNativeStackNavigator();
 
 function App() {
+  const [url, setUrl] = useState(null);
+
+  const _handleUrl = ({ url }) => {
+    if (url !== null && url.includes("PLAYLIST")) {
+      setUrl(url);
+    }
+  };
+
+  useEffect(() => {
+    const startUrl = async () => {
+      const url = await Linking.getInitialURL();
+      _handleUrl({ url });
+    };
+
+    startUrl().then(_ => null);
+  }, []);
+
+  Linking.addEventListener("url", _handleUrl);
   return (
     <NavigationContainer>
       <Provider store={store}>
@@ -40,7 +59,7 @@ function App() {
             name="ForgotPassword"
             component={PasswordRecoveryForm}
           />
-          <Stack.Screen name="Home" component={ScreenController} />
+          <Stack.Screen name="Home" component={ScreenController} initialParams={{ url }} />
           <Stack.Screen name="MyProfile" component={MyProfile} />
           <Stack.Screen name="ExternProfile" component={ExternProfile} />
           <Stack.Screen name="SongForm" component={SongForm} />
