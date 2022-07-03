@@ -15,14 +15,14 @@ import { BASE_URL, listenedAction } from "../../constantes";
 import { navigateToEditPlaylist } from "../../src/navigates";
 
 export function PlaylistView({
-                               data,
-                               setSong,
-                               setData,
-                               setCurrentScreen,
-                               currentUserUId,
-                               navigation,
-                               token,
-                             }) {
+  data,
+  setSong,
+  setData,
+  setCurrentScreen,
+  currentUserUId,
+  navigation,
+  token,
+}) {
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -33,10 +33,12 @@ export function PlaylistView({
   }
 
   useEffect(() => {
-    axios.get(`${BASE_URL}/contents/playlists/${playlist._id}`).then(({ data }) => {
-      setTracks(data.data.tracks);
-      setLoading(false);
-    });
+    axios
+      .get(`${BASE_URL}/contents/playlists/${playlist._id}`)
+      .then(({ data }) => {
+        setTracks(data.data.tracks);
+        setLoading(false);
+      });
   }, []);
 
   if (loading) {
@@ -63,7 +65,8 @@ export function PlaylistView({
                   currentUserUId,
                   token,
                   playlist,
-                  navigation);
+                  navigation
+                );
               }}
             />
           </View>
@@ -107,6 +110,7 @@ export function PlaylistView({
                 album.data.title
               );
             }}
+            navigation={navigation}
           />
         </View>
       </View>

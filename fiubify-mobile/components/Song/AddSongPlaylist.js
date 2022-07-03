@@ -37,6 +37,7 @@ export function AddSongPlaylist({
   token,
   currentUserId,
   setCurrentScreen,
+  navigation,
 }) {
   const { playlist } = data;
   const [searchBy, setSearchBy] = useState(undefined);
@@ -83,6 +84,7 @@ export function AddSongPlaylist({
         songs={songs}
         currentUserUId={currentUserId}
         token={token}
+        navigation={navigation}
       />
     </View>
   );

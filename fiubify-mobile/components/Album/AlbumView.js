@@ -13,7 +13,7 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 import { getAlbumById } from "../../src/fetchContent";
 
-export function AlbumView({ data: { album }, setSong, currentUserUId, token }) {
+export function AlbumView({ data: { album }, setSong, currentUserUId, token, navigation }) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
 
@@ -71,6 +71,7 @@ export function AlbumView({ data: { album }, setSong, currentUserUId, token }) {
                 album.data.title
               );
             }}
+            navigation={navigation}
           />
         </View>
       </View>

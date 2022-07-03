@@ -6,9 +6,11 @@ import {
   getFavouriteSongs,
 } from "../../src/fetchContent";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useEffect, useState } from "react";
+import { navigateToSongMessagesView } from "../../src/navigates";
 
-function ListedSong({ song, onPress, userUId, favSongs, token }) {
+function ListedSong({ song, onPress, userUId, favSongs, token, navigation }) {
   const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
@@ -46,11 +48,25 @@ function ListedSong({ song, onPress, userUId, favSongs, token }) {
           setIsFav(!isFav);
         }}
       />
+      <MaterialIcons
+        name="message"
+        color="#006E95"
+        size={30}
+        onPress={() => {
+          navigateToSongMessagesView(userUId, token, song, navigation);
+        }}
+      />
     </View>
   );
 }
 
-export function AllSongs({ token, setSong, songs, currentUserUId }) {
+export function AllSongs({
+  token,
+  setSong,
+  songs,
+  currentUserUId,
+  navigation,
+}) {
   const [favSongs, setFavSongs] = useState([]);
 
   useEffect(() => {
@@ -71,6 +87,7 @@ export function AllSongs({ token, setSong, songs, currentUserUId }) {
               userUId={currentUserUId}
               favSongs={favSongs}
               token={token}
+              navigation={navigation}
             />
           ))}
         </View>
@@ -111,7 +128,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   songs: {
-    width: "75%",
+    width: "65%",
     backgroundColor: "white",
     elevation: 0,
   },

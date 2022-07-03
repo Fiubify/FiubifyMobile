@@ -128,6 +128,7 @@ export function Search({
         }}
         songs={songs}
         token={token}
+        navigation={navigation}
       />
       <AllProfiles
         profiles={profiles}

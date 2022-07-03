@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import UiTextInput from "../ui/UiTextInput";
-import UiButton from "../ui/UiButton";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
-import { database, time } from "../../firebase";
-import { push, ref, serverTimestamp, set } from "firebase/database";
+import { database } from "../../firebase";
+import { push, ref, set } from "firebase/database";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
