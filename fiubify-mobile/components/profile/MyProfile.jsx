@@ -12,6 +12,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
   navigateToAlbumForm,
+  navigateToEditProfile,
   navigateToEntry,
   navigateToHome,
   navigateToMessagesView,
@@ -65,6 +66,14 @@ export default function MyProfile({ navigation, route }) {
             <Text style={styles.title_text}>
               {user.name} {user.surname}
             </Text>
+            <MaterialIcons
+              name="edit"
+              color="#006E95"
+              size={20}
+              onPress={() => {
+                navigateToEditProfile(userUId, token, user, navigation);
+              }}
+            />
           </View>
           <Info title="Email" contain={user.email} icon="email-outline" />
           <Info
@@ -222,6 +231,8 @@ const styles = StyleSheet.create({
     color: "#006E95",
     fontWeight: "bold",
     textAlign: "justify",
+    marginRight: "5%",
+    marginTop: "3%",
   },
   description: {
     width: "90%",

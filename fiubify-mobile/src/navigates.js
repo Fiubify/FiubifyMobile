@@ -173,6 +173,17 @@ export function navigateToMessagesView(userUId, token, navigation) {
   });
 }
 
+export function navigateToEditProfile(uid, token, profile, navigation) {
+  checkNavigation(navigation);
+  if (!uid || !token || !profile)
+    throw new Error("No se especifico uid, token o profile");
+  navigation.navigate("ProfileEdit", {
+    uid,
+    token,
+    profile,
+  });
+}
+
 export function navigateToSongMessagesView(userUId, token, song, navigation) {
   checkNavigation(navigation);
   if (!userUId || !token) throw new Error("No se especifico userUId o token");
