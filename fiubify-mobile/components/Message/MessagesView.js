@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { navigateToMyProfile } from "../../src/navigates";
+import {
+  navigateToExternProfile,
+  navigateToMyProfile,
+  navigateToSendMessagesView,
+} from "../../src/navigates";
 import { database } from "../../firebase";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { onValue, ref } from "firebase/database";
+import { get, onValue, ref } from "firebase/database";
 import Message from "./Message";
 
-function getMessages(channel, setData, userUId) {
+function getMessages(channel, setData, userUId, token, navigation) {
   const sendCountRef = ref(database, `/users/${channel}/` + userUId);
   onValue(sendCountRef, (snapshot) => {
     const render = [];
@@ -19,28 +23,48 @@ function getMessages(channel, setData, userUId) {
     if (sendData?.val()) {
       sendData.forEach((childSnapshot) => {
         render.push(
-          <Message key={childSnapshot.key} data={childSnapshot.val()} />,
+          <Message
+            key={childSnapshot.key}
+            data={childSnapshot.val()}
+            onPress={() => {
+              if (channel === "recieved") {
+                navigateToExternProfile(
+                  childSnapshot.val().emisorUId,
+                  childSnapshot.val().recieverUId,
+                  token,
+                  navigation
+                );
+              } else {
+                navigateToExternProfile(
+                  childSnapshot.val().recieverUId,
+                  childSnapshot.val().emisorUId,
+                  token,
+                  navigation
+                );
+              }
+            }}
+          />
         );
       });
     }
 
-    if (render.length > 0)
-      setData(render);
+    if (render.length > 0) setData(render);
   });
 }
 
 export default function MessagesView({ navigation, route }) {
   const { userUId, token } = route.params;
-  const [recieved, setRecieved] = useState([<Text key={0}>There is not sended data</Text>]);
-  const [sended, setSended] = useState([<Text key={1}>There is not sended data</Text>]);
-
-  //ARREGLAR PRIMERA VEZ QUE ENTRA
+  const [recieved, setRecieved] = useState([
+    <Text key={0}>There is not sended data</Text>,
+  ]);
+  const [sended, setSended] = useState([
+    <Text key={1}>There is not sended data</Text>,
+  ]);
 
   useEffect(() => {
-    getMessages("sended", setSended, userUId);
-    getMessages("recieved", setRecieved, userUId);
+    getMessages("sended", setSended, userUId, token, navigation);
+    getMessages("recieved", setRecieved, userUId, token, navigation);
   }, []);
-
 
   return (
     <View style={styles.view}>
@@ -54,15 +78,11 @@ export default function MessagesView({ navigation, route }) {
 
       <Text style={[styles.link, styles.title]}>Recibidos</Text>
       <View style={styles.scrollView}>
-        <ScrollView style={styles.scroll}>
-          {recieved.reverse()}
-        </ScrollView>
+        <ScrollView style={styles.scroll}>{recieved.reverse()}</ScrollView>
       </View>
       <Text style={[styles.link, styles.title]}>Enviados</Text>
       <View style={styles.scrollView}>
-        <ScrollView style={styles.scroll}>
-          {sended.reverse()}
-        </ScrollView>
+        <ScrollView style={styles.scroll}>{sended.reverse()}</ScrollView>
       </View>
     </View>
   );
