@@ -10,6 +10,7 @@ import PasswordRecoveryForm from "./components/login/PasswordRecoveryForm";
 import ScreenController from "./components/Screens/ScreenController";
 import { LogBox } from "react-native";
 import SongForm from "./components/Song/SongForm.js";
+import * as Notifications from "expo-notifications";
 import { AlbumForm } from "./components/Album/AlbumForm";
 import MyProfile from "./components/profile/MyProfile";
 import { PlaylistForm } from "./components/Playlist/PlaylistForm";
@@ -26,6 +27,14 @@ LogBox.ignoreAllLogs(true);
 const store = configureStore();
 
 const Stack = createNativeStackNavigator();
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 function App() {
   return (
