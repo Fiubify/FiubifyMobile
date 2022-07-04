@@ -138,6 +138,9 @@ export function Search({
       />
       <AllAlbums
         albums={albums}
+        userUId={currentUserId}
+        token={token}
+        navigation={navigation}
         setAlbum={(album) => {
           goToScreenAlbumView(setData, setCurrentScreen, album);
         }}
