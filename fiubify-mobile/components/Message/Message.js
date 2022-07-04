@@ -1,18 +1,19 @@
-import React from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { get, ref } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 
-function Message({ data }) {
+function Message({ data, onPress }) {
   if (!data) {
     Alert("No se pudo acceder a la data");
     return;
   } else {
     return (
-      <View style={styles.container}>
+      <TouchableOpacity style={styles.container} onPress={onPress}>
         <View style={styles.emisor}>
           <Text style={styles.emisorText}>{data.emisor}</Text>
           <MaterialIcons
@@ -27,7 +28,7 @@ function Message({ data }) {
           <Text style={styles.message}>{data.message}</Text>
           <Text style={styles.time}>{data.time}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   }
 }

@@ -81,11 +81,6 @@ export default function MyProfile({ navigation, route }) {
             contain={user.role}
             icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
           />
-          <Info
-            title="Birthdate"
-            contain={user.birthdate}
-            icon="calendar-heart"
-          />
 
           <View style={styles.plan}>
             <Info
@@ -284,5 +279,14 @@ const styles = StyleSheet.create({
   scrollContent: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  birthdayText: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
+  },
+  birthdateText: {
+    fontSize: 20,
+    color: "#006E95",
   },
 });
