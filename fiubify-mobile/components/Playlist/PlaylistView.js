@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import Info from "../profile/Info";
+import Info, { Url } from "../profile/Info";
 import { AllSongs } from "../Song/AllSongs";
 import React, { useEffect, useState } from "react";
 import {
@@ -13,6 +13,7 @@ import { postSongEvent } from "../../src/fetchMetrics";
 import { getAlbumById } from "../../src/fetchContent";
 import { BASE_URL, listenedAction } from "../../constantes";
 import { navigateToEditPlaylist } from "../../src/navigates";
+import * as Linking from "expo-linking";
 
 export function PlaylistView({
                                data,
@@ -26,11 +27,14 @@ export function PlaylistView({
   const { playlist } = data;
   const [tracks, setTracks] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [showUrl, setShowUrl] = useState(false);
   if (playlist === undefined) {
     alert("No se designo la playlist");
     return <Text>NO HAY PLAYLIST</Text>;
   }
+  const url = Linking.createURL("PLAYLIST-VIEW", {
+    queryParams: {playlist: playlist._id}
+  });
 
   useEffect(() => {
     axios.get(`${BASE_URL}/contents/playlists/${playlist._id}`).then(({ data }) => {
@@ -88,6 +92,19 @@ export function PlaylistView({
             contain=""
             icon="playlist-music"
           />
+          <UiButton
+            pressableStyle={styles.loadSong}
+            title="Share"
+            onPress={() => {
+              setShowUrl((previous) => !previous);
+            }}
+          />
+          {showUrl && <Url
+            containerStyles={styles.tracks}
+            title="Url"
+            contain={url}
+            icon="clipboard-outline"
+          />}
           <AllSongs
             currentUserUId={currentUserUId}
             token={token}

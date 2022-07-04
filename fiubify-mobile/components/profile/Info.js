@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as Clipboard from 'expo-clipboard';
 import {
   heightPercentageToDP,
   widthPercentageToDP,
@@ -16,6 +17,25 @@ function Info({ contain, containerStyles, icon, title }) {
       />
       <Text style={styles.title}>{title}:</Text>
       <Text style={styles.description}>{contain}</Text>
+    </View>
+  );
+}
+
+export function Url({ contain, containerStyles, icon, title }) {
+  return (
+    <View style={[styles.container, containerStyles]}>
+      <MaterialCommunityIcons
+        style={styles.icon}
+        name={icon}
+        color="#006E95"
+        size={30}
+      />
+      <Text style={styles.title}>{title}:</Text>
+      <TouchableOpacity onPress={() => {
+        Clipboard.setString(contain);
+      }}>
+        <Text style={styles.description}>{contain}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
