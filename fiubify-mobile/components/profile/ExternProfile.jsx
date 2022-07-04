@@ -34,7 +34,7 @@ export default function ExternProfile({ navigation, route }) {
           title="Donate"
           pressableStyle={styles.pressableStyle}
           textStyle={styles.textStyle}
-          onPress={() => navigateToSongForm(userUId, token, navigation)}
+          onPress={() => this.setDonationModalVisible(true)}
         />
       )
     }
