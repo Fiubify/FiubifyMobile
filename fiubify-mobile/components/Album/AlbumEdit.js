@@ -7,19 +7,17 @@ import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import axios from "axios";
 import { BASE_URL } from "../../constantes";
 import { navigateToHome } from "../../src/navigates";
 import Selector from "../ui/UiSelect";
 
-async function editAlbum(title, plan, genre, tracks, albumId, token, whenDone) {
-  let url = `${BASE_URL}/contents/albums/${albumId}`;
+async function editAlbum(title, plan, genre, albumId, token, whenDone) {
+  let url = `${BASE_URL}/contents/albums/${albumId}/`;
 
   const body = {
     title,
     tier: plan,
     genre,
-    tracks,
     token,
   };
 
@@ -128,17 +126,9 @@ export function AlbumEdit({ route, navigation }) {
         onPress={() => {
           var finalGenre;
           genre === "Other" ? (finalGenre = _newGenre) : (finalGenre = genre);
-          editAlbum(
-            title,
-            plan,
-            finalGenre,
-            album.tracks,
-            album._id,
-            token,
-            () => {
-              navigateToHome(uid, token, navigation);
-            }
-          ).then();
+          editAlbum(title, plan, finalGenre, album._id, token, () => {
+            navigateToHome(uid, token, navigation);
+          }).then();
         }}
       />
     </View>

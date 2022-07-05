@@ -20,8 +20,18 @@ function ListedAlbum({ album, onPress }) {
           onPress(album);
         }}
       />
+      <MaterialCommunityIcons
+        name="close"
+        size={20}
+        color="#006E95"
+        onPress={() => deleteAlbum(album._id)}
+      />
     </View>
   );
+}
+
+function deleteAlbum(albumId) {
+  
 }
 
 export function AllAlbums({ albums, setAlbum }) {
@@ -79,7 +89,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   albums: {
-    width: "85%",
+    width: "75%",
     backgroundColor: "white",
     elevation: 0,
   },

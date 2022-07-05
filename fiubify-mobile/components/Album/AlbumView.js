@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   viewBody: {
-    width: "90%",
+    width: "100%",
     height: "100%",
     display: "flex",
     flexDirection: "column",

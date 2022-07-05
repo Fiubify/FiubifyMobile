@@ -22,7 +22,7 @@ function Info({ contain, containerStyles, icon, title }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: "90%",
     height: heightPercentageToDP(10),
     borderColor: "#006E95",
     borderBottomWidth: 2,
