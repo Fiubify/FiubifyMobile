@@ -1,34 +1,51 @@
-import { get, ref } from "firebase/database";
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
+import { ref, remove } from "firebase/database";
+import React from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { database } from "../../firebase";
 
-function Message({ data, onPress }) {
+function AlbumComment({
+  data,
+  whenDone,
+  albumId,
+  artistId,
+  commentKey,
+  userUId,
+}) {
+  function deleteComment(albumId, commentKey) {
+    const commentRef = ref(database, "/album/" + albumId + "/" + commentKey);
+    remove(commentRef);
+  }
+
   if (!data) {
     Alert("No se pudo acceder a la data");
     return;
   } else {
     return (
-      <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.container}>
         <View style={styles.emisor}>
-          <Text style={styles.emisorText}>{data.emisor}</Text>
-          <MaterialIcons
-            style={styles.arrow}
-            name="arrow-right-alt"
-            color="#006E95"
-            size={40}
-          />
-          <Text style={styles.emisorText}>{data.receptor}</Text>
+          <Text style={styles.emisorText}>{data.user}</Text>
+          {userUId === artistId ? (
+            <MaterialIcons
+              name="close"
+              color="#006E95"
+              size={20}
+              onPress={() => {
+                deleteComment(albumId, commentKey);
+                whenDone();
+              }}
+            />
+          ) : null}
         </View>
         <View style={styles.messageSection}>
           <Text style={styles.message}>{data.message}</Text>
           <Text style={styles.time}>{data.time}</Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 }
@@ -46,19 +63,17 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   emisor: {
-    width: wp(100),
+    width: wp(80),
+    marginBottom: "5%",
     display: "flex",
     flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "flex-start",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   emisorText: {
     fontSize: 20,
     color: "#006E95",
     fontWeight: "bold",
-  },
-  arrow: {
-    marginTop: -5,
   },
   messageSection: {
     width: wp(80),
@@ -78,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Message;
+export default AlbumComment;

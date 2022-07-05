@@ -4,11 +4,12 @@ import UiTextInput from "../ui/UiTextInput";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { navigateToHome } from "../../src/navigates";
 import { database } from "../../firebase";
-import { push, ref, set } from "firebase/database";
+import { onValue, push, ref, set } from "firebase/database";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
+import axios from "axios";
 
 export default function SendMessagesView({ navigation, route }) {
   const { senderUId, recieverUId, token, emisorName, receptorName } =
@@ -26,17 +27,32 @@ export default function SendMessagesView({ navigation, route }) {
     const recvListRef = ref(database, "/users/recieved/" + recieverUId);
     const newSendRef = push(sendListRef);
     const newRecvRef = push(recvListRef);
+    const recvTokenRef = ref(database, "/users/token/" + recieverUId);
+
     set(newSendRef, {
       emisor: emisorName,
+      emisorUId: senderUId,
       receptor: receptorName,
+      recieverUId: recieverUId,
       message: message,
       time: time(),
     });
     set(newRecvRef, {
       emisor: emisorName,
+      emisorUId: senderUId,
       receptor: receptorName,
+      recieverUId: recieverUId,
       message: message,
       time: time(),
+    });
+    onValue(recvTokenRef, (snapshot) => {
+      axios
+        .post("https://exp.host/--/api/v2/push/send", {
+          to: snapshot.val().token.data,
+          title: `Message from: ${emisorName}`,
+          body: message,
+        })
+        .then();
     });
   }
 

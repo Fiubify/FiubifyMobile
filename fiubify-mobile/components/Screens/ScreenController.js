@@ -9,6 +9,9 @@ import { MyLibrary } from "./MyLibrary";
 import { AlbumView } from "../Album/AlbumView";
 import { PlaylistView } from "../Playlist/PlaylistView";
 import { AddSongPlaylist } from "../Song/AddSongPlaylist";
+import { ref, set } from "firebase/database";
+import { database } from "../../firebase";
+import * as Notifications from "expo-notifications";
 
 export function stopAndSetSong(song, setSong) {
   return (newSong) => {
@@ -24,12 +27,25 @@ export function stopAndSetSong(song, setSong) {
   };
 }
 
+async function writeUserData(
+  userUid,
+) {
+  const sendListRef = ref(database, "/users/token/" + userUid);
+  set(sendListRef, {
+    token: await Notifications.getExpoPushTokenAsync(),
+  });
+}
+
 export default function ScreenController({ navigation, route }) {
   const [song, setSong] = useState();
   const { uid, token } = route.params;
   const [currentScreen, setCurrentScreen] = useState("HOME");
   const [component, setComponent] = useState(null);
   const [data, setData] = useState({});
+
+  useEffect(() => {
+    writeUserData(uid).then(_ => null);
+  }, []);
 
   useEffect(() => {
     switch (currentScreen) {

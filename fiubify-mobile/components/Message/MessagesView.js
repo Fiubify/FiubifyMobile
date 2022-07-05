@@ -1,60 +1,70 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
-import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
+import {
+  navigateToExternProfile,
+  navigateToMyProfile,
+  navigateToSendMessagesView,
+} from "../../src/navigates";
 import { database } from "../../firebase";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import { onValue, ref } from "firebase/database";
+import { get, onValue, ref } from "firebase/database";
 import Message from "./Message";
+
+function getMessages(channel, setData, userUId, token, navigation) {
+  const sendCountRef = ref(database, `/users/${channel}/` + userUId);
+  onValue(sendCountRef, (snapshot) => {
+    const render = [];
+    let sendData;
+    sendData = snapshot;
+    if (sendData?.val()) {
+      sendData.forEach((childSnapshot) => {
+        render.push(
+          <Message
+            key={childSnapshot.key}
+            data={childSnapshot.val()}
+            onPress={() => {
+              if (channel === "recieved") {
+                navigateToExternProfile(
+                  childSnapshot.val().emisorUId,
+                  childSnapshot.val().recieverUId,
+                  token,
+                  navigation
+                );
+              } else {
+                navigateToExternProfile(
+                  childSnapshot.val().recieverUId,
+                  childSnapshot.val().emisorUId,
+                  token,
+                  navigation
+                );
+              }
+            }}
+          />
+        );
+      });
+    }
+
+    if (render.length > 0) setData(render);
+  });
+}
 
 export default function MessagesView({ navigation, route }) {
   const { userUId, token } = route.params;
+  const [recieved, setRecieved] = useState([
+    <Text key={0}>There is not sended data</Text>,
+  ]);
+  const [sended, setSended] = useState([
+    <Text key={1}>There is not sended data</Text>,
+  ]);
 
-  //ARREGLAR PRIMERA VEZ QUE ENTRAS
-  function getSendedMessages() {
-    const sendCountRef = ref(database, "/users/sended/" + userUId);
-    var render = [];
-    var sendData;
-    onValue(sendCountRef, (snapshot) => {
-      sendData = snapshot;
-    });
-
-    if (!sendData?.val()) {
-      render.push(<Text key={0}>There is not sended data</Text>);
-    } else {
-      sendData.forEach((childSnapshot) => {
-        render.push(
-          <Message key={childSnapshot.key} data={childSnapshot.val()} />
-        );
-      });
-    }
-    return render;
-  }
-
-  //ARREGLAR PRIMERA VEZ QUE ENTRAS
-  function getRecievedMessages() {
-    const recvCountRef = ref(database, "/users/recieved/" + userUId);
-    var render = [];
-    var recvData;
-    onValue(recvCountRef, (snapshot) => {
-      recvData = snapshot;
-    });
-
-    if (!recvData) {
-      render.push(<Text key={1}>There is not recieved data</Text>);
-    } else {
-      recvData.forEach((childSnapshot) => {
-        render.push(
-          <Message key={childSnapshot.key} data={childSnapshot.val()} />
-        );
-      });
-    }
-
-    return render;
-  }
+  useEffect(() => {
+    getMessages("sended", setSended, userUId, token, navigation);
+    getMessages("recieved", setRecieved, userUId, token, navigation);
+  }, []);
 
   return (
     <View style={styles.view}>
@@ -68,15 +78,11 @@ export default function MessagesView({ navigation, route }) {
 
       <Text style={[styles.link, styles.title]}>Recibidos</Text>
       <View style={styles.scrollView}>
-        <ScrollView style={styles.scroll}>
-          {getRecievedMessages().reverse()}
-        </ScrollView>
+        <ScrollView style={styles.scroll}>{recieved.reverse()}</ScrollView>
       </View>
       <Text style={[styles.link, styles.title]}>Enviados</Text>
       <View style={styles.scrollView}>
-        <ScrollView style={styles.scroll}>
-          {getSendedMessages().reverse()}
-        </ScrollView>
+        <ScrollView style={styles.scroll}>{sended.reverse()}</ScrollView>
       </View>
     </View>
   );

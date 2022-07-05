@@ -12,6 +12,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import {
   navigateToAlbumForm,
+  navigateToEditProfile,
   navigateToEntry,
   navigateToHome,
   navigateToMessagesView,
@@ -65,17 +66,20 @@ export default function MyProfile({ navigation, route }) {
             <Text style={styles.title_text}>
               {user.name} {user.surname}
             </Text>
+            <MaterialIcons
+              name="edit"
+              color="#006E95"
+              size={20}
+              onPress={() => {
+                navigateToEditProfile(userUId, token, user, navigation);
+              }}
+            />
           </View>
           <Info title="Email" contain={user.email} icon="email-outline" />
           <Info
             title="Role"
             contain={user.role}
             icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
-          />
-          <Info
-            title="Birthdate"
-            contain={user.birthdate}
-            icon="calendar-heart"
           />
 
           <View style={styles.plan}>
@@ -222,6 +226,8 @@ const styles = StyleSheet.create({
     color: "#006E95",
     fontWeight: "bold",
     textAlign: "justify",
+    marginRight: "5%",
+    marginTop: "3%",
   },
   description: {
     width: "90%",
@@ -273,5 +279,14 @@ const styles = StyleSheet.create({
   scrollContent: {
     alignItems: "center",
     justifyContent: "center",
+  },
+  birthdayText: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
+  },
+  birthdateText: {
+    fontSize: 20,
+    color: "#006E95",
   },
 });
