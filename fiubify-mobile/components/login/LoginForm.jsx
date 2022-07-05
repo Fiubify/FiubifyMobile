@@ -34,12 +34,13 @@ import {
   navigateToEntry,
   navigateToForgotPassword,
   navigateToHome,
-  navigateToRegistration,
+  navigateToRegistration, navigateToSendMessagesView,
 } from "../../src/navigates";
 
 WebBrowser.maybeCompleteAuthSession();
 
-function LoginForm({ navigation }) {
+function LoginForm({ navigation, route }) {
+  const { sender } = route.params;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [_request, response, promptAsync] = Google.useIdTokenAuthRequest({
@@ -136,7 +137,12 @@ function LoginForm({ navigation }) {
         const user = userCredentials.user;
         const token = await user.getIdToken();
         await postUserEvent(loginAction, emailTypeAction, user.uid);
-        navigateToHome(user.uid, token, navigation);
+        if (!sender) {
+          navigateToHome(user.uid, token, navigation);
+        } else {
+          const userData = await getUser(user.uid);
+          navigateToSendMessagesView(user.uid, sender.senderUId, token, userData.name, sender.senderName, navigation);
+        }
       })
       .catch((error) => {
         alert(error.message);

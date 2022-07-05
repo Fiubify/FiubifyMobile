@@ -3,30 +3,22 @@ import { StyleSheet } from "react-native";
 import UiButton from "./ui/UiButton";
 import UiLogo from "./ui/UiLogo";
 import { connect } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-device";
+import { navigateToLoginWithSender } from "../src/navigates";
 
 
 function MainScreen({ navigation }) {
-  const [_expoPushToken, setExpoPushToken] = useState('');
-  const notificationListener = useRef();
-  const responseListener = useRef();
+  const [_expoPushToken, setExpoPushToken] = useState("");
+  const [sender, setSender] = useState(null);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
-    notificationListener.current = Notifications.addNotificationReceivedListener(_notification => {
+    Notifications.addNotificationResponseReceivedListener(response => {
+      setSender(response.notification.request.content.data);
     });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener.current);
-      Notifications.removeNotificationSubscription(responseListener.current);
-    };
   }, []);
 
   return (
@@ -46,7 +38,7 @@ function MainScreen({ navigation }) {
           textStyle={styles.logInText}
           title="Log In"
           onPress={() => {
-            navigation.navigate("Login");
+              navigateToLoginWithSender(navigation, sender);
           }}
         />
       </View>
