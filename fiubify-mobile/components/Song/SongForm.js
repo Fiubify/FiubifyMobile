@@ -183,39 +183,6 @@ export function SongForm({ navigation, route }) {
     } catch (e) {
       alert(e.response.message);
     }
-
-    // let url = `${BASE_URL}/contents/songs`;
-    // title, artistId, albumId, duration, url, tier, genre, description
-    // const body = {
-    //   title,
-    //   token,
-    //   artistId: userUId,
-    //   albumId: album._id,
-    //   duration: parseInt(duration),
-    //   url: songUrl,
-    //   tier,
-    //   genre,
-    //   description,
-    // };
-    // let request = {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(body),
-    // };
-    //let response = await fetch(url, request);
-    // if (response.ok) {
-    //   const body = (await response.json()).data;
-    //   await postSongEvent(creationAction, genre, tier, userUId, songId, title, album._id, album.title)
-    //   navigation.navigate("Home", {
-    //     uid: userUId,
-    //     token: token,
-    //   });
-    // } else {
-    //   alert(response.statusText);
-    // }
   }
 }
 
@@ -240,6 +207,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 20,
     backgroundColor: "white",
+    elevation: 10,
   },
   labelContainerStyle: {
     width: wp(85),

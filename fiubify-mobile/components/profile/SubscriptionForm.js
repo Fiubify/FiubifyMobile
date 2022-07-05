@@ -133,6 +133,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 20,
     backgroundColor: "white",
+    elevation: 10,
   },
   labelContainerStyle: {
     width: wp(85),

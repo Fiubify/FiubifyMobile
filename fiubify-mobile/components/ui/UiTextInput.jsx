@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#006E95",
     fontSize: 19,
+    elevation: 10,
   },
 });
 
