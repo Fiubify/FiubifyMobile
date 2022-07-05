@@ -22,22 +22,22 @@ async function editAlbum(title, plan, genre, tracks, albumId, token, whenDone) {
     tracks,
     token,
   };
+
   let request = {
     method: "PUT",
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      "Content-Type": "application/json; charset=UTF-8",
     },
     body: JSON.stringify(body),
   };
+
   let response = await fetch(url, request);
 
   if (response.ok) {
-    const body = (await response.json()).data;
     whenDone();
   } else {
     console.error(await response.json());
-    alert(response.status);
+    alert(response.statusText);
   }
 }
 
