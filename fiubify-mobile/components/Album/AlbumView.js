@@ -12,8 +12,16 @@ import { downloadSong } from "../../src/reproducirCanciones";
 import { postSongEvent } from "../../src/fetchMetrics";
 import { listenedAction } from "../../constantes";
 import { getAlbumById } from "../../src/fetchContent";
+import UiButton from "../ui/UiButton";
+import { navigateToEditAlbum } from "../../src/navigates";
 
-export function AlbumView({ data: { album }, setSong, currentUserUId, token, navigation }) {
+export function AlbumView({
+  data: { album },
+  setSong,
+  currentUserUId,
+  token,
+  navigation,
+}) {
   const [loading, setLoading] = useState(true);
   const [artist, setArtist] = useState(null);
 
@@ -31,6 +39,13 @@ export function AlbumView({ data: { album }, setSong, currentUserUId, token, nav
           <View style={styles.title}>
             <Text style={styles.title_text}>{album.title}</Text>
           </View>
+          <UiButton
+            title="Edit Album"
+            pressableStyle={styles.loadAlbum}
+            onPress={() => {
+              navigateToEditAlbum(currentUserUId, token, album, navigation);
+            }}
+          />
           <Info
             title="Artist"
             contain={artist.name + " " + artist.surname}
@@ -133,5 +148,11 @@ const styles = StyleSheet.create({
   },
   tracks: {
     borderBottomWidth: 0,
+  },
+  loadAlbum: {
+    width: wp(90),
+    marginTop: hp(2),
+    backgroundColor: "#006E95",
+    paddingHorizontal: 0,
   },
 });

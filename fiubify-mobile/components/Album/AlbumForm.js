@@ -43,9 +43,7 @@ export function AlbumForm({ navigation, route }) {
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() =>
-          navigateToMyProfile(userUId, token, navigation)
-        }
+        onPress={() => navigateToMyProfile(userUId, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back
@@ -81,15 +79,16 @@ export function AlbumForm({ navigation, route }) {
         title="Upload"
         pressableStyle={styles.upload}
         onPress={() => {
-          send(token, title, userUId, tier, genre, navigation);
+          var finalGenre;
+          genre === "Other" ? (finalGenre = _newGenre) : (finalGenre = genre);
+          send(token, title, userUId, tier, finalGenre, navigation);
         }}
       />
     </View>
   );
 
   async function send(token, title, userUId, tier, genre, navigation) {
-    let url =
-      `${BASE_URL}/contents/albums`;
+    let url = `${BASE_URL}/contents/albums`;
 
     const body = {
       token,
@@ -111,7 +110,7 @@ export function AlbumForm({ navigation, route }) {
 
     if (response.ok) {
       const body = (await response.json()).data;
-      navigateToHome(userUId, token, navigation)
+      navigateToHome(userUId, token, navigation);
     } else {
       console.error(await response.json());
       alert(response.statusText);
@@ -158,6 +157,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 20,
     backgroundColor: "white",
+    elevation: 10,
   },
   labelContainerStyle: {
     width: wp(85),

@@ -68,6 +68,17 @@ export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   });
 }
 
+export function navigateToEditAlbum(uid, token, album, navigation) {
+  checkNavigation(navigation);
+  if (!uid || !token || !album)
+    throw new Error("No se especifico uid, token o album");
+  navigation.navigate("AlbumEdit", {
+    uid,
+    token,
+    album,
+  });
+}
+
 export function navigateToSubscriptionForm(
   userUId,
   token,

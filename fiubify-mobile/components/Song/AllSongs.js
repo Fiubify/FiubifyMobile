@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     borderColor: "#006E95",
     borderWidth: 2,
     borderRadius: 25,
+    elevation: 10,
   },
   musicIcon: {
     backgroundColor: "#006E95",

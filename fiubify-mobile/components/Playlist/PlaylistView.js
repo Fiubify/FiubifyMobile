@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   viewBody: {
-    width: "100%",
+    width: "90%",
     height: "100%",
     display: "flex",
     flexDirection: "column",
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   title: {
-    width: "90%",
+    width: "100%",
     display: "flex",
     flexDirection: "row",
     alignItems: "center",

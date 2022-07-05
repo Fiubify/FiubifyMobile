@@ -258,6 +258,7 @@ const styles = StyleSheet.create({
     borderColor: "#006E95",
     borderWidth: 2,
     marginBottom: hp(2),
+    elevation: 5,
   },
   loadSong: {
     width: wp(44),
