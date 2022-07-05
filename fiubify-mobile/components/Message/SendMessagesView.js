@@ -32,13 +32,17 @@ export default function SendMessagesView({ navigation, route }) {
 
     set(newSendRef, {
       emisor: emisorName,
+      emisorUId: senderUId,
       receptor: receptorName,
+      recieverUId: recieverUId,
       message: message,
       time: time(),
     });
     set(newRecvRef, {
       emisor: emisorName,
+      emisorUId: senderUId,
       receptor: receptorName,
+      recieverUId: recieverUId,
       message: message,
       time: time(),
     });
@@ -50,7 +54,6 @@ export default function SendMessagesView({ navigation, route }) {
         data: { senderUId, senderName: emisorName },
       }).then();
     });
-
   }
 
   function time() {

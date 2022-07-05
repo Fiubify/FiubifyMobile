@@ -7,7 +7,10 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 import { getUser } from "../../src/GetUser";
-import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
+import {
+  navigateToHome,
+  navigateToSendMessagesView,
+} from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
   const [user, setUser] = useState();
@@ -31,7 +34,7 @@ export default function ExternProfile({ navigation, route }) {
         <View style={styles.topSection}>
           <Text
             style={styles.link}
-            onPress={() => navigateToHome(userUId, token, navigation)}
+            onPress={() => navigateToHome(currentUserUId, token, navigation)}
           >
             <MaterialIcons name="arrow-back-ios" />
             Back
@@ -68,11 +71,6 @@ export default function ExternProfile({ navigation, route }) {
           title="Role"
           contain={user.role}
           icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
-        />
-        <Info
-          title="Birthdate"
-          contain={user.birthdate}
-          icon="calendar-heart"
         />
 
         <Info

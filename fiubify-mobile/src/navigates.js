@@ -201,3 +201,14 @@ export function navigateToSongMessagesView(userUId, token, song, navigation) {
     song,
   });
 }
+
+export function navigateToAlbumMessagesView(userUId, token, album, navigation) {
+  checkNavigation(navigation);
+  if (!userUId || !token) throw new Error("No se especifico userUId o token");
+
+  navigation.navigate("AlbumMessagesView", {
+    userUId: userUId,
+    token: token,
+    album,
+  });
+}

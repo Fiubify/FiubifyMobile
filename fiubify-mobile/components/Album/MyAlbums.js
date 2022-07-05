@@ -4,24 +4,44 @@ import { getAlbumsByArtist } from "../../src/fetchContent";
 import { AllAlbums } from "./AllAlbums";
 import { goToScreenAlbumView } from "../../src/navigates";
 
-export function MyAlbums({ userUid, setData, setCurrentScreen }) {
+export function MyAlbums({
+  userUId,
+  token,
+  navigation,
+  setData,
+  setCurrentScreen,
+}) {
   const [albums, setAlbums] = useState([]);
   const [user, setUser] = useState({ role: "Not-Fetched" });
 
   useEffect(() => {
-    getUser(userUid).then((user) => {
-      setUser(user);
-      getAlbumsByArtist(userUid).then((albums) => {
-        setAlbums(albums.data);
-      }).catch((e) => {throw e});
-    }).catch((e) => {throw e});
+    getUser(userUId)
+      .then((user) => {
+        setUser(user);
+        getAlbumsByArtist(userUId)
+          .then((albums) => {
+            setAlbums(albums.data);
+          })
+          .catch((e) => {
+            throw e;
+          });
+      })
+      .catch((e) => {
+        throw e;
+      });
   }, []);
 
   if (user.role === "Artist" && albums.length > 0) {
     return (
-      <AllAlbums albums={albums} setAlbum={(album) => {
-        goToScreenAlbumView(setData, setCurrentScreen, album)
-      }} />
+      <AllAlbums
+        userUId={userUId}
+        token={token}
+        navigation={navigation}
+        albums={albums}
+        setAlbum={(album) => {
+          goToScreenAlbumView(setData, setCurrentScreen, album);
+        }}
+      />
     );
   }
   return null;

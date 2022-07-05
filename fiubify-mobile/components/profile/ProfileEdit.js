@@ -96,30 +96,6 @@ export function ProfileEdit({ route, navigation }) {
         valueStyle={styles.value}
         labelContainerStyle={styles.labelContainerStyle}
       />
-      <View style={styles.birthday}>
-        <Text style={styles.birthdayText}>Date of Birth:</Text>
-        <Text style={styles.birthdateText}>
-          {birthDate?.toLocaleDateString()}
-        </Text>
-        <UiButton
-          pressableStyle={styles.birthdayButton}
-          onPress={() => {
-            DateTimePickerAndroid.open({
-              value: birthDate,
-              onChange: (event, selectedDate) => setBirthDate(selectedDate),
-              mode: "date",
-              maximumDate: new Date(
-                today.getFullYear() - 18,
-                today.getMonth(),
-                today.getDate()
-              ),
-            });
-          }}
-          title={
-            <FontAwesomeFive name="calendar-day" size={20} color="#006E95" />
-          }
-        />
-      </View>
       <UiButton
         title="Update"
         pressableStyle={styles.upload}
