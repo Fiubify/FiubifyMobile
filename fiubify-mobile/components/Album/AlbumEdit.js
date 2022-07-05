@@ -12,14 +12,15 @@ import { BASE_URL } from "../../constantes";
 import { navigateToHome } from "../../src/navigates";
 import Selector from "../ui/UiSelect";
 
-async function editAlbum(title, plan, genre, albumId, token, whenDone) {
+async function editAlbum(title, plan, genre, tracks, albumId, token, whenDone) {
   let url = `${BASE_URL}/contents/albums/${albumId}`;
 
   const body = {
     title,
-    token,
     tier: plan,
     genre,
+    tracks,
+    token,
   };
   let request = {
     method: "PUT",
@@ -29,7 +30,6 @@ async function editAlbum(title, plan, genre, albumId, token, whenDone) {
     },
     body: JSON.stringify(body),
   };
-
   let response = await fetch(url, request);
 
   if (response.ok) {
@@ -37,7 +37,7 @@ async function editAlbum(title, plan, genre, albumId, token, whenDone) {
     whenDone();
   } else {
     console.error(await response.json());
-    alert(response.statusText);
+    alert(response.status);
   }
 }
 
@@ -128,9 +128,17 @@ export function AlbumEdit({ route, navigation }) {
         onPress={() => {
           var finalGenre;
           genre === "Other" ? (finalGenre = _newGenre) : (finalGenre = genre);
-          editAlbum(title, plan, finalGenre, album._id, token, () => {
-            navigateToHome(uid, token, navigation);
-          }).then();
+          editAlbum(
+            title,
+            plan,
+            finalGenre,
+            album.tracks,
+            album._id,
+            token,
+            () => {
+              navigateToHome(uid, token, navigation);
+            }
+          ).then();
         }}
       />
     </View>
