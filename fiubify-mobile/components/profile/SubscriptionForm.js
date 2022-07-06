@@ -58,8 +58,7 @@ export function SubscriptionForm({ navigation, route }) {
   );
 
   async function send(token, tier, navigation) {
-    let url =
-      `${BASE_URL}/user/${userUId}/upgrade-subscription`;
+    let url = `${BASE_URL}/user/${userUId}/upgrade-subscription`;
     const body = {
       token,
       plan: tier,

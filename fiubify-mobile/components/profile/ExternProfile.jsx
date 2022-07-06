@@ -9,6 +9,8 @@ import Info from "./Info";
 import UiButton from "../ui/UiButton";
 import UiTextInput from "../ui/UiTextInput";
 
+import { BASE_URL } from "../../constantes";
+
 import { getUser } from "../../src/GetUser";
 import { getWalletBalance } from "../../src/getWalletBalance";
 
@@ -82,7 +84,7 @@ export default function ExternProfile({ navigation, route }) {
               pressableStyle={styles.pressableStyle}
               textStyle={styles.textStyle}
               disabled={donateButtonDisabled()}
-              onPress={() => sendDonation(currentUser.token)}
+              onPress={() => sendDonation()}
             />
             <UiButton
               title="Close"
@@ -156,10 +158,30 @@ export default function ExternProfile({ navigation, route }) {
 
   async function sendDonation() {
     const amount = parseFloat(donationAmount)
-    console.log(`send donation for ${amount}`)
-    console.log(token)
-    console.log(currentUserUId)
-    console.log(userUId)
+
+    let url = `${BASE_URL}/user/${currentUserUId}/donate`;
+    const body = {
+      token,
+      from_uid: currentUserUId,
+      to_uid: userUId,
+      amount: parseFloat(donationAmount)
+    };
+    let request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(body),
+    };
+
+    let response = await fetch(url, request);
+
+    if (response.ok) {
+      alert("Donated successfully")
+    } else {
+      console.error(await response.json());
+      alert(response.statusText);
+    }
   }
 
 }
