@@ -2,8 +2,10 @@ import UiButton from "../ui/UiButton";
 import { StyleSheet, Text, View } from "react-native";
 import { heightPercentageToDP as hp } from "react-native-responsive-screen";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { navigateToAlbumMessagesView } from "../../src/navigates";
 
-function ListedAlbum({ album, onPress }) {
+function ListedAlbum({ album, onPress, userUId, token, navigation }) {
   return (
     <View style={styles.albumContainer}>
       <MaterialCommunityIcons
@@ -20,11 +22,19 @@ function ListedAlbum({ album, onPress }) {
           onPress(album);
         }}
       />
+      <MaterialIcons
+        name="message"
+        color="#006E95"
+        size={30}
+        onPress={() => {
+          navigateToAlbumMessagesView(userUId, token, album, navigation);
+        }}
+      />
     </View>
   );
 }
 
-export function AllAlbums({ albums, setAlbum }) {
+export function AllAlbums({ userUId, token, navigation, albums, setAlbum }) {
   if (albums) {
     if (albums.length > 0) {
       return (
@@ -36,6 +46,9 @@ export function AllAlbums({ albums, setAlbum }) {
               onPress={(album) => {
                 setAlbum(album);
               }}
+              userUId={userUId}
+              token={token}
+              navigation={navigation}
             />
           ))}
         </View>
@@ -69,6 +82,7 @@ const styles = StyleSheet.create({
     borderColor: "#006E95",
     borderWidth: 2,
     borderRadius: 25,
+    elevation: 10,
   },
   albumIcon: {
     backgroundColor: "#006E95",
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
     textAlignVertical: "center",
   },
   albums: {
-    width: "85%",
+    width: "75%",
     backgroundColor: "white",
     elevation: 0,
   },

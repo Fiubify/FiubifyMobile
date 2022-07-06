@@ -8,8 +8,7 @@ function UiTextInput({
   secure = false,
   style,
   keyboardType = 'default',
-  defaultValue = '',
-  multiline = false
+  defaultValue = ''
 }) {
   return (
     <TextInput
@@ -20,7 +19,7 @@ function UiTextInput({
       onChangeText={onChange}
       keyboardType={keyboardType}
       defaultValue={defaultValue}
-      multiline={multiline}
+      multiline={!secure}
       backgroundColor="#fff"
     ></TextInput>
   );
@@ -35,6 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     color: "#006E95",
     fontSize: 19,
+    elevation: 10,
   },
 });
 

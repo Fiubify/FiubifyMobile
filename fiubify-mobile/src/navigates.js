@@ -68,6 +68,17 @@ export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   });
 }
 
+export function navigateToEditAlbum(uid, token, album, navigation) {
+  checkNavigation(navigation);
+  if (!uid || !token || !album)
+    throw new Error("No se especifico uid, token o album");
+  navigation.navigate("AlbumEdit", {
+    uid,
+    token,
+    album,
+  });
+}
+
 export function navigateToSubscriptionForm(
   userUId,
   token,
@@ -173,6 +184,17 @@ export function navigateToMessagesView(userUId, token, navigation) {
   });
 }
 
+export function navigateToEditProfile(uid, token, profile, navigation) {
+  checkNavigation(navigation);
+  if (!uid || !token || !profile)
+    throw new Error("No se especifico uid, token o profile");
+  navigation.navigate("ProfileEdit", {
+    uid,
+    token,
+    profile,
+  });
+}
+
 export function navigateToSongMessagesView(userUId, token, song, navigation) {
   checkNavigation(navigation);
   if (!userUId || !token) throw new Error("No se especifico userUId o token");
@@ -181,5 +203,16 @@ export function navigateToSongMessagesView(userUId, token, song, navigation) {
     userUId: userUId,
     token: token,
     song,
+  });
+}
+
+export function navigateToAlbumMessagesView(userUId, token, album, navigation) {
+  checkNavigation(navigation);
+  if (!userUId || !token) throw new Error("No se especifico userUId o token");
+
+  navigation.navigate("AlbumMessagesView", {
+    userUId: userUId,
+    token: token,
+    album,
   });
 }

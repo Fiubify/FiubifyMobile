@@ -14,7 +14,10 @@ import { BASE_URL } from "../../constantes";
 import { getUser } from "../../src/GetUser";
 import { getWalletBalance } from "../../src/getWalletBalance";
 
-import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
+import {
+  navigateToHome,
+  navigateToSendMessagesView,
+} from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
   const [loading, setLoading] = useState(true);
@@ -98,7 +101,7 @@ export default function ExternProfile({ navigation, route }) {
         <View style={styles.topSection}>
           <Text
             style={styles.link}
-            onPress={() => navigateToHome(userUId, token, navigation)}
+            onPress={() => navigateToHome(currentUserUId, token, navigation)}
           >
             <MaterialIcons name="arrow-back-ios" />
             Back

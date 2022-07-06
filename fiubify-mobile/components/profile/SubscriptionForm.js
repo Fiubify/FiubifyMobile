@@ -98,7 +98,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#006E95",
   },
   title: {
-    fontSize: 40,
+    width: "90%",
+    fontSize: 35,
     color: "#006E95",
     fontWeight: "bold",
     marginBottom: hp(2),
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderRadius: 20,
     backgroundColor: "white",
+    elevation: 10,
   },
   labelContainerStyle: {
     width: wp(85),

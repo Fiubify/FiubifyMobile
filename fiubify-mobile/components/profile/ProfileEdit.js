@@ -1,93 +1,108 @@
 import { StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import FontAwesomeFive from "react-native-vector-icons/FontAwesome5";
 import UiTextInput from "../ui/UiTextInput";
-import { Switch } from "react-native-paper";
 import UiButton from "../ui/UiButton";
 import React, { useState } from "react";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
-import axios from "axios";
 import { BASE_URL } from "../../constantes";
-import { navigateToHome } from "../../src/navigates";
+import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
+import Selector from "../ui/UiSelect";
+import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
-async function editPlaylist(
-  title,
-  description,
-  collaborative,
-  playlistId,
+async function editProfile(
+  name,
+  surname,
+  email,
+  role,
+  userUId,
   token,
   whenDone
 ) {
+  let url = `${BASE_URL}/user/${userUId}`;
   const body = {
-    title,
+    email: email,
+    role: role,
+    name: name,
+    surname: surname,
     token,
-    description,
-    collaborative,
   };
-  try {
-    await axios.post(`${BASE_URL}/contents/playlists/${playlistId}/edit`, body);
+  let request = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json; charset=UTF-8",
+    },
+    body: JSON.stringify(body),
+  };
+
+  let response = await fetch(url, request);
+
+  if (response.ok) {
     whenDone();
-  } catch (e) {
-    console.error(e);
+  } else {
+    console.error(await response.json());
+    alert(response.statusText);
   }
 }
 
-export function PlaylistEdit({ route, navigation }) {
-  const { uid, token, playlist } = route.params;
-  const [title, setTitle] = useState(playlist.title);
-  const [description, setDescription] = useState(playlist.description);
-  const [collaborative, setCollaborative] = useState(playlist.collaborative);
+export function ProfileEdit({ route, navigation }) {
+  const { uid, token, profile } = route.params;
+  const [name, setName] = useState(profile.name);
+  const [surname, setSurname] = useState(profile.surname);
+  const [email, setEmail] = useState(profile.email);
+  const [role, setRole] = useState(profile.role);
+  const [birthDate, setBirthDate] = useState(
+    profile.birthdate ? profile.birthdate : new Date()
+  );
+  const roles = ["Listener", "Artist"];
+  const today = new Date();
 
   return (
     <View style={styles.view}>
       <Text
         style={styles.link}
-        onPress={() => navigateToHome(uid, token, navigation)}
+        onPress={() => navigateToMyProfile(uid, token, navigation)}
       >
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <Text style={styles.title}>Edit your playlist</Text>
+      <Text style={styles.title}>Edit your profile</Text>
       <UiTextInput
+        defaultValue={name}
+        onChange={setName}
         style={styles.text_input}
-        onChange={setTitle}
-        value
-        defaultValue={title}
-        placeholder="Title"
+        placeholder="Your name"
       />
       <UiTextInput
+        defaultValue={surname}
+        onChange={setSurname}
         style={styles.text_input}
-        onChange={setDescription}
-        defaultValue={description}
-        placeholder="Description"
+        placeholder="Your surname"
       />
-      <View style={styles.collaborativeSection}>
-        <Text style={styles.collaborative}>Collaborative</Text>
-        <Switch
-          value={!!collaborative}
-          onValueChange={() => {
-            setCollaborative(!collaborative);
-          }}
-          color="#006E95"
-          style={styles.switch}
-        />
-      </View>
+      <UiTextInput
+        defaultValue={email}
+        onChange={setEmail}
+        style={styles.text_input}
+        placeholder="E-mail"
+      />
+      <Selector
+        data={roles}
+        placeholder="Role"
+        defaultValue={role}
+        setValue={setRole}
+        valueStyle={styles.value}
+        labelContainerStyle={styles.labelContainerStyle}
+      />
       <UiButton
         title="Update"
         pressableStyle={styles.upload}
         onPress={() => {
-          editPlaylist(
-            title,
-            description,
-            collaborative,
-            playlist._id,
-            token,
-            () => {
-              navigateToHome(uid, token, navigation);
-            }
-          ).then();
+          editProfile(name, surname, email, role, uid, token, () => {
+            navigateToHome(uid, token, navigation);
+          }).then();
         }}
       />
     </View>
@@ -115,6 +130,7 @@ const styles = StyleSheet.create({
     marginVertical: hp(2),
   },
   upload: {
+    marginTop: "5%",
     backgroundColor: "#006E95",
   },
   line: {
@@ -139,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   value: {
-    width: wp(44),
+    width: wp(90),
     marginBottom: hp(2),
     paddingVertical: 10,
     borderWidth: 0,
@@ -147,7 +163,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   labelContainerStyle: {
-    width: wp(39),
+    width: wp(90),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -156,7 +172,6 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   title: {
-    width: wp(90),
     fontSize: 40,
     color: "#006E95",
     fontWeight: "bold",
@@ -178,9 +193,6 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: "bold",
   },
-  signUp: {
-    backgroundColor: "#006E95",
-  },
   link: {
     width: wp(90),
     fontWeight: "bold",
@@ -194,18 +206,26 @@ const styles = StyleSheet.create({
   text_input: {
     marginBottom: 10,
   },
-  collaborativeSection: {
-    width: "90%",
-    marginBottom: "2%",
+  birthday: {
+    width: wp(90),
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
+    justifyContent: "space-between",
   },
-  collaborative: {
-    color: "#006E95",
-    fontSize: 18,
+  birthdayButton: {
+    width: wp(25),
+    backgroundColor: "white",
+    borderColor: "#006E95",
+    borderWidth: 2,
+  },
+  birthdayText: {
     fontWeight: "bold",
+    fontSize: 20,
+    color: "#006E95",
   },
-  switch: {},
+  birthdateText: {
+    fontSize: 20,
+    color: "#006E95",
+  },
 });

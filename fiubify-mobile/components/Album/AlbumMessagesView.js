@@ -1,5 +1,5 @@
-import { onValue, push, ref, set } from "firebase/database";
 import React, { useEffect, useState } from "react";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import {
   heightPercentageToDP as hp,
@@ -10,10 +10,10 @@ import { database } from "../../firebase";
 import { getUser } from "../../src/GetUser";
 import { navigateToHome } from "../../src/navigates";
 import UiTextInput from "../ui/UiTextInput";
-import SongComment from "./SongComment";
+import AlbumComment from "./AlbumComment";
 
-function SongMessagesView({ navigation, route }) {
-  const { userUId, token, song } = route.params;
+function AlbumMessagesView({ navigation, route }) {
+  const { userUId, token, album } = route.params;
   const [message, setMessage] = useState("");
   const [user, setUser] = useState();
 
@@ -23,8 +23,13 @@ function SongMessagesView({ navigation, route }) {
     });
   }, [userUId]);
 
-  function writeSongData(songId, user, message) {
-    const sendListRef = ref(database, "/songs/" + songId);
+  function deleteComments(albumId) {
+    const commentRef = ref(database, "/album/" + albumId);
+    remove(commentRef);
+  }
+
+  function writeAlbumData(albumId, user, message) {
+    const sendListRef = ref(database, "/album/" + albumId);
     const newSendRef = push(sendListRef);
     set(newSendRef, {
       user: user.name + " " + user.surname,
@@ -42,7 +47,7 @@ function SongMessagesView({ navigation, route }) {
   }
 
   function getRecievedMessages(userUId) {
-    const recvCountRef = ref(database, "/songs/" + song._id);
+    const recvCountRef = ref(database, "/album/" + album._id);
     var render = [];
     var recvData;
     onValue(recvCountRef, (snapshot) => {
@@ -54,10 +59,11 @@ function SongMessagesView({ navigation, route }) {
     } else {
       recvData.forEach((childSnapshot) => {
         render.push(
-          <SongComment
+          <AlbumComment
             key={childSnapshot.key}
             data={childSnapshot.val()}
-            songId={song._id}
+            albumId={album._id}
+            artistId={album.artistId}
             commentKey={childSnapshot.key}
             whenDone={() => navigateToHome(userUId, token, navigation)}
             userUId={userUId}
@@ -78,8 +84,19 @@ function SongMessagesView({ navigation, route }) {
         <MaterialIcons name="arrow-back-ios" />
         Back
       </Text>
-      <Text style={styles.title}>{song.title}</Text>
-      <Text style={styles.link}>Comments</Text>
+      <Text style={styles.title}>{album.title}</Text>
+      <View style={styles.comments}>
+        <Text style={styles.linkTitle}>Comments</Text>
+        <Text
+          style={styles.delete}
+          onPress={() => {
+            deleteComments(album._id);
+            navigateToHome(userUId, token, navigation);
+          }}
+        >
+          DELETE COMMENTS
+        </Text>
+      </View>
       <View style={styles.scrollView}>
         <ScrollView style={styles.scroll}>
           {getRecievedMessages(userUId).reverse()}
@@ -101,7 +118,7 @@ function SongMessagesView({ navigation, route }) {
           color="white"
           size={20}
           onPress={() => {
-            writeSongData(song._id, user, message);
+            writeAlbumData(album._id, user, message);
             navigateToHome(userUId, token, navigation);
           }}
         />
@@ -130,6 +147,19 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginTop: 20,
+  },
+  linkTitle: {
+    color: "#006E95",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  delete: {
+    color: "white",
+    backgroundColor: "#006E95",
+    borderRadius: 20,
+    padding: "2%",
+    fontSize: 16,
+    fontWeight: "bold",
   },
   title: {
     width: "90%",
@@ -173,6 +203,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: "center",
   },
+  comments: {
+    width: wp(90),
+    marginTop: "5%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
 });
 
-export default SongMessagesView;
+export default AlbumMessagesView;

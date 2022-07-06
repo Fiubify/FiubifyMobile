@@ -34,7 +34,9 @@ export function MyLibrary({
         }}
       />
       <MyAlbums
-        userUid={currentUserId}
+        userUId={currentUserId}
+        token={token}
+        navigation={navigation}
         setData={setData}
         setCurrentScreen={setCurrentScreen}
       />
