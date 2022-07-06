@@ -7,18 +7,20 @@ function UiTextInput({
   placeholder,
   secure = false,
   style,
-  defaultValue = undefined,
+  keyboardType = 'default',
+  defaultValue = ''
 }) {
   return (
     <TextInput
       style={[styles.text_input, style]}
       placeholder={placeholder}
       placeholderTextColor={"#006E95"}
-      secureTextEntry={secure || false}
+      secureTextEntry={secure}
       onChangeText={onChange}
+      keyboardType={keyboardType}
       defaultValue={defaultValue}
-      backgroundColor="#fff"
       multiline={!secure}
+      backgroundColor="#fff"
     ></TextInput>
   );
 }

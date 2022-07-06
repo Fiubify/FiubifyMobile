@@ -1,26 +1,41 @@
 import { useEffect, useState } from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, Modal, StyleSheet, Text, View } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from "react-native-responsive-screen";
 import Info from "./Info";
+import UiButton from "../ui/UiButton";
+import UiTextInput from "../ui/UiTextInput";
+
+import { BASE_URL } from "../../constantes";
+
 import { getUser } from "../../src/GetUser";
+import { getWalletBalance } from "../../src/getWalletBalance";
+
 import {
   navigateToHome,
   navigateToSendMessagesView,
 } from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
   const [currentUser, setCurrentUser] = useState();
-  const [loading, setLoading] = useState(true);
+
+  const [donationModalVisible, setDonationModalVisible] = useState(false);
+  const [donationAmount, setDonationAmount] = useState('0.00');
+  const [balance, setBalance] = useState(0.0);
+
   const { userUId, currentUserUId, token } = route.params;
 
   useEffect(() => {
     getUser(currentUserUId).then((currentUser) => {
       setCurrentUser(currentUser);
+      getWalletBalance(currentUser.walletAddress).then((balance) => {
+        setBalance(balance);
+      });
     });
     getUser(userUId).then((user) => {
       setUser(user);
@@ -28,9 +43,61 @@ export default function ExternProfile({ navigation, route }) {
     });
   }, [userUId]);
 
+  const donateButtonDisabled = () => {
+    const amount = parseFloat(donationAmount)
+
+    return ((amount == NaN) || (amount == null) || (amount > balance) || (amount <= 0))
+  }
+
+  const openDonateModalButton = () => {
+    if (user.role === "Artist") {
+      return (
+        <View>
+          <UiButton
+            title="Donate"
+            pressableStyle={styles.pressableStyle}
+            textStyle={styles.textStyle}
+            onPress={() => setDonationModalVisible(true)}
+          />
+        </View>
+      )
+    }
+  }
+
   if (!loading)
     return (
       <View style={styles.view}>
+        <Modal 
+          animationType="slide"
+          transparent={false}
+          visible={donationModalVisible}
+          onRequestClose={() => setDonationModalVisible(false)}
+        >
+          <View style={styles.view}>
+            <Text style={styles.textStyle}>
+              {`(${balance} ETH available)`}
+            </Text>
+            <UiTextInput
+              onChange={setDonationAmount}
+              keyboardType='phone-pad'
+              placeholder="0.00"
+            />
+            <UiButton
+              title="Donate"
+              pressableStyle={styles.pressableStyle}
+              textStyle={styles.textStyle}
+              disabled={donateButtonDisabled()}
+              onPress={() => sendDonation()}
+            />
+            <UiButton
+              title="Close"
+              pressableStyle={styles.pressableStyle}
+              textStyle={styles.textStyle}
+              onPress={() => setDonationModalVisible(false)}
+              >
+            </UiButton>
+          </View>
+        </Modal>
         <View style={styles.topSection}>
           <Text
             style={styles.link}
@@ -72,12 +139,17 @@ export default function ExternProfile({ navigation, route }) {
           contain={user.role}
           icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
         />
-
+        <Info
+          title="Birthdate"
+          contain={user.birthdate}
+          icon="calendar-heart"
+        />
         <Info
           title="Plan"
           contain={user.plan}
           icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
         />
+        {openDonateModalButton()}
       </View>
     );
   else
@@ -86,6 +158,35 @@ export default function ExternProfile({ navigation, route }) {
         <Text style={styles.loading}>Loading...</Text>
       </View>
     );
+
+  async function sendDonation() {
+    const amount = parseFloat(donationAmount)
+
+    let url = `${BASE_URL}/user/${currentUserUId}/donate`;
+    const body = {
+      token,
+      from_uid: currentUserUId,
+      to_uid: userUId,
+      amount: parseFloat(donationAmount)
+    };
+    let request = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8",
+      },
+      body: JSON.stringify(body),
+    };
+
+    let response = await fetch(url, request);
+
+    if (response.ok) {
+      alert("Donated successfully")
+    } else {
+      console.error(await response.json());
+      alert(response.statusText);
+    }
+  }
+
 }
 
 const styles = StyleSheet.create({
@@ -167,7 +268,7 @@ const styles = StyleSheet.create({
     borderColor: "#006E95",
     borderWidth: 2,
   },
-  loadSong: {
+  pressableStyle: {
     width: wp(44),
     marginTop: hp(2),
     backgroundColor: "white",
