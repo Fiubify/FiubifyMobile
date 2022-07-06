@@ -5,20 +5,23 @@ import { widthPercentageToDP as wp } from "react-native-responsive-screen";
 function UiTextInput({
   onChange,
   placeholder,
-  secure,
+  secure = false,
   style,
-  defaultValue = undefined,
+  keyboardType = 'default',
+  defaultValue = '',
+  multiline = false
 }) {
   return (
     <TextInput
       style={[styles.text_input, style]}
       placeholder={placeholder}
       placeholderTextColor={"#006E95"}
-      secureTextEntry={secure || false}
+      secureTextEntry={secure}
       onChangeText={onChange}
+      keyboardType={keyboardType}
       defaultValue={defaultValue}
+      multiline={multiline}
       backgroundColor="#fff"
-      multiline={true}
     ></TextInput>
   );
 }

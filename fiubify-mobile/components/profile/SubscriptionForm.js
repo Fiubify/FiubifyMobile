@@ -16,7 +16,7 @@ export function SubscriptionForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
   const { userUId, token, tier, walletAddress } = route.params;
   const [tierToChange, setTierToChange] = useState(tier)
-  const [balance, setBalance] = useState()
+  const [balance, setBalance] = useState(0.0)
 
   useEffect(() => {
     getWalletBalance(walletAddress).then((balance) => {

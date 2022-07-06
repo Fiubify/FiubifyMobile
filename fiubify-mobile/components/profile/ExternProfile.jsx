@@ -7,19 +7,30 @@ import {
 } from "react-native-responsive-screen";
 import Info from "./Info";
 import UiButton from "../ui/UiButton";
+import UiTextInput from "../ui/UiTextInput";
+
 import { getUser } from "../../src/GetUser";
+import { getWalletBalance } from "../../src/getWalletBalance";
+
 import { navigateToHome, navigateToSendMessagesView } from "../../src/navigates";
 
 export default function ExternProfile({ navigation, route }) {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState();
   const [currentUser, setCurrentUser] = useState();
-  const [loading, setLoading] = useState(true);
+
   const [donationModalVisible, setDonationModalVisible] = useState(false);
+  const [donationAmount, setDonationAmount] = useState('0.00');
+  const [balance, setBalance] = useState(0.0);
+
   const { userUId, currentUserUId, token } = route.params;
 
   useEffect(() => {
     getUser(currentUserUId).then((currentUser) => {
       setCurrentUser(currentUser);
+      getWalletBalance(currentUser.walletAddress).then((balance) => {
+        setBalance(balance);
+      });
     });
     getUser(userUId).then((user) => {
       setUser(user);
@@ -27,15 +38,23 @@ export default function ExternProfile({ navigation, route }) {
     });
   }, [userUId]);
 
-  const donateButton = () => {
+  const donateButtonDisabled = () => {
+    const amount = parseFloat(donationAmount)
+
+    return ((amount == NaN) || (amount == null) || (amount > balance) || (amount <= 0))
+  }
+
+  const openDonateModalButton = () => {
     if (user.role === "Artist") {
       return (
-        <UiButton
-          title="Donate"
-          pressableStyle={styles.pressableStyle}
-          textStyle={styles.textStyle}
-          onPress={() => this.setDonationModalVisible(true)}
-        />
+        <View>
+          <UiButton
+            title="Donate"
+            pressableStyle={styles.pressableStyle}
+            textStyle={styles.textStyle}
+            onPress={() => setDonationModalVisible(true)}
+          />
+        </View>
       )
     }
   }
@@ -45,17 +64,34 @@ export default function ExternProfile({ navigation, route }) {
       <View style={styles.view}>
         <Modal 
           animationType="slide"
-          transparent={true}
+          transparent={false}
           visible={donationModalVisible}
-          onRequestClose={() => this.setDonationModalVisible(false)}
+          onRequestClose={() => setDonationModalVisible(false)}
         >
-          <UiButton
-            title="Close"
-            pressableStyle={styles.pressableStyle}
-            textStyle={styles.textStyle}
-            onPress={() => this.setDonationModalVisible(false)}
-            >
-          </UiButton>
+          <View style={styles.view}>
+            <Text style={styles.textStyle}>
+              {`(${balance} ETH available)`}
+            </Text>
+            <UiTextInput
+              onChange={setDonationAmount}
+              keyboardType='phone-pad'
+              placeholder="0.00"
+            />
+            <UiButton
+              title="Donate"
+              pressableStyle={styles.pressableStyle}
+              textStyle={styles.textStyle}
+              disabled={donateButtonDisabled()}
+              onPress={() => sendDonation(currentUser.token)}
+            />
+            <UiButton
+              title="Close"
+              pressableStyle={styles.pressableStyle}
+              textStyle={styles.textStyle}
+              onPress={() => setDonationModalVisible(false)}
+              >
+            </UiButton>
+          </View>
         </Modal>
         <View style={styles.topSection}>
           <Text
@@ -98,18 +134,17 @@ export default function ExternProfile({ navigation, route }) {
           contain={user.role}
           icon={user.role === "Artist" ? "microphone-variant" : "headphones"}
         />
-        {donateButton()}
         <Info
           title="Birthdate"
           contain={user.birthdate}
           icon="calendar-heart"
         />
-
         <Info
           title="Plan"
           contain={user.plan}
           icon={user.plan === "Free" ? "cash-remove" : "diamond-stone"}
         />
+        {openDonateModalButton()}
       </View>
     );
   else
@@ -118,6 +153,15 @@ export default function ExternProfile({ navigation, route }) {
         <Text style={styles.loading}>Loading...</Text>
       </View>
     );
+
+  async function sendDonation() {
+    const amount = parseFloat(donationAmount)
+    console.log(`send donation for ${amount}`)
+    console.log(token)
+    console.log(currentUserUId)
+    console.log(userUId)
+  }
+
 }
 
 const styles = StyleSheet.create({

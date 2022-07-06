@@ -100,7 +100,6 @@ function LoginForm({ navigation }) {
           style={styles.text_input}
           placeholder="Password"
           secure={true}
-          passwordInput={true}
         />
       </View>
       <View style={styles.logInSection}>
