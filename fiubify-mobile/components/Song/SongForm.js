@@ -52,6 +52,8 @@ export function SongForm({ navigation, route }) {
       setLoading(false);
     }).catch((e) => {
       console.error(e)
+      alert("Tienes que crear un album");
+      navigation.pop();
     })
   }, []);
 
@@ -178,10 +180,12 @@ export function SongForm({ navigation, route }) {
 
     try {
       const songCreated = await createSong(title, token, userUId, album._id, duration, songUrl, tier, genre, description);
-      await postSongEvent(creationAction, genre, tier, userUId, songCreated._id, title, album._id, album.title);
+      console.log(songCreated)
+      await postSongEvent(creationAction, genre, tier, userUId, songCreated.data._id, title, album._id, album.title);
       navigateToHome(userUId, token, navigation)
     } catch (e) {
-      alert(e.response.message);
+      console.log(e);
+      alert(e);
     }
   }
 }

@@ -10,7 +10,15 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useEffect, useState } from "react";
 import { navigateToSongMessagesView } from "../../src/navigates";
 
-function ListedSong({ song, onPress, userUId, favSongs, token, navigation }) {
+function ListedSong({
+                      song,
+                      onPress,
+                      userUId,
+                      disabled,
+                      favSongs,
+                      token,
+                      navigation,
+                    }) {
   const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
@@ -22,51 +30,56 @@ function ListedSong({ song, onPress, userUId, favSongs, token, navigation }) {
   }, [favSongs]);
 
   return (
-    <View style={styles.musicContainer}>
+    <View style={disabled ? styles.notPressableContainer : styles.musicContainer}>
       <MaterialCommunityIcons
-        style={styles.musicIcon}
+        style={disabled ? styles.notPressableIcon : styles.musicIcon}
         name="music"
         size={20}
         color="white"
       />
       <UiButton
         pressableStyle={styles.songs}
-        textStyle={styles.songsText}
+        textStyle={disabled ? styles.notPressable : styles.songsText}
         title={song.title}
         onPress={() => onPress(song)}
+        disabled={disabled}
       ></UiButton>
-      <MaterialCommunityIcons
-        name={isFav ? "cards-heart" : "heart-outline"}
-        size={30}
-        color="#006E95"
-        onPress={() => {
-          if (isFav) {
-            deleteFavouriteSong(userUId, song._id, token).then();
-          } else {
-            addFavouriteSong(userUId, song._id, token).then();
-          }
-          setIsFav(!isFav);
-        }}
-      />
-      <MaterialIcons
-        name="message"
-        color="#006E95"
-        size={30}
-        onPress={() => {
-          navigateToSongMessagesView(userUId, token, song, navigation);
-        }}
-      />
+      {disabled ? null : (
+        <View style={{ display: "flex", flexDirection: "row" }}>
+          <MaterialCommunityIcons
+            name={isFav ? "cards-heart" : "heart-outline"}
+            size={30}
+            color="#006E95"
+            onPress={() => {
+              if (isFav) {
+                deleteFavouriteSong(userUId, song._id, token).then();
+              } else {
+                addFavouriteSong(userUId, song._id, token).then();
+              }
+              setIsFav(!isFav);
+            }}
+          />
+          <MaterialIcons
+            name="message"
+            color="#006E95"
+            size={30}
+            onPress={() => {
+              navigateToSongMessagesView(userUId, token, song, navigation);
+            }}
+          />
+        </View>
+      )}
     </View>
   );
 }
 
 export function AllSongs({
-  token,
-  setSong,
-  songs,
-  currentUserUId,
-  navigation,
-}) {
+                           token,
+                           setSong,
+                           songs,
+                           currentUserUId,
+                           navigation,
+                         }) {
   const [favSongs, setFavSongs] = useState([]);
 
   useEffect(() => {
@@ -88,6 +101,7 @@ export function AllSongs({
               favSongs={favSongs}
               token={token}
               navigation={navigation}
+              disabled={song.disabled}
             />
           ))}
         </View>
@@ -120,6 +134,19 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     elevation: 10,
   },
+  notPressableContainer: {
+    width: "90%",
+    marginTop: 20,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderColor: "gray",
+    borderWidth: 2,
+    borderRadius: 25,
+    elevation: 10,
+  },
   musicIcon: {
     backgroundColor: "#006E95",
     borderRadius: 25,
@@ -135,6 +162,17 @@ const styles = StyleSheet.create({
   },
   songsText: {
     color: "#006E95",
+  },
+  notPressable: {
+    color: "gray",
+  },
+  notPressableIcon: {
+    backgroundColor: "gray",
+    borderRadius: 25,
+    padding: "3%",
+    display: "flex",
+    textAlign: "center",
+    textAlignVertical: "center",
   },
   loading: {
     fontSize: 30,

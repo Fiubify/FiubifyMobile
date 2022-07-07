@@ -87,7 +87,7 @@ function AlbumMessagesView({ navigation, route }) {
       <Text style={styles.title}>{album.title}</Text>
       <View style={styles.comments}>
         <Text style={styles.linkTitle}>Comments</Text>
-        <Text
+        {album.artistId === userUId ? <Text
           style={styles.delete}
           onPress={() => {
             deleteComments(album._id);
@@ -95,7 +95,7 @@ function AlbumMessagesView({ navigation, route }) {
           }}
         >
           DELETE COMMENTS
-        </Text>
+        </Text> : null}
       </View>
       <View style={styles.scrollView}>
         <ScrollView style={styles.scroll}>

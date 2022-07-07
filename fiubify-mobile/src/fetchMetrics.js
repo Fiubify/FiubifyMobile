@@ -17,6 +17,7 @@ export async function postUserEvent(action, type, uid) {
 
 export async function postSongEvent(action, genre, tier, userUId, songId, songName, albumId, albumName) {
   try {
+    console.log()
     await axios.post(
       contentMetricsUrl,
       {

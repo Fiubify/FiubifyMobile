@@ -4,7 +4,7 @@ import { BASE_URL } from "../constantes";
 export async function createSong(title, token, userUId, albumId, duration, songUrl, tier, genre, description){
   try {
     let response = await axios.post(
-      `${BASE_URL}/contents/songs`,
+      `${BASE_URL}/contents/albums/${albumId}/add-song`,
       {title,
         token,
         artistId: userUId,

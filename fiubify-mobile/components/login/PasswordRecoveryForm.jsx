@@ -14,6 +14,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { postUserEvent } from "../../src/fetchMetrics";
 import { passwordAction, resetTypeAction } from "../../constantes";
 import { getUserByEmail } from "../../src/fetchUsers";
+import { navigateToLogin } from "../../src/navigates";
 
 export default function PasswordRecoveryForm({ navigation }) {
   const [sent, setSent] = useState(false);
