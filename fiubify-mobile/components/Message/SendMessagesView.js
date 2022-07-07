@@ -11,6 +11,7 @@ import {
 } from "react-native-responsive-screen";
 import axios from "axios";
 
+
 export default function SendMessagesView({ navigation, route }) {
   const { senderUId, recieverUId, token, emisorName, receptorName } =
     route.params;
@@ -46,13 +47,12 @@ export default function SendMessagesView({ navigation, route }) {
       time: time(),
     });
     onValue(recvTokenRef, (snapshot) => {
-      axios
-        .post("https://exp.host/--/api/v2/push/send", {
-          to: snapshot.val().token.data,
-          title: `Message from: ${emisorName}`,
-          body: message,
-        })
-        .then();
+      axios.post("https://exp.host/--/api/v2/push/send", {
+        to: snapshot.val().token.data,
+        title: `Message from: ${emisorName}`,
+        body: message,
+        data: { senderUId, senderName: emisorName },
+      }).then();
     });
   }
 

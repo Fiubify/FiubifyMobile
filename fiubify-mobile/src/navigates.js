@@ -57,6 +57,13 @@ export function navigateToLogin(navigation) {
   navigation.navigate("Login");
 }
 
+export function navigateToLoginWithSender(navigation, sender) {
+  checkNavigation(navigation);
+  navigation.navigate("Login", {
+    sender
+  });
+}
+
 export function navigateToEditPlaylist(uid, token, playlist, navigation) {
   checkNavigation(navigation);
   if (!uid || !token || !playlist)
