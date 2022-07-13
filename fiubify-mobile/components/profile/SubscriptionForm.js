@@ -12,11 +12,13 @@ import { BASE_URL } from "../../constantes";
 import { getWalletBalance } from "../../src/getWalletBalance";
 import { navigateToHome, navigateToMyProfile } from "../../src/navigates";
 
+
 export function SubscriptionForm({ navigation, route }) {
   const tiers = ["Free", "Premium"];
   const { userUId, token, tier, walletAddress } = route.params;
   const [tierToChange, setTierToChange] = useState(tier)
   const [balance, setBalance] = useState(0.0)
+  const premium_plan_cost = 0.001
 
   useEffect(() => {
     getWalletBalance(walletAddress).then((balance) => {
@@ -58,26 +60,31 @@ export function SubscriptionForm({ navigation, route }) {
   );
 
   async function send(token, tier, navigation) {
-    let url = `${BASE_URL}/user/${userUId}/upgrade-subscription`;
-    const body = {
-      token,
-      plan: tier,
-    };
-    let request = {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json; charset=UTF-8",
-      },
-      body: JSON.stringify(body),
-    };
-
-    let response = await fetch(url, request);
-
-    if (response.ok) {
-      navigateToHome(userUId, token, navigation);
+    if (balance <= premium_plan_cost) {
+      alert(`Not enough funds (need at least ${premium_plan_cost}ETH)`)
     } else {
-      console.error(await response.json());
-      alert(response.statusText);
+      let url = `${BASE_URL}/user/${userUId}/upgrade-subscription`;
+      const body = {
+        token,
+        plan: tier,
+      };
+      let request = {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(body),
+      };
+
+      let response = await fetch(url, request);
+      console.log(response)
+
+      if (response.ok) {
+        navigateToHome(userUId, token, navigation);
+      } else {
+        console.error(await response.json());
+        alert(response.statusText);
+      }
     }
   }
 }
